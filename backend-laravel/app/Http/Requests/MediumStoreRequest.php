@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginRequest extends FormRequest
+class MediumStoreRequest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -26,8 +26,14 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|min:2|max:255|exists:users,email',
-            'password' => 'required|string|max:255',
+            'title' => 'required|string|max:255|unique:media,title',
+            'description' => 'required|string|min:2|max:255',
+            'genre' => 'required|string|min:2|max:255',
+            'date' => 'required|date',
+            'studio' => 'required|string|max:255',
+            'category' => 'required|string|exists:categories,name',
+            'additional_info' => 'array',
+            'people' => 'array',
         ];
     }
 

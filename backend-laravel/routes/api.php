@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MediaController;
+use App\Http\Controllers\PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::controller(AuthController::class)->group(function() {
-    Route::post('register', 'register');
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+});
+
+Route::controller(MediaController::class)->group(function() {
+    Route::post('/medium/store', 'store');
+});
+
+Route::controller(PostController::class)->group(function() {
+    Route::post('/medium/{medium}/post/store', 'store');
 });
 

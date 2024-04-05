@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class LoginRequest extends FormRequest
+class PostStoreRequest extends FormRequest
 {
     use ResponseTrait;
     /**
@@ -26,8 +26,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email|min:2|max:255|exists:users,email',
-            'password' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
+            'body' => 'required|string|min:5',
         ];
     }
 

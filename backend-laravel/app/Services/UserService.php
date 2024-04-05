@@ -3,9 +3,8 @@
 namespace App\Services;
 
 use App\DTOs\UserDTO;
-use App\Interfaces\UserRepositoryInterface;
-use App\Interfaces\UserServiceInterface;
-use App\Repositories\UserRepository;
+use App\Interfaces\Repositories\UserRepositoryInterface;
+use App\Interfaces\Services\UserServiceInterface;
 use App\Traits\ResponseTrait;
 
 class UserService implements UserServiceInterface
@@ -18,9 +17,9 @@ class UserService implements UserServiceInterface
         $this->repository = $repository;
     }
 
-    public function store(UserDTO $data)
+    public function store($data)
     {
-        $data = get_object_vars($data);
+        $data = $this->getData($data);
         $user = $this->repository->create($data);
         $token = auth()->login($user);
         $authorization = $this->createToken($token);
@@ -28,12 +27,29 @@ class UserService implements UserServiceInterface
         return array_merge(compact("user"), compact('authorization'));
     }
 
-    public function login(array $data)
+    public function login($data)
     {
+        $data = $this->getData($data);
+        $data = array_filter($data, fn($data) => in_array($data, ['email', 'password']), ARRAY_FILTER_USE_KEY);
         $token = auth()->attempt($data);
         $user = auth()->user();
         $authorization = $this->createToken($token);
 
+        return $this->compactData($user, $authorization);
+    }
+
+    public function logout()
+    {
+        auth()->logout();
+    }
+
+    public function getData(UserDTO $data)
+    {
+        return get_object_vars($data);
+    }
+
+    public function compactData($user, $authorization)
+    {
         return array_merge(compact("user"), compact('authorization'));
     }
 

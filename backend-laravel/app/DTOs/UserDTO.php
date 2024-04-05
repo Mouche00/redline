@@ -4,16 +4,29 @@ namespace App\DTOs;
 
 class UserDTO
 {
-    public string $name;
-    public string $email;
-    public string $password;
-    public string $role;
 
-    public function __construct(string $name, string $email, string $password, string $role = 'user')
+    public function __construct(
+        public readonly string $email,
+        public readonly string  $password,
+        public readonly string  $role = 'user',
+        public readonly string  $name = ''
+    ){}
+
+    public static function fromRegister (array $data)
     {
-        $this->name = $name;
-        $this->email = $email;
-        $this->password = $password;
-        $this->role = $role;
+
+        return new self(
+            email: $data['email'],
+            password: $data['password'],
+            name: $data['name'],
+        );
+    }
+
+    public static function fromLogin (array $data)
+    {
+        return new self(
+            email: $data['email'],
+            password: $data['password']
+        );
     }
 }
