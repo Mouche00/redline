@@ -20,10 +20,9 @@ class PostService implements PostServiceInterface
     {
         $user = auth()->user();
         $data = array_merge($data , [
-            'medium_id' => $medium->id,
             'user_id' => $user->id
         ]);
-        $post = $this->repository->create($data);
+        $post = $this->repository->create($data, $medium);
 
         return $post;
     }

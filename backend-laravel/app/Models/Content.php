@@ -15,13 +15,13 @@ class Content extends Model
         return $this->morphTo();
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function media()
     {
         return $this->belongsTo(Medium::class);
+    }
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Content::class);
     }
 }

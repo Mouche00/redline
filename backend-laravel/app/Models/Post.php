@@ -24,4 +24,14 @@ class Post extends Model
     {
         return $this->morphOne(Content::class, 'contentable');
     }
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Content::class);
+    }
+
+    public function medium()
+    {
+        return $this->hasOneThrough(Medium::class, Content::class);
+    }
 }

@@ -21,9 +21,10 @@ return new class extends Migration
             $table->string('genre');
             $table->date('date');
             $table->string('studio');
+            $table->json('additional_info')->nullable();
+            $table->timestamp('validated_at')->nullable();
             $table->string('category');
             $table->foreign('category')->references('name')->on('categories');
-            $table->json('additional_info')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

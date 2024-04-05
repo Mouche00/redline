@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('image')->nullable();
+            $table->foreignId('medium_id')->constrained('media')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

@@ -8,5 +8,5 @@ use App\Models\User;
 interface PostRepositoryInterface
 {
     public function all();
-    public function create(array $data);
+    public function create(array $data, Medium $medium);
 }

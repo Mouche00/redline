@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->text('body')->nullable();
             $table->morphs('contentable');
-            $table->foreignId('medium_id')->constrained('media')->cascadeOnDelete()->cascadeOnUpdate();
+//            $table->foreignId('medium_id')->constrained('media')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });

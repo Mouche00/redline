@@ -32,4 +32,17 @@ class MediumService implements MediumServiceInterface
 
         return $medium;
     }
+
+    public function approve($medium)
+    {
+        $data = [
+            'validated_at' => now()
+        ];
+        $this->repository->update($medium, $data);
+    }
+
+    public function reject($medium)
+    {
+        $this->repository->delete($medium);
+    }
 }

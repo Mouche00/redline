@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('image')->nullable();
             $table->string('function');
+            $table->timestamp('validated_at')->nullable();
             $table->timestamps();
         });
     }

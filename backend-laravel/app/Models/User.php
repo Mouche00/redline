@@ -70,4 +70,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->hasMany(Content::class);
     }
+
+    public function posts()
+    {
+        return $this->hasManyThrough(Post::class, Content::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasManyThrough(Comment::class, Content::class);
+    }
 }

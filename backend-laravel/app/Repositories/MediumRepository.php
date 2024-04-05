@@ -15,4 +15,14 @@ class MediumRepository implements MediumRepositoryInterface
     {
         return $user->media()->create($data);
     }
+
+    public function update($medium, $data)
+    {
+        return $medium->update($data);
+    }
+
+    public function delete($medium)
+    {
+        return $medium->delete();
+    }
 }

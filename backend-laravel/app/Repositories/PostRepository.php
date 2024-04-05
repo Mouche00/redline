@@ -11,8 +11,8 @@ class PostRepository implements PostRepositoryInterface
     {
         return Post::all();
     }
-    public function create($data)
+    public function create($data, $medium)
     {
-        return Post::create()->content()->create($data);
+        return $medium->posts()->create()->content()->create($data);
     }
 }
