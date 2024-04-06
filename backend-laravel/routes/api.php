@@ -31,7 +31,7 @@ Route::controller(AuthController::class)->group(function() {
 Route::controller(MediumController::class)->group(function() {
     Route::post('/medium/store', 'store');
     Route::put('/medium/{medium}/approve', 'approve');
-    Route::put('/medium/{medium}/reject', 'reject');
+    Route::delete('/medium/{medium}/reject', 'reject');
 });
 
 Route::controller(PostController::class)->group(function() {

@@ -6,11 +6,12 @@ use App\Interfaces\Repositories\CommentRepositoryInterface;
 use App\Interfaces\Services\CommentServiceInterface;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Traits\MorphTrait;
 use App\Traits\ResponseTrait;
 
 class CommentService implements CommentServiceInterface
 {
-    use ResponseTrait;
+    use ResponseTrait, MorphTrait;
     private CommentRepositoryInterface $repository;
 
     public function __construct(CommentRepositoryInterface $repository)
@@ -25,14 +26,7 @@ class CommentService implements CommentServiceInterface
             'user_id' => $user->id
         ]);
 
-        switch ($commentable) {
-            case 'post':
-                $commentable = Post::find($id);
-                break;
-            case 'comment':
-                $commentable = Comment::find($id);
-                break;
-        }
+        $commentable = $this->morph($commentable, $id);
 
         $comment = $this->repository->create($data, $commentable);
 

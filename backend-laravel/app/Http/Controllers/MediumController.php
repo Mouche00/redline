@@ -33,7 +33,7 @@ class MediumController extends Controller
             return $this->responseError($e->getMessage());
         }
 
-        return $this->responseSuccess($data, "Medium created successfully");
+        return $this->responseSuccess($data, "Medium created successfully", 201);
     }
 
     public function approve(Medium $medium)
@@ -44,7 +44,7 @@ class MediumController extends Controller
             return $this->responseError($e->getMessage());
         }
 
-        return $this->responseSuccess("Medium approved successfully");
+        return $this->responseSuccess(null, "Medium approved successfully");
     }
 
     public function reject(Medium $medium)
@@ -55,6 +55,6 @@ class MediumController extends Controller
             return $this->responseError($e->getMessage());
         }
 
-        return $this->responseSuccess("Medium rejected successfully");
+        return $this->responseSuccess(null, "Medium rejected successfully");
     }
 }

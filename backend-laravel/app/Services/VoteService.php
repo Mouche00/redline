@@ -6,11 +6,12 @@ use App\Interfaces\Repositories\VoteRepositoryInterface;
 use App\Interfaces\Services\VoteServiceInterface;
 use App\Models\Comment;
 use App\Models\Post;
+use App\Traits\MorphTrait;
 use App\Traits\ResponseTrait;
 
 class VoteService implements VoteServiceInterface
 {
-    use ResponseTrait;
+    use ResponseTrait, MorphTrait;
     private VoteRepositoryInterface $repository;
 
     public function __construct(VoteRepositoryInterface $repository)
@@ -20,18 +21,12 @@ class VoteService implements VoteServiceInterface
 
     public function upvote($voteable, $id)
     {
+        $user = auth()->user();
         $data = [
             'up' => true
         ];
 
-        switch ($voteable) {
-            case 'post':
-                $voteable = Post::find($id);
-                break;
-            case 'comment':
-                $voteable = Comment::find($id);
-                break;
-        }
+        $voteable = $this->morph($voteable, $id);
 
         $this->repository->create($voteable, $data);
     }
@@ -42,14 +37,7 @@ class VoteService implements VoteServiceInterface
             'up' => false
         ];
 
-        switch ($voteable) {
-            case 'post':
-                $voteable = Post::find($id);
-                break;
-            case 'comment':
-                $voteable = Comment::find($id);
-                break;
-        }
+        $voteable = $this->morph($voteable, $id);
 
         $this->repository->create($voteable, $data);
     }

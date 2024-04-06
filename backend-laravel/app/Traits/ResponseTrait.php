@@ -5,7 +5,7 @@ use Illuminate\Http\JsonResponse;
 
 trait ResponseTrait
 {
-    public function responseSuccess($message = "Success", $status = JsonResponse::HTTP_OK, $data = null) : JsonResponse
+    public function responseSuccess($data = null, $message = "Success", $status = JsonResponse::HTTP_OK): JsonResponse
     {
         return response()->json([
             'success' => true,
@@ -14,7 +14,7 @@ trait ResponseTrait
         ], $status);
     }
 
-    public function responseError($message = "Error", $status = JsonResponse::HTTP_BAD_REQUEST, $errors = null) : JsonResponse
+    public function responseError($errors = null, $message = "Error", $status = JsonResponse::HTTP_BAD_REQUEST): JsonResponse
     {
         return response()->json([
             'success' => false,

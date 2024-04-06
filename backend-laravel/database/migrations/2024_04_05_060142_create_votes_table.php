@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('up');
             $table->morphs('voteable');
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

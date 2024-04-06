@@ -2,31 +2,18 @@
 
 namespace App\Models;
 
+use App\Models\Traits\VoteMorphTrait;
+use App\Traits\ContentRelationTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
-    use HasFactory;
+    use HasFactory, ContentRelationTrait;
     protected $guarded = [];
 
     public function commentable()
     {
         return $this->morphTo();
-    }
-
-    public function votes()
-    {
-        return $this->morphMany(Vote::class, 'voteable');
-    }
-
-    public function comments()
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function content()
-    {
-        return $this->morphOne(Content::class, 'contentable');
     }
 }

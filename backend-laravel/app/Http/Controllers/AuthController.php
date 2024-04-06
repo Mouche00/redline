@@ -20,7 +20,7 @@ class AuthController extends Controller
         $this->service = $service;
     }
 
-    public function register(RegisterRequest $request) : JsonResponse
+    public function register(RegisterRequest $request): JsonResponse
     {
 //        $credentials = new UserDTO(...$request->all());
         $credentials = UserDTO::fromRegister($request->all());
@@ -34,7 +34,7 @@ class AuthController extends Controller
         return $this->responseSuccess($data, "User created successfully", 201);
     }
 
-    public function login(LoginRequest $request) : JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
         $credentials = UserDTO::fromLogin($request->all());
 
@@ -57,6 +57,6 @@ class AuthController extends Controller
     public function logout()
     {
         $this->service->logout();
-        return $this->responseSuccess("Successfully logged out");
+        return $this->responseSuccess(null, "Successfully logged out");
     }
 }
