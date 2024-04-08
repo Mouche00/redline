@@ -1,0 +1,9 @@
+.menu-image {
+    animation: scroll 15s infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(-4rem) }
+    50% { transform: translateX(4rem) }
+    100% { transform: translateX(-4rem) }
+}

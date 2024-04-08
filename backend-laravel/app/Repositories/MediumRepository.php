@@ -11,6 +11,7 @@ class MediumRepository implements MediumRepositoryInterface
     {
         return Medium::all();
     }
+    
     public function create($user, $data)
     {
         return $user->media()->create($data);
