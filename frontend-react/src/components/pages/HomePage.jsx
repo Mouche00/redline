@@ -1,5 +1,9 @@
 const HomePage = () => {
-    return <p>2</p>
+    return (
+        <section className="h-[100vh] bg-grey">
+
+        </section>
+    )
 }
 
 export default HomePage
