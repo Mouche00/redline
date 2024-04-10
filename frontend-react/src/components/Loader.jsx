@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import Texture from 'src/assets/texture.jpg'
 
-const Loading = ({ children }) => {
+const Loader = ({ children, className, style }) => {
     const [loading, setLoading] = useState(false)
     const [loadContent, setLoadContent] = useState(false)
 
@@ -15,15 +15,15 @@ const Loading = ({ children }) => {
         }, 5)
     }, [])
 
-   const LazyLoad = ({children}) => {
+   const LazyLoad = () => {
         setTimeout(() => setLoadContent(true), 500)
 
         return (
             <>
                 {loadContent ? (
-                    <>
+                    <section className={className} style={style}>
                         {children}
-                    </>
+                    </section>
                 ) : (
                     <div className='fixed top-0 left-0 w-[100vw] h-[100vh] bg-grey z-10'></div>
                 )}
@@ -41,4 +41,4 @@ const Loading = ({ children }) => {
     )
 }
 
-export default Loading
+export default Loader
