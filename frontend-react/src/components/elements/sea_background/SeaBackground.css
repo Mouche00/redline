@@ -1,0 +1,21 @@
+.waves {
+    animation: scroll 15s infinite;
+}
+
+.waves-2 {
+    animation: scroll 13s infinite;
+}
+
+.waves-3 {
+    animation: scroll 10s infinite;
+}
+
+.waves-4 {
+    animation: scroll 7s infinite;
+}
+
+@keyframes scroll {
+    0% { transform: translateX(-4rem) }
+    50% { transform: translateX(4rem) }
+    100% { transform: translateX(-4rem) }
+}

@@ -4,6 +4,14 @@ import HomePage from 'src/components/pages/home/HomePage'
 import IslandPage from 'src/components/pages/home/IslandPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
+// import Test from 'src/features/test/components/Test'
+
+const testRoutes = [
+    // {
+    //     path: '/test',
+    //     element: <Test />
+    // }
+]
 
 const publicRoutes = [
     {
@@ -44,6 +52,7 @@ const isNotAuthRoutes = []
 const isAuthRoutes = []
 
 const router = createBrowserRouter([
+    ...testRoutes,
     ...publicRoutes,
     ...isNotAuthRoutes,
     ...isAuthRoutes
