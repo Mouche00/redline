@@ -17,7 +17,7 @@ const Clock = () => {
     // console.log(date.toLocaleTimeString())
     return (
         <>
-            <p className="text-8xl text-neutral-200">{`${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '')}${date.getMinutes()}`}</p>
+            <p className="text-8xl text-neutral-200">{`${(date.getHours() < 10 ? '0' : '')}${date.getHours()}:${(date.getMinutes() < 10 ? '0' : '')}${date.getMinutes()}`}</p>
             {/* <p className="text-4xl text-neutral-200">{date.toDateString()}</p> */}
         </>
         

@@ -5,11 +5,13 @@ import Border from 'src/assets/border-2-h.png'
 import Sticker from './Sticker'
 import { Link } from 'react-router-dom'
 import Clock from './Clock'
+import ShadowWrapper from './Shadow/ShadowWrapper'
+import Shadow from './Shadow/Shadow'
 
 const Navbar = () => {
     return (
-        <nav className="fixed bottom-0 max-h-[15vh] w-full flex justify-between items-end">
-            <div className='max-w-60 rotate-[1deg] translate-x-[-7px] translate-y-[5px] shadow-lg'>
+        <nav className="fixed z-25 bottom-0 max-h-[15vh] w-full flex justify-between items-end">
+            <ShadowWrapper className='max-w-60 rotate-[1deg] translate-x-[-7px] translate-y-[5px] shadow-lg'>
                 <div className='h-4 w-full bg-contain' style={{backgroundImage: `url(${Border})`}}></div>
                     <div className="bg-contain p-2 bg-repeat flex flex-col items-center" style={{backgroundImage: `url(${Texture})`}}>
                         <div className="w-full flex items-end text-white p-2 grid grid-cols-2 gap-2">
@@ -21,13 +23,15 @@ const Navbar = () => {
                         <img className='rounded border-2 border-white' src={DefaultPortrait} alt="" />
                     </div>
                 </div>
-            </div>
+
+                <Shadow className='rotate-[-3deg]'/>
+            </ShadowWrapper>
             
 
             <div className="flex justify-between items-end">
-                <div>
+                <ShadowWrapper className='translate-y-4'>
                     <div className='h-4 w-full bg-contain rotate-[-2deg]' style={{backgroundImage: `url(${Border})`}}></div>
-                    <div className="mr-[-8px] flex gap-12 bg-contain p-2 bg-repeat rotate-[-2deg] translate-y-[8px]" style={{backgroundImage: `url(${Texture})`}}>
+                    <div className="mr-[-8px] flex gap-12 bg-contain p-2 bg-repeat rotate-[-2deg]" style={{backgroundImage: `url(${Texture})`}}>
                         <Link className='p-4' to='/home'>
                             <svg className='w-10' viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>home [#77767b]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-419.000000, -720.000000)" fill="#B7561F"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M379.79996,578 L376.649968,578 L376.649968,574 L370.349983,574 L370.349983,578 L367.19999,578 L367.19999,568.813 L373.489475,562.823 L379.79996,568.832 L379.79996,578 Z M381.899955,568.004 L381.899955,568 L381.899955,568 L373.502075,560 L363,569.992 L364.481546,571.406 L365.099995,570.813 L365.099995,580 L372.449978,580 L372.449978,576 L374.549973,576 L374.549973,580 L381.899955,580 L381.899955,579.997 L381.899955,570.832 L382.514204,571.416 L384.001,570.002 L381.899955,568.004 Z" id="home-[#77767b]"> </path> </g> </g> </g> </g></svg>
                         </Link>
@@ -41,13 +45,18 @@ const Navbar = () => {
                             <svg className='w-10 h-full' viewBox="-3 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#77767b"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>lock_open [#706]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-143.000000, -5079.000000)" fill="#77767b"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M89,4936.998 L99,4936.998 L99,4926.98799 L89,4926.98799 L89,4936.998 Z M92,4924.98599 L92,4923.02302 C92,4921.91892 92.915,4921.002 94.018,4921.002 C95.12,4921.002 96.035,4921.98298 96.035,4922.98398 L98.035,4922.98398 C98.035,4920.98198 96.227,4919 94.018,4919 C91.808,4919 90,4920.81181 90,4923.02302 L90,4924.98599 L87,4924.98599 L87,4939 L101,4939 L101,4924.98599 L92,4924.98599 Z" id="lock_open-[#706]"> </path> </g> </g> </g> </g></svg>
                         </Link>
                     </div>
-                </div>
-                <div>
+
+                    <Shadow className='rotate-[3deg] translate-y-[10%] translate-x-[5%]'/>
+                </ShadowWrapper>
+
+                <ShadowWrapper className='translate-y-[5px] translate-x-[5px]'>
                     <div className='h-4 w-full bg-contain rotate-[2deg]' style={{ backgroundImage: `url(${Border})` }}></div>
-                    <div className="flex flex-col p-4 bg-contain bg-repeat rotate-[2deg] translate-y-[5px] translate-x-[5px]" style={{ backgroundImage: `url(${Texture})` }}>
+                    <div className="flex flex-col p-4 bg-contain bg-repeat rotate-[2deg]" style={{ backgroundImage: `url(${Texture})` }}>
                         <Clock />
                     </div>
-                </div>
+
+                    <Shadow className='translate-y-[10%] rotate-[-10deg]'/>
+                </ShadowWrapper>
                 
             </div>
         </nav>

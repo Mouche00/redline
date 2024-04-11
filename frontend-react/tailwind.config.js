@@ -9,7 +9,8 @@ export default {
       colors: {
         'bronze': '#B7561F',
         'teal': '#0C7890',
-        'grey': '#393939'
+        'grey': '#393939',
+        'lightgrey': '#ababab'
       },
     },
   },
