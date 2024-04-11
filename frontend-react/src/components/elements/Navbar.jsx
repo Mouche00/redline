@@ -10,7 +10,7 @@ import Shadow from './Shadow/Shadow'
 
 const Navbar = () => {
     return (
-        <nav className="fixed z-25 bottom-0 max-h-[15vh] w-full flex justify-between items-end">
+        <nav className="fixed z-50 bottom-0 max-h-[15vh] w-full flex justify-between items-end">
             <ShadowWrapper className='max-w-60 rotate-[1deg] translate-x-[-7px] translate-y-[5px] shadow-lg'>
                 <div className='h-4 w-full bg-contain' style={{backgroundImage: `url(${Border})`}}></div>
                     <div className="bg-contain p-2 bg-repeat flex flex-col items-center" style={{backgroundImage: `url(${Texture})`}}>

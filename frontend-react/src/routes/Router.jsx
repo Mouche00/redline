@@ -2,7 +2,9 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PublicLayout from 'src/components/layouts/PublicLayout'
 import HomePage from 'src/components/pages/home/HomePage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
+import NewPage from 'src/components/pages/NewPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
+import ReleasingPage from 'src/components/pages/ReleasingPage'
 import TrendingPage from 'src/components/pages/TrendingPage'
 
 const publicRoutes = [
@@ -22,6 +24,14 @@ const publicRoutes = [
             {
                 path: 'trending',
                 element: <TrendingPage />
+            },
+            {
+                path: 'new',
+                element: <NewPage />
+            },
+            {
+                path: 'releasing',
+                element: <ReleasingPage />
             }
         ]
     },

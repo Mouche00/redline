@@ -5,7 +5,11 @@ import Island from "./island/Island"
 const HomePage = () => {
     return (
         <Loader className="h-[100vh] flex flex-col items-center justify-center bg-black">
-            <Island />
+            <Island label='Trending' />
+            <div className="flex items-center justify-center">
+                <Island label='New' />
+                <Island label='Releasing' />
+            </div>
         </Loader>
     )
 }

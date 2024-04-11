@@ -5,7 +5,7 @@ import Island from "./home/island/Island"
 const TrendingPage = () => {
     return (
         <Loader className="h-[100vh] flex flex-col items-center justify-center bg-black">
-            <Island className='h-full' page={true}/>
+            <Island label='Trending' className='h-full' page={true}/>
         </Loader>
     )
 }

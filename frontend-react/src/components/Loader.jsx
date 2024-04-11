@@ -33,7 +33,7 @@ const Loader = ({ children, className = '', style = {} }) => {
     }
     return (
         <>
-            <div className={`${loading ? 'translate-y-[100%]' : 'translate-y-[-100%]'} translate-y-[-100%] transition-all fixed z-100 top-[-100%] left-0 w-[100vw] h-[100vh] z-20 bg-contain bg-repeat`} style={{ backgroundImage: `url(${Texture})` }}></div>
+            <div className={`${loading ? 'translate-y-[100%]' : 'translate-y-[-100%]'} translate-y-[-100%] transition-all fixed z-50 top-[-100%] left-0 w-[100vw] h-[100vh] bg-contain bg-repeat`} style={{ backgroundImage: `url(${Texture})` }}></div>
             <LazyLoad>
                 {children}
             </LazyLoad>
