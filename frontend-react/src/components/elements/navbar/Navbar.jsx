@@ -1,32 +1,15 @@
-import DefaultPortrait from 'src/assets/portrait.jpg'
 import Texture from 'src/assets/texture.jpg'
-import Stroke from 'src/assets/stroke.png'
 import Border from 'src/assets/border-2-h.png'
-import Sticker from './Sticker'
 import { Link } from 'react-router-dom'
-import Clock from './Clock'
-import ShadowWrapper from './Shadow/ShadowWrapper'
-import Shadow from './Shadow/Shadow'
+import Clock from '../clock/Clock'
+import ShadowWrapper from '../shadow/ShadowWrapper'
+import Shadow from '../shadow/Shadow'
+import Profile from './Profile'
 
 const Navbar = () => {
     return (
         <nav className="fixed z-50 bottom-0 max-h-[15vh] w-full flex justify-between items-end">
-            <ShadowWrapper className='max-w-60 rotate-[1deg] translate-x-[-7px] translate-y-[5px] shadow-lg'>
-                <div className='h-4 w-full bg-contain' style={{backgroundImage: `url(${Border})`}}></div>
-                    <div className="bg-contain p-2 bg-repeat flex flex-col items-center" style={{backgroundImage: `url(${Texture})`}}>
-                        <div className="w-full flex items-end text-white p-2 grid grid-cols-2 gap-2">
-                            <Sticker label='Tequila Sunrise' border='border-teal' background='bg-teal' />
-                            <Sticker label='Visitor' border='border-bronze' background='bg-bronze' />
-                        </div>
-
-                    <div className="h-full p-2 py-4 pb-6 bg-contain bg-center bg-no-repeat" style={{backgroundImage: `url(${Stroke})`}}>
-                        <img className='rounded border-2 border-white' src={DefaultPortrait} alt="" />
-                    </div>
-                </div>
-
-                <Shadow className='rotate-[-3deg]'/>
-            </ShadowWrapper>
-            
+            <Profile />
 
             <div className="flex justify-between items-end">
                 <ShadowWrapper className='translate-y-4'>

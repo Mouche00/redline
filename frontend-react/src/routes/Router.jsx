@@ -1,11 +1,9 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PublicLayout from 'src/components/layouts/PublicLayout'
 import HomePage from 'src/components/pages/home/HomePage'
+import IslandPage from 'src/components/pages/home/IslandPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
-import NewPage from 'src/components/pages/NewPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
-import ReleasingPage from 'src/components/pages/ReleasingPage'
-import TrendingPage from 'src/components/pages/TrendingPage'
 
 const publicRoutes = [
     {
@@ -23,15 +21,15 @@ const publicRoutes = [
             },
             {
                 path: 'trending',
-                element: <TrendingPage />
+                element: <IslandPage label='trending' />
             },
             {
                 path: 'new',
-                element: <NewPage />
+                element: <IslandPage label='new' />
             },
             {
                 path: 'releasing',
-                element: <ReleasingPage />
+                element: <IslandPage label='releasing' />
             }
         ]
     },

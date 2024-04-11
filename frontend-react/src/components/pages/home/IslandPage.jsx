@@ -3,11 +3,9 @@ import Bar from "src/components/elements/Bar"
 import Island from "src/components/elements/island/Island"
 import Loader from "src/components/elements/loader/Loader"
 
-
-const HomePage = () => {
+const IslandPage = ({ label }) => {
     const movies = useRef(null)
     const posts = useRef(null)
-
 
     const handleHover = (e) => {
 
@@ -24,15 +22,11 @@ const HomePage = () => {
 
     return (
         <Loader className="h-[100vh] flex flex-col items-center justify-center bg-black">
-            <Bar ref={posts} label='posts' className='left-0 translate-x-[50%]'/>   
-            <Island label='trending' onHover={handleHover} />
-            <div className="flex items-center justify-center">
-                <Island label='new' onHover={handleHover} />
-                <Island label='releasing' onHover={handleHover} />
-            </div>
-            <Bar ref={movies} label='movies' className='right-0 translate-x-[-50%]' />
+            <Bar ref={posts} label='posts' sticked={true} className='left-0 translate-x-[50%]'/>
+            <Island label={label} className='h-full' page={true} onHover={handleHover}/>
+            <Bar ref={movies} label='movies' sticked={true} className='right-0 translate-x-[-50%]' />
         </Loader>
     )
 }
 
-export default HomePage
+export default IslandPage

@@ -16,7 +16,7 @@ const Loader = ({ children, className = '', style = {} }) => {
     }, [])
 
    const LazyLoad = () => {
-        setTimeout(() => setLoadContent(true), 200)
+        setTimeout(() => setLoadContent(true), 500)
 
         return (
             <>
