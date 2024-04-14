@@ -1,0 +1,12 @@
+.scroll-right {
+    animation: vertical-scroll linear 60s infinite;
+}
+
+.scroll-left {
+    animation: vertical-scroll linear 30s infinite reverse;
+}
+
+@keyframes vertical-scroll {
+    0% { transform: translateY(0rem) }
+    100% { transform: translateY(-100vh) }
+}

@@ -1,7 +1,7 @@
 import MenuImg from 'src/assets/menu.jpg'
 import './MenuPage.css'
 import MenuItem from 'src/components/elements/MenuItem'
-import Border from 'src/components/elements/Border'
+import Border from 'src/components/elements/border/Border'
 import Loader from 'src/components/elements/loader/Loader'
 
 const MenuPage = () => {

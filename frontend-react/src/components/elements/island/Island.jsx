@@ -16,15 +16,20 @@ import { sentenceCase } from "src/utils/case"
 
 const Island = ({ label, className = '', page = false, onHover }) => {
     const image = useRef(null)
+    const shadow = useRef(null)
 
-    const Map = label == 'trending' ? MapOne : label == 'new' ? MapTwo : MapThree
-    const MapShadow = label == 'trending' ? MapOneShadow : label == 'new' ? MapTwoShadow : MapThreeShadow
-    const MapHover = label == 'trending' ? MapOneHover : label == 'new' ? MapTwoHover : MapThreeHover
+    const mapID = label == 'popular' ? 1 : label == 'new' ? 2 : 3
+
+    const Map = mapID == 1 ? MapOne : mapID == 2 ? MapTwo : MapThree
+    const MapShadow = mapID == 1 ? MapOneShadow : mapID == 2 ? MapTwoShadow : MapThreeShadow
+    const MapHover = mapID == 1 ? MapOneHover : mapID == 2 ? MapTwoHover : MapThreeHover
 
     const handleHover = (e) => {
         const imageClasses = image.current.classList
         imageClasses.toggle('translate-x-[-2%]')
         imageClasses.toggle('translate-y-[-2%]')
+
+        shadow.current.classList.toggle('scale-[101%]')
 
         onHover(e)
     }
@@ -36,7 +41,7 @@ const Island = ({ label, className = '', page = false, onHover }) => {
                 <div onMouseEnter={handleHover} onMouseLeave={handleHover} className={`transition-all h-full w-full absolute top-0 left-0 translate-x-[-2%] translate-y-[-2%] opacity-0 bg-contain bg-no-repeat flex justify-center items-center`} style={{backgroundImage: `url(${MapHover})`}}>
                     <p className="text-7xl font-black text-white">{`${!page ? sentenceCase(label) : 'Home'}`}</p>
                 </div>
-                <img className="h-full absolute top-0 left-0 z-[-1] scale-[99%]" src={MapShadow} alt="" srcset="" />
+                <img ref={shadow} className="h-full absolute top-0 left-0 z-[-1] scale-[101%]" src={MapShadow} alt="" srcset="" />
             </Link>
         </>
     )

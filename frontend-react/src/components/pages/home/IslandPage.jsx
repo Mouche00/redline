@@ -1,7 +1,10 @@
 import { useRef } from "react"
 import Bar from "src/components/elements/Bar"
+import Card from "src/components/elements/Card"
+import PostCard from "src/components/elements/PostCard"
 import Island from "src/components/elements/island/Island"
 import Loader from "src/components/elements/loader/Loader"
+import SeaBackground from "src/components/elements/sea_background/SeaBackground"
 
 const IslandPage = ({ label }) => {
     const movies = useRef(null)
@@ -10,10 +13,10 @@ const IslandPage = ({ label }) => {
     const handleHover = (e) => {
 
         const moviesClasses = movies.current.classList
-        moviesClasses.toggle('opacity-0')
+        moviesClasses.toggle('translate-x-[100%]')
 
         const postsClasses = posts.current.classList
-        postsClasses.toggle('opacity-0')
+        postsClasses.toggle('translate-x-[-100%]')
 
         e.target.classList.toggle('opacity-0')
 
@@ -21,10 +24,20 @@ const IslandPage = ({ label }) => {
     }
 
     return (
-        <Loader className="h-[100vh] flex flex-col items-center justify-center bg-black">
-            <Bar ref={posts} label='posts' sticked={true} className='left-0 translate-x-[50%]'/>
-            <Island label={label} className='h-full' page={true} onHover={handleHover}/>
-            <Bar ref={movies} label='movies' sticked={true} className='right-0 translate-x-[-50%]' />
+        <Loader className="overflow-hidden">
+            <SeaBackground className="h-[100vh] flex flex-col items-center justify-center">
+                <Bar ref={posts} label='posts' sticked={true} className='left-0'>
+                    <PostCard />
+                    <PostCard />
+                    <PostCard />
+                </Bar>
+                <Island label={label} className='h-full' page={true} onHover={handleHover}/>
+                <Bar ref={movies} label='media' sticked={true} className='right-0'>
+                    <Card />
+                    <Card />
+                    <Card />
+                </Bar>
+            </SeaBackground >
         </Loader>
     )
 }

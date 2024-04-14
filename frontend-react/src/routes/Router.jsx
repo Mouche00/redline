@@ -1,5 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import PublicLayout from 'src/components/layouts/PublicLayout'
+import LoginPage from 'src/components/pages/auth/LoginPage'
+import RegisterPage from 'src/components/pages/auth/RegisterPage'
 import HomePage from 'src/components/pages/home/HomePage'
 import IslandPage from 'src/components/pages/home/IslandPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
@@ -17,6 +19,14 @@ const publicRoutes = [
     {
         path: '/',
         element: <MenuPage />
+    },
+    {
+        path: '/login',
+        element: <LoginPage />
+    },
+    {
+        path: '/register',
+        element: <RegisterPage />
     },
     {
         path: '/',
