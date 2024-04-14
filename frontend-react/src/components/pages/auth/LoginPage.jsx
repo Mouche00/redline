@@ -58,10 +58,6 @@ const LoginPage = () => {
                     >
                         <Border animated={true} direction='left' className='w-20 opacity-100' customImage={BorderLeft} />
 
-                        <div className="absolute z-20 left-0 top-0 translate-x-[-20%] w-full h-48 font-black bg-contain bg-center bg-no-repeat flex items-center" style={{backgroundImage: `url(${Background})`}}>
-                            <p className="text-6xl text-black ml-4">Login</p>
-                        </div>
-
                         <div className="h-full flex flex-col items-center justify-center">
                             <Portrait name="home"/>
                             <Portrait name="register"/>
@@ -72,8 +68,12 @@ const LoginPage = () => {
                     </div>
 
                     <div 
-                        className='relative col-span-2 bg-gradient-to-b from-bronze to-transparent w-[50%] mx-auto'   
+                        className='col-span-2 flex flex-row-reverse'   
                     >
+                        <Portrait name="login" disabled={true} className='w-[20%]'/>
+                        <div 
+                            className='relative h-full bg-gradient-to-b from-bronze to-transparent w-[50%]'   
+                        >
                         <div className='w-full h-full absolute gap-4'>
 
                             <div className="w-full h-full flex flex-col items-center justify-center">
@@ -98,6 +98,7 @@ const LoginPage = () => {
                         <Border animated={true} direction='left' className='w-20 opacity-100' customImage={BorderLeft} />
                         <Border animated={true} direction='right' className='w-16' customImage={BorderRight} />
                     </div>
+                </div>
                 </div>
         </Loader>
     )
