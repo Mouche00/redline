@@ -3,7 +3,6 @@ import MenuImg from 'src/assets/menu.jpg'
 import Border from "src/components/elements/border/Border"
 import BorderLeft from 'src/assets/border-l-3.png'
 import BorderRight from 'src/assets/border-r-3.png'
-import Background from 'src/assets/background-4-white.png'
 import { useRef } from "react"
 import Portrait from "src/components/elements/Portrait"
 
@@ -11,7 +10,7 @@ const Filler = () => {
     const button = useRef(null)
     const filler = useRef(null)
 
-    const handleHover = (e) => {
+    const handleHover = () => {
         button.current.classList.toggle('translate-x-[-100%]')
         button.current.classList.toggle('opacity-0')
         filler.current.classList.toggle('translate-x-[100%]')
@@ -59,8 +58,8 @@ const LoginPage = () => {
                         <Border animated={true} direction='left' className='w-20 opacity-100' customImage={BorderLeft} />
 
                         <div className="h-full flex flex-col items-center justify-center">
-                            <Portrait name="home"/>
-                            <Portrait name="register"/>
+                            <Portrait name="home" className='w-full'/>
+                            <Portrait name="register" className='w-full'/>
                         </div>
                         
                         <Border animated={true}  direction='right' className='w-16' customImage={BorderRight} />
@@ -68,7 +67,7 @@ const LoginPage = () => {
                     </div>
 
                     <div 
-                        className='col-span-2 flex flex-row-reverse'   
+                        className='col-span-2 w flex flex-row-reverse'   
                     >
                         <Portrait name="login" disabled={true} className='w-[20%]'/>
                         <div 

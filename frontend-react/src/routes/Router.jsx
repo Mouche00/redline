@@ -4,6 +4,7 @@ import LoginPage from 'src/components/pages/auth/LoginPage'
 import RegisterPage from 'src/components/pages/auth/RegisterPage'
 import HomePage from 'src/components/pages/home/HomePage'
 import IslandPage from 'src/components/pages/home/IslandPage'
+import MediumPage from 'src/components/pages/MediumPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
 // import Test from 'src/features/test/components/Test'
@@ -48,6 +49,10 @@ const publicRoutes = [
             {
                 path: 'releasing',
                 element: <IslandPage label='releasing' />
+            },
+            {
+                path: 'medium',
+                element: <MediumPage />
             }
         ]
     },
