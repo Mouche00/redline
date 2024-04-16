@@ -52,15 +52,15 @@ const MediumPage = () =>{
 
     const handleUpScroll = (e) => {
         if(e.deltaY > 0 && e.deltaX <= 0){
-            e.target.classList.add('translate-y-[-100%]')
+            topSibling.current.classList.add('translate-y-[-100%]')
             bottomSibling.current.classList.add('translate-y-[-100%]')
         }
     }
 
     const handleDownScroll = (e) => {
         if(e.deltaY < 0 && e.deltaX <= 0){
-            e.target.classList.remove('translate-y-[-100%]')
             bottomSibling.current.classList.remove('translate-y-[-100%]')
+            topSibling.current.classList.remove('translate-y-[-100%]')
         }
     }
 
