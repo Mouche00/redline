@@ -1,7 +1,7 @@
 import Border from 'src/assets/border-3-v.png'
 import BorderHorizontal from 'src/assets/border-3-h.png'
 
-const Background = ({ children, className }) => {
+const Borders = ({ children, className }) => {
     return (
         <div className={`relative z-10 p-[0px] ${className}`}>
             <div className="absolute z-[-1] top-0 left-0 translate-y-[-50%] h-8 w-full bg-contain bg-repeat-x bg-center" style={{backgroundImage: `url(${Border})`}}></div>
@@ -15,4 +15,4 @@ const Background = ({ children, className }) => {
     )
 } 
 
-export default Background
+export default Borders
