@@ -27,9 +27,9 @@ const IslandPage = ({ label }) => {
         <Loader className="overflow-hidden">
             <SeaBackground className="h-[100vh] flex flex-col items-center justify-center">
                 <Bar ref={posts} label='posts' sticked={true} className='left-0'>
-                    <PostCard />
-                    <PostCard />
-                    <PostCard />
+                    <PostCard minified={true} />
+                    <PostCard minified={true} />
+                    <PostCard minified={true} />
                 </Bar>
                 <Island label={label} className='h-full' page={true} onHover={handleHover}/>
                 <Bar ref={movies} label='media' sticked={true} className='right-0'>

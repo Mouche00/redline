@@ -29,8 +29,8 @@ const HomePage = () => {
         <Loader className="overflow-hidden">
             <SeaBackground className="h-[100vh] flex flex-col items-center justify-center w-full">
                 <Bar ref={posts} label='posts' className='left-0 translate-x-[-100%] grid-cols-1'>
-                    <PostCard />
-                    <PostCard />
+                    <PostCard minified={true} />
+                    <PostCard minified={true} />
                 </Bar>   
                 <Island label='upcoming' onHover={handleHover} />
                 <div className="flex items-center justify-center">

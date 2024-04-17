@@ -6,6 +6,7 @@ import BorderRight from 'src/assets/border-5-v.png'
 import Texture from 'src/assets/texture.jpg'
 import Border from "../elements/border/Border"
 import { forwardRef, useEffect, useRef, useState } from "react"
+import PostCard from "../elements/PostCard"
 
 const Section = forwardRef(({ children, onWheel, id, section }, ref) => {
     let pos = ''
@@ -66,7 +67,7 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
             <Sidebar ref={sidebar}>
                 {activeLabel ? (
                     <>
-                        <div className="w-full h-[50%] bg-contain bg-repeat bg-center opacity-70" style={{backgroundImage: `url(src/assets/diamond-${activeLabel}.webp)`}}></div>
+                        <div className="w-full h-[50%] bg-cover bg-no-repeat bg-center opacity-70" style={{backgroundImage: `url(src/assets/diamond-${activeLabel}.webp)`}}></div>
                         <h1 className="font-black text-black text-5xl bg-white w-full text-center p-2">{activeLabel.toUpperCase()}</h1>
                         <p className="text-white p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi impedit consectetur ut reiciendis nihil perferendis sunt sapiente possimus nulla obcaecati, veniam aut quo magnam sint illo repudiandae. Nulla, sed quasi!</p>    
                     </>
@@ -79,6 +80,49 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
         </Section>
     )
 })
+
+const PostSection = ({ onWheel, id, section }) => {
+    const sidebar = useRef(null)
+
+    const handleClick = (label) => {
+        sidebar.current.classList.add('translate-x-[100%]')
+    }
+    
+    return (
+        <Section onWheel={onWheel} id={id} section={section}>
+            <div className="gap-12 my-12 mx-auto ml-12 h-fit w-full col-span-2 grid grid-cols-2 p-16">
+                <PostCard />
+                <PostCard />
+                <PostCard />
+            </div>
+
+            <Sidebar ref={sidebar}>
+                <button className="bg-white p-4 font-black text-black text-7xl w-full mb-24">+ NEW POST</button>
+                <div className="w-full h-full flex flex-col items-center justify-sart gap-16">
+                    <div className="rotate-[3deg] h-32 w-full flex flex-col items-end gap-2">
+                        <label htmlFor="" className="px-4 text-black font-black text-6xl bg-white p-2">SEARCH</label>
+                        <input type="text" className="p-2 w-[60%] text-white bg-bronze px-4" />
+                    </div>
+                    <div className="rotate-[-1deg] h-32 w-full flex flex-col items-start gap-2">
+                        <h1 htmlFor="" className="px-4 text-black font-black text-6xl bg-white p-2">ORDER BY</h1>
+                        <div className="flex gap-2">
+                            <button className="bg-bronze p-2 px-4 font-black text-white">NEW</button>
+                            <button className="bg-white p-2 font-black text-black">POPULAR</button>
+                        </div>
+                    </div>
+                    <div className="rotate-[-2deg] h-32 w-full flex flex-col items-end gap-2">
+                        <h1 htmlFor="" className="px-4 text-black font-black text-6xl bg-white p-2">FILTER</h1>
+                        <div className="flex gap-2">
+                            <button className="bg-bronze p-2 font-black text-white">TODAY</button>
+                            <button className="bg-white p-2 font-black text-black">THIS MONTH</button>
+                            <button className="bg-white p-2 font-black text-black">ALL TIME</button>
+                        </div>
+                    </div>
+                </div>
+            </Sidebar>
+        </Section>
+    )
+}
 
 const Diamond = ({ label, className, onClick }) => {
     return (
@@ -100,7 +144,7 @@ const Sidebar = forwardRef(({ children }, ref) => {
     }
 
     return (
-        <div ref={ref} className="relative transition-all translate-x-[100%] w-full h-full top-0 left-0 bg-contain bg-repeat bg-center" style={{backgroundImage: `url(${Texture})`}}>
+        <div ref={ref} className="relative transition-all translate-x-[100%] w-full h-full top-0 left-0 bg-contain bg-repeat bg-center z-20" style={{backgroundImage: `url(${Texture})`}}>
             <Border onClick={hideSidebar} direction='left' className='w-8' customImage={BorderRight} />
             <div className="h-full flex items-center flex-col">
                 {children}
@@ -108,6 +152,37 @@ const Sidebar = forwardRef(({ children }, ref) => {
         </div>
     )
 })
+
+const LegendItem = ({ label, className, seperator = false, onClick}) => {
+    return (
+        <>
+            <button onClick={onClick} className={`transition-all w-64 p-8 text-black text-4xl font-black border-4  border-white ${className}`}>{label.toUpperCase()}</button>
+            {!seperator && 
+                <hr className="h-full max-h-[15%] border-4 border-white"/>
+            }
+        </>
+    )
+}
+
+const Legend = ({ section, changeSection }) => {
+    const labels = [
+        'info',
+        'posts',
+        'reviews'
+    ]
+
+    const handleClick = (i) => {
+        changeSection(i)
+    }
+
+    return (
+        <div className="h-full w-full flex flex-col items-center justify-center p-8 z-10">
+            {labels.map((label, i) => (
+                <LegendItem onClick={() => handleClick(i)} key={i} label={label} seperator={i >= labels.length - 1} className={section == i ? 'bg-white' : 'text-white'}/>
+            ))}
+        </div>
+    )
+}
 
 const MediumPage = () =>{
     const [activeSection, setActiveSection] = useState(0)
@@ -155,22 +230,6 @@ const MediumPage = () =>{
         }
     }
 
-    console.log(activeSection)
-
-    const handleUpScroll = (e) => {
-        if(e.deltaY > 0 && e.deltaX <= 0){
-            topSibling.current.classList.add('translate-y-[-100%]')
-            bottomSibling.current.classList.add('translate-y-[-100%]')
-        }
-    }
-
-    const handleDownScroll = (e) => {
-        if(e.deltaY < 0 && e.deltaX <= 0){
-            bottomSibling.current.classList.remove('translate-y-[-100%]')
-            topSibling.current.classList.remove('translate-y-[-100%]')
-        }
-    }
-
     return (
         <Loader className="h-[100vh] overflow-hidden">
             <div className="h-full flex">
@@ -183,10 +242,13 @@ const MediumPage = () =>{
                 </div>
 
                 <div className="bg-cover bg-no-repeat bg-center w-full h-full" style={{backgroundImage: `url(${DefaultWallpaper})`}}>
-                    <div ref={sections} className="relative bg-bronze bg-opacity-60 h-full w-full">
-                        <InfoSection id={0} section={activeSection} onWheel={handleScroll} />
-                        <InfoSection id={1} section={activeSection} onWheel={handleScroll} />
-                        <InfoSection id={2} section={activeSection} onWheel={handleScroll} />
+                    <div className="relative bg-bronze bg-opacity-60 h-full w-full grid grid-cols-3">
+                        <div ref={sections} className="col-span-2 h-full w-full">
+                            <InfoSection id={0} section={activeSection} onWheel={handleScroll} />
+                            <PostSection id={1} section={activeSection} onWheel={handleScroll} />
+                            <InfoSection id={2} section={activeSection} onWheel={handleScroll} />
+                        </div>
+                        <Legend section={activeSection} changeSection={setActiveSection}/>
                     </div>
                 </div>
             </div>

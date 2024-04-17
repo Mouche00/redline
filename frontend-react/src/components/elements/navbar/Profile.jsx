@@ -32,7 +32,7 @@ const Profile =  () => {
                         <div className='relative h-full w-full rounded border-2 border-white bg-cover bg-center bg-no-repeat text-white text-xl font-semibold' style={{backgroundImage: `url(${DefaultPortrait})`}}>
                             <div onMouseEnter={handleHover} onMouseLeave={handleHover} className='absolute top-0 left-0 h-full w-full'>
                                 <div ref={name} className='h-[50%] w-full bg-bronze bg-opacity-50 flex items-center justify-center opacity-0 transition-all'>
-                                    <p>Tequila Sunset</p>
+                                    <p>N/A</p>
                                 </div>
                                 <div ref={role} className='h-[50%] w-full bg-teal bg-opacity-50 flex items-center justify-center opacity-0 transition-all'>
                                     <p>Visitor</p>
