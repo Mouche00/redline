@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\Repositories\CommentRepositoryInterface;
-use App\Interfaces\Services\CommentServiceInterface;
-use App\Models\Comment;
-use App\Models\Post;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Services\Interfaces\CommentServiceInterface;
 use App\Traits\MorphTrait;
 use App\Traits\ResponseTrait;
 

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\Repositories\PostRepositoryInterface;
-use App\Interfaces\Services\PostServiceInterface;
+use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Services\Interfaces\PostServiceInterface;
 use App\Traits\ResponseTrait;
 
 class PostService implements PostServiceInterface

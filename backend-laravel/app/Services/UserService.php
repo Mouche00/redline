@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\DTOs\UserDTO;
-use App\Interfaces\Repositories\UserRepositoryInterface;
-use App\Interfaces\Services\UserServiceInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Services\Interfaces\UserServiceInterface;
 use App\Traits\ResponseTrait;
 
 class UserService implements UserServiceInterface

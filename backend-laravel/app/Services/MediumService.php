@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use App\DTOs\UserDTO;
-use App\Interfaces\Repositories\MediumRepositoryInterface;
-use App\Interfaces\Services\MediumServiceInterface;
+use App\Repositories\Interfaces\MediumRepositoryInterface;
+use App\Services\Interfaces\MediumServiceInterface;
 use App\Traits\ResponseTrait;
 
 class MediumService implements MediumServiceInterface

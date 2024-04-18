@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Interfaces\Services\VoteServiceInterface;
+use App\Services\Interfaces\VoteServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Http\Request;
@@ -16,7 +16,8 @@ class VoteController extends Controller
     {
         $this->service = $service;
     }
-    public function upvote(Post $voteable, int $id)
+
+    public function upvote(string $voteable, int $id)
     {
         $this->authorize('vote', $voteable);
         try {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Interfaces\Services;
+namespace App\Services\Interfaces;
 
 use App\Models\Medium;
 

@@ -2,7 +2,7 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\VoteRepositoryInterface;
+use App\Repositories\Interfaces\VoteRepositoryInterface;
 
 class VoteRepository implements VoteRepositoryInterface
 {

@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\CommentRepositoryInterface;
 use App\Models\Post;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
 
 class CommentRepository implements CommentRepositoryInterface
 {

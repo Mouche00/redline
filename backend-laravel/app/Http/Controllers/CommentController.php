@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CommentStoreRequest;
-use App\Interfaces\Services\CommentServiceInterface;
+use App\Services\Interfaces\CommentServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
-use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {

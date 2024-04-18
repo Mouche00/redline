@@ -2,10 +2,8 @@
 
 namespace App\Services;
 
-use App\Interfaces\Repositories\VoteRepositoryInterface;
-use App\Interfaces\Services\VoteServiceInterface;
-use App\Models\Comment;
-use App\Models\Post;
+use App\Repositories\Interfaces\VoteRepositoryInterface;
+use App\Services\Interfaces\VoteServiceInterface;
 use App\Traits\MorphTrait;
 use App\Traits\ResponseTrait;
 
@@ -21,24 +19,42 @@ class VoteService implements VoteServiceInterface
 
     public function upvote($voteable, $id)
     {
-        $user = auth()->user();
-        $data = [
-            'up' => true
-        ];
+        $exists = $this->repository->exists($voteable, $id);
+        if($exists){
 
-        $voteable = $this->morph($voteable, $id);
+        } else {
+            $user = auth()->user();
+            $data = [
+                'up' => true,
+                'user_id' => $user->id
+            ];
 
-        $this->repository->create($voteable, $data);
+            $voteable = $this->morph($voteable, $id);
+
+            $this->repository->create($voteable, $data);
+        }
     }
 
     public function downvote($voteable, $id)
     {
-        $data = [
-            'up' => false
-        ];
+        $exists = $this->repository->exists($voteable, $id);
+        if($exists){
 
-        $voteable = $this->morph($voteable, $id);
+        } else {
+            $user = auth()->user();
+            $data = [
+                'up' => false,
+                'user_id' => $user->id
+            ];
 
-        $this->repository->create($voteable, $data);
+            $voteable = $this->morph($voteable, $id);
+
+            $this->repository->create($voteable, $data);
+        }
+    }
+
+    public function vote($voteable, $id)
+    {
+
     }
 }

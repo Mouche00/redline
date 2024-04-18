@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
-use App\Interfaces\Services\PostServiceInterface;
 use App\Models\Medium;
+use App\Services\Interfaces\PostServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
-use Illuminate\Http\Request;
 
 class PostController extends Controller
 {

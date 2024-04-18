@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\DTOs\UserDTO;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
-use App\Interfaces\Services\UserServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
 use Illuminate\Http\JsonResponse;

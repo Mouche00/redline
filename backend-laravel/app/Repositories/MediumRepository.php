@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\Repositories\MediumRepositoryInterface;
 use App\Models\Medium;
+use App\Repositories\Interfaces\MediumRepositoryInterface;
 
 class MediumRepository implements MediumRepositoryInterface
 {
@@ -11,7 +11,7 @@ class MediumRepository implements MediumRepositoryInterface
     {
         return Medium::all();
     }
-    
+
     public function create($user, $data)
     {
         return $user->media()->create($data);

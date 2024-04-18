@@ -3,11 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MediumStoreRequest;
-use App\Interfaces\Services\MediumServiceInterface;
 use App\Models\Medium;
+use App\Services\Interfaces\MediumServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
-use Illuminate\Http\Request;
 
 class MediumController extends Controller
 {

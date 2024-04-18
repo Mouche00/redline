@@ -1,9 +1,6 @@
 <?php
 
-namespace App\Interfaces\Services;
-
-use App\Models\Medium;
-use Illuminate\Database\Eloquent\Model;
+namespace App\Services\Interfaces;
 
 interface CommentServiceInterface
 {

@@ -2,22 +2,22 @@
 
 namespace App\Providers;
 
-use App\Interfaces\Repositories\CommentRepositoryInterface;
-use App\Interfaces\Repositories\MediumRepositoryInterface;
-use App\Interfaces\Repositories\PostRepositoryInterface;
-use App\Interfaces\Repositories\UserRepositoryInterface;
-use App\Interfaces\Repositories\VoteRepositoryInterface;
-use App\Interfaces\Services\CommentServiceInterface;
-use App\Interfaces\Services\MediumServiceInterface;
-use App\Interfaces\Services\PostServiceInterface;
-use App\Interfaces\Services\UserServiceInterface;
-use App\Interfaces\Services\VoteServiceInterface;
 use App\Repositories\CommentRepository;
+use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Repositories\Interfaces\MediumRepositoryInterface;
+use App\Repositories\Interfaces\PostRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Repositories\Interfaces\VoteRepositoryInterface;
 use App\Repositories\MediumRepository;
 use App\Repositories\PostRepository;
 use App\Repositories\UserRepository;
 use App\Repositories\VoteRepository;
 use App\Services\CommentService;
+use App\Services\Interfaces\CommentServiceInterface;
+use App\Services\Interfaces\MediumServiceInterface;
+use App\Services\Interfaces\PostServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
+use App\Services\Interfaces\VoteServiceInterface;
 use App\Services\MediumService;
 use App\Services\PostService;
 use App\Services\UserService;

@@ -101,7 +101,7 @@ const PostSection = ({ onWheel, id, section }) => {
                 <div className="w-full h-full flex flex-col items-center justify-sart gap-16">
                     <div className="rotate-[3deg] h-32 w-full flex flex-col items-end gap-2">
                         <label htmlFor="" className="px-4 text-black font-black text-6xl bg-white p-2">SEARCH</label>
-                        <input type="text" className="p-2 w-[60%] text-white bg-bronze px-4" />
+                        <input type="text" className="p-[2px] w-[60%] text-white bg-bronze px-4" />
                     </div>
                     <div className="rotate-[-1deg] h-32 w-full flex flex-col items-start gap-2">
                         <h1 htmlFor="" className="px-4 text-black font-black text-6xl bg-white p-2">ORDER BY</h1>
@@ -187,13 +187,6 @@ const Legend = ({ section, changeSection }) => {
 const MediumPage = () =>{
     const [activeSection, setActiveSection] = useState(0)
     const sections = useRef(null)
-    // const [currentSec, setCurrentSec] = useState(null)
-
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //         setCurrentSec(topElement.current)
-    //     }, 1500)
-    // }, [])
 
     const handleScroll = (e) => {
         const currentSec = sections.current.children[activeSection]
@@ -206,13 +199,8 @@ const MediumPage = () =>{
         if(e.deltaX <= 0) {
             if(e.deltaY > 0 && nextSec){
                 pos++
-                // currentSec.classList.add('translate-y-[-100%]')
-                // nextSec.classList.add('translate-y-[-100%]')
             } else if(e.deltaY < 0 && prevSec){
                 pos--
-                // currentSec.classList.remove('translate-y-[-100%]')
-                // prevSec.classList.remove('translate-y-[-100%]')
-
             }
         }
 
