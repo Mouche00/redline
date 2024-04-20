@@ -2,24 +2,28 @@
 
 namespace App\Providers;
 
+use App\Repositories\implementations\ChannelRepository;
 use App\Repositories\implementations\CommentRepository;
 use App\Repositories\implementations\MediumRepository;
 use App\Repositories\implementations\MessageRepository;
 use App\Repositories\implementations\PostRepository;
 use App\Repositories\implementations\UserRepository;
 use App\Repositories\implementations\VoteRepository;
+use App\Repositories\Interfaces\ChannelRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\MediumRepositoryInterface;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\VoteRepositoryInterface;
+use App\Services\implementations\ChannelService;
 use App\Services\implementations\CommentService;
 use App\Services\implementations\MediumService;
 use App\Services\implementations\MessageService;
 use App\Services\implementations\PostService;
 use App\Services\implementations\UserService;
 use App\Services\implementations\VoteService;
+use App\Services\Interfaces\ChannelServiceInterface;
 use App\Services\Interfaces\CommentServiceInterface;
 use App\Services\Interfaces\MediumServiceInterface;
 use App\Services\Interfaces\MessageServiceInterface;
@@ -52,6 +56,9 @@ class ServiceRepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(MessageServiceInterface::class, MessageService::class);
         $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
+
+        $this->app->bind(ChannelServiceInterface::class, ChannelService::class);
+        $this->app->bind(ChannelRepositoryInterface::class, ChannelRepository::class);
     }
 
     /**

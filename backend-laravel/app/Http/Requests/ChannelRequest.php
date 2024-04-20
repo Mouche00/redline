@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Traits\ResponseTrait;
 use App\Traits\ValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Validator;
 
-class MessageRequest extends FormRequest
+class ChannelRequest extends FormRequest
 {
-    use ResponseTrait, ValidationTrait;
+    use ValidationTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -25,10 +25,19 @@ class MessageRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'message' => 'string|min:1|max:255',
-            'channel' => 'exists:channels,id'
+            'reciever' => 'exists:users,id',
         ];
 
         return $this->addRequired($rules);
+    }
+
+    public function withValidator(Validator $validator): void
+    {
+        $recieverIsUser = auth()->user()->id == $validator->getData()['reciever'];
+        $validator->after(function(Validator $validator) use ($recieverIsUser) {
+            if($recieverIsUser) {
+                $validator->errors()->add('reciever', 'Reciever cannot be the same as the current user');
+            }
+        });
     }
 }

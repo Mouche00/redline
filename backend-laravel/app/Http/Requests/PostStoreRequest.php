@@ -3,13 +3,12 @@
 namespace App\Http\Requests;
 
 use App\Traits\ResponseTrait;
-use Illuminate\Contracts\Validation\Validator;
+use App\Traits\ValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Exceptions\HttpResponseException;
 
 class PostStoreRequest extends FormRequest
 {
-    use ResponseTrait;
+    use ResponseTrait, ValidationTrait;
     /**
      * Determine if the user is authorized to make this request.
      */
@@ -29,12 +28,5 @@ class PostStoreRequest extends FormRequest
             'title' => 'required|string|max:255',
             'body' => 'required|string|min:5',
         ];
-    }
-
-    public function failedValidation(Validator $validator)
-    {
-        throw new HttpResponseException(
-            $this->responseError($validator->errors(), "Validation error", 422)
-        );
     }
 }
