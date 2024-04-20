@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\implementations;
 
 use App\Repositories\Interfaces\VoteRepositoryInterface;
 

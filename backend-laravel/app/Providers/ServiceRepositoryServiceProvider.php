@@ -2,26 +2,30 @@
 
 namespace App\Providers;
 
-use App\Repositories\CommentRepository;
+use App\Repositories\implementations\CommentRepository;
+use App\Repositories\implementations\MediumRepository;
+use App\Repositories\implementations\MessageRepository;
+use App\Repositories\implementations\PostRepository;
+use App\Repositories\implementations\UserRepository;
+use App\Repositories\implementations\VoteRepository;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Repositories\Interfaces\MediumRepositoryInterface;
+use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\VoteRepositoryInterface;
-use App\Repositories\MediumRepository;
-use App\Repositories\PostRepository;
-use App\Repositories\UserRepository;
-use App\Repositories\VoteRepository;
-use App\Services\CommentService;
+use App\Services\implementations\CommentService;
+use App\Services\implementations\MediumService;
+use App\Services\implementations\MessageService;
+use App\Services\implementations\PostService;
+use App\Services\implementations\UserService;
+use App\Services\implementations\VoteService;
 use App\Services\Interfaces\CommentServiceInterface;
 use App\Services\Interfaces\MediumServiceInterface;
+use App\Services\Interfaces\MessageServiceInterface;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\VoteServiceInterface;
-use App\Services\MediumService;
-use App\Services\PostService;
-use App\Services\UserService;
-use App\Services\VoteService;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceRepositoryServiceProvider extends ServiceProvider
@@ -45,6 +49,9 @@ class ServiceRepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(VoteServiceInterface::class, VoteService::class);
         $this->app->bind(VoteRepositoryInterface::class, VoteRepository::class);
+
+        $this->app->bind(MessageServiceInterface::class, MessageService::class);
+        $this->app->bind(MessageRepositoryInterface::class, MessageRepository::class);
     }
 
     /**

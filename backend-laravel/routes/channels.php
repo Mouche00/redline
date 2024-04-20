@@ -17,12 +17,9 @@ Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
 
-Broadcast::channel('test-channel', function () {
-    return true;
-});
-
-Broadcast::channel('chat.dm.{channel}', function ($user) {
-    if (true) { // Replace with real authorization
+Broadcast::channel('chat.dm.{channel}', function ($user, $channel) {
+    if ($user->channels()->find($channel)->exists())
+    {
         return [
             'id' => $user->id,
             'name' => $user->name

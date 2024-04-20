@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\implementations;
 
 use App\DTOs\UserDTO;
 use App\Repositories\Interfaces\UserRepositoryInterface;

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\MediumController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\VoteController;
@@ -46,6 +47,10 @@ Route::controller(CommentController::class)->group(function () {
 Route::controller(VoteController::class)->group(function () {
     Route::post('/{voteable}/{id}/upvote', 'upvote');
     Route::post('/{voteable}/{id}/downvote', 'downvote');
+});
+
+Route::controller(MessageController::class)->group(function() {
+    Route::post('/message/store', 'store');
 });
 
 // ----------- TEST ROUTES

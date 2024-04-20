@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\implementations;
 
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\Interfaces\PostServiceInterface;
