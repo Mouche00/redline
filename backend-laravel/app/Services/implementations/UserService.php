@@ -58,7 +58,7 @@ class UserService implements UserServiceInterface
         return [
           'token' => $token,
           'type' => 'bearer',
-          'expires_in' => auth()->factory()->getTTL() * 60,
+          'expires_in' => auth()->factory()->getTTL() * 60 * 24 * 7,
         ];
     }
 }

@@ -5,5 +5,5 @@ use App\Models\User;
 
 interface MessageRepositoryInterface
 {
-    public function create(User $user, int $channel, array $data);
+    public function create(User $user, int $channel, string $payload);
 }

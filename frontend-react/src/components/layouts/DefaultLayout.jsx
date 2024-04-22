@@ -1,17 +1,16 @@
 import { Outlet } from 'react-router-dom'
+import Navbar from 'src/components/elements/navbar/Navbar'
 
 const DefaultLayout = () => {
+    
     return (
         <>
-            {/* <header>
+            <header>
                 <Navbar />
-            </header> */}
+            </header>
             <main>
                 <Outlet />
             </main>
-            {/* <footer>
-                <Footer />
-            </footer> */}
         </>
     )
 }

@@ -1,20 +1,12 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
-import PublicLayout from 'src/components/layouts/PublicLayout'
-import LoginPage from 'src/components/pages/auth/LoginPage'
-import RegisterPage from 'src/components/pages/auth/RegisterPage'
+import DefaultLayout from 'src/components/layouts/DefaultLayout'
 import HomePage from 'src/components/pages/home/HomePage'
 import IslandPage from 'src/components/pages/home/IslandPage'
 import MediumPage from 'src/components/pages/MediumPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
-// import Test from 'src/features/test/components/Test'
-
-const testRoutes = [
-    // {
-    //     path: '/test',
-    //     element: <Test />
-    // }
-]
+import AuthRoutes from 'src/features/auth/routes/AuthRoutes'
+import ChatRoutes from 'src/features/chat/routes/ChatRoutes'
 
 const publicRoutes = [
     {
@@ -22,16 +14,8 @@ const publicRoutes = [
         element: <MenuPage />
     },
     {
-        path: '/login',
-        element: <LoginPage />
-    },
-    {
-        path: '/register',
-        element: <RegisterPage />
-    },
-    {
         path: '/',
-        element: <PublicLayout />,
+        element: <DefaultLayout />,
         children: [
             {
                 index: true,
@@ -67,7 +51,8 @@ const isNotAuthRoutes = []
 const isAuthRoutes = []
 
 const router = createBrowserRouter([
-    ...testRoutes,
+    ...ChatRoutes,
+    ...AuthRoutes,
     ...publicRoutes,
     ...isNotAuthRoutes,
     ...isAuthRoutes

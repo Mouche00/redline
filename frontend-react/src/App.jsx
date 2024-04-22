@@ -1,13 +1,14 @@
 import './App.css'
+import AuthProvider from './providers/AuthProvider'
 import Router from './routes/Router'
-import Test from './test/Test'
 
 function App() {
 
   return (
     <>
-      {/* <Router /> */}
-      <Test />
+      <AuthProvider>
+        <Router />
+      </AuthProvider>
     </>
   )
 }

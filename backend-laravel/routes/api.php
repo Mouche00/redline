@@ -51,7 +51,11 @@ Route::controller(VoteController::class)->group(function () {
 });
 
 Route::controller(ChannelController::class)->group(function() {
-    Route::post('/chat/store', 'store');
+    Route::get('/channels', 'index');
+    Route::get('/channels/{channel}', 'show');
+    Route::post('/channel/store', 'store');
+    Route::get('/channels/{channel}/users', 'reciever');
+
 });
 
 Route::controller(MessageController::class)->group(function() {

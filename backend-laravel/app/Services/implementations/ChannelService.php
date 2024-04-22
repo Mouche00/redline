@@ -18,11 +18,18 @@ class ChannelService implements ChannelServiceInterface
         $this->repository = $repository;
     }
 
+    public function all()
+    {
+        $user = auth()->user();
+        $channels = $this->repository->all($user);
+        return $channels;
+    }
+
     public function store($payload)
     {
         $user = auth()->user();
         extract($payload);
-        $channel = $this->repository->fetch($reciever);
+        $channel = $this->repository->fetchByUser($reciever);
         $exists = $channel && $this->repository->exists($channel, $user->id);
         if(! $exists){
             $payload = [$reciever, $user->id];
@@ -32,5 +39,19 @@ class ChannelService implements ChannelServiceInterface
         }
 
         return $channel;
+    }
+
+    public function get($channel)
+    {
+        $channel = $this->repository->fetch($channel);
+        return $channel;
+    }
+
+    public function reciever($channel)
+    {
+        $user = auth()->user();
+        $users = $this->repository->users($channel);
+        $reciever = $users->filter(fn($item) => $item->id != $user->id)->first();
+        return $reciever;
     }
 }

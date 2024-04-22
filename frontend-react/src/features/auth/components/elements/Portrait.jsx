@@ -1,6 +1,6 @@
-import PortraitOne from 'src/assets/portrait1.png'
-import PortraitTwo from 'src/assets/portrait2.png'
-import PortraitThree from 'src/assets/portrait3.png'
+import PortraitOne from 'src/features/auth/assets/portrait1.png'
+import PortraitTwo from 'src/features/auth/assets/portrait2.png'
+import PortraitThree from 'src/features/auth/assets/portrait3.png'
 import { Link } from "react-router-dom"
 import { useRef } from 'react'
 

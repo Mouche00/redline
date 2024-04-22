@@ -21,10 +21,10 @@ class MessageService implements MessageServiceInterface
     {
         $user = auth()->user();
         extract($data);
-        $message = $this->repository->create($user, $channel, $message);
+        $data = $this->repository->create($user, $channel, $message);
 
         broadcast(new MessageSent($user, $channel, $message));
 
-        return $message;
+        return $data;
     }
 }
