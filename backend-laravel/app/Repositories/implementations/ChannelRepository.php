@@ -9,7 +9,7 @@ class ChannelRepository implements ChannelRepositoryInterface
 {
     public function all($user)
     {
-        return $user->channels()->with('users')->get();
+        return $user->channels()->with(['users' => fn($q) => $q->whereNot('users.id', $user->id)])->get();
     }
 
     public function create($payload)
@@ -34,6 +34,6 @@ class ChannelRepository implements ChannelRepositoryInterface
 
     public function users($channel)
     {
-        return Channel::find($channel)->first()->users()->get();
+        return Channel::find($channel)->users()->get();
     }
 }
