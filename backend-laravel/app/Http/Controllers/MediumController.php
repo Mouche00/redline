@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\MediumStoreRequest;
+use App\Http\Requests\MediumRequest;
 use App\Models\Medium;
 use App\Services\Interfaces\MediumServiceInterface;
 use App\Traits\ResponseTrait;
@@ -22,7 +22,18 @@ class MediumController extends Controller
 
     }
 
-    public function store(MediumStoreRequest $request)
+    public function allCategories()
+    {
+        try {
+            $data = $this->service->allCategories();
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Categories fetched successfully");
+    }
+
+    public function store(MediumRequest $request)
     {
         $data = $request->validated();
 

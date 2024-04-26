@@ -14,11 +14,15 @@ trait ValidationTrait
         );
     }
 
-    public function addRequired(array $rules)
+    public function addRequired(array $rules, array $exceptions = [])
     {
         if($this->getMethod() == 'POST'){
-            $rules = array_map(fn($rule) => 'required|' . $rule, $rules);
-            // array_walk($rules, fn(&$value, $key) => $value = 'required|' . $value);
+            // $rules = array_map(fn($rule) => 'required|' . $rule, $rules);
+            array_walk($rules, function(&$value, $key) use ($exceptions) {
+                if(!in_array($key, $exceptions)) {
+                    $value = 'required|' . $value;
+                }
+            });
         }
 
         return $rules;

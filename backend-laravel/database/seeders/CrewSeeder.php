@@ -2,17 +2,17 @@
 
 namespace Database\Seeders;
 
-use App\Models\Person;
+use App\Models\Crew;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PersonSeeder extends Seeder
+class CrewSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Person::factory(5)->create();
+        Crew::factory(5)->create();
     }
 }

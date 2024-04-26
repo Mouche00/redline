@@ -8,6 +8,7 @@ import NotFoundPage from 'src/components/pages/NotFoundPage'
 import AuthRoutes from 'src/features/auth/routes/AuthRoutes'
 import ChatRoutes from 'src/features/chat/routes/ChatRoutes'
 import EditorRoutes from 'src/features/editor/routes/EditorRoutes'
+import MediumRoutes from 'src/features/medium/routes/MediumRoutes'
 
 const publicRoutes = [
     {
@@ -52,6 +53,7 @@ const isNotAuthRoutes = []
 const isAuthRoutes = []
 
 const router = createBrowserRouter([
+    ...MediumRoutes,
     ...EditorRoutes,
     ...ChatRoutes,
     ...AuthRoutes,

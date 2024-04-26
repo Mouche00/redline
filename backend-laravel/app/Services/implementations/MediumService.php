@@ -16,18 +16,24 @@ class MediumService implements MediumServiceInterface
         $this->repository = $repository;
     }
 
+    public function allCategories()
+    {
+        $categories = $this->repository->allCategories();
+
+        return $categories;
+    }
+
     public function store($data)
     {
-        $people = $data['people'];
-        $data = array_filter($data, fn($data) => !in_array($data, ['people']), ARRAY_FILTER_USE_KEY);
+        $crew = $data['crew'];
+        $data = array_filter($data, fn($data) => !in_array($data, ['crew']), ARRAY_FILTER_USE_KEY);
 
         $user = auth()->user();
         $medium = $this->repository->create($user, $data);
         $medium->users()->updateExistingPivot($user, [
             'is_moderator_at' => now()
         ]);
-
-        $medium->people()->attach($people);
+        $this->repository->attach($medium, $crew);
 
         return $medium;
     }

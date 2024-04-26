@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\media>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Crew>
  */
-class MediaFactory extends Factory
+class CrewFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,8 @@ class MediaFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => $this->faker->name(),
+            'function' => $this->faker->word(),
         ];
     }
 }

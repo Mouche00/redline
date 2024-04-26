@@ -6,7 +6,7 @@ use App\Traits\ResponseTrait;
 use App\Traits\ValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MediumStoreRequest extends FormRequest
+class CrewRequest extends FormRequest
 {
     use ResponseTrait, ValidationTrait;
     /**
@@ -24,15 +24,12 @@ class MediumStoreRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'title' => 'required|string|max:255|unique:media,title',
-            'description' => 'required|string|min:2|max:255',
-            'genre' => 'required|string|min:2|max:255',
-            'date' => 'required|date',
-            'studio' => 'required|string|max:255',
-            'category' => 'required|string|exists:categories,name',
-            'additional_info' => 'array',
-            'people' => 'array',
+        $rules = [
+            'name' => 'string|min:1|max:255',
+            'image' => 'image|image|mimes:jpg,png,jpeg,gif,svg',
+            'function' => 'string|min:2|max:255',
         ];
+
+        return $this->addRequired($rules);
     }
 }

@@ -15,13 +15,14 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
-            $table->string('image')->nullable();
-            $table->string('background')->nullable();
-            $table->string('visuals')->nullable();
+            $table->unsignedBigInteger('poster')->nullable();
+            $table->foreign('poster')->references('id')->on('images')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->unsignedBigInteger('background')->nullable();
+            $table->foreign('background')->references('id')->on('images')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('genre');
             $table->date('date');
             $table->string('studio');
-            $table->json('additional_info')->nullable();
+            $table->json('misc')->nullable();
             $table->timestamp('validated_at')->nullable();
             $table->string('category');
             $table->foreign('category')->references('name')->on('categories');

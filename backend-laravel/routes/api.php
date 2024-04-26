@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\CrewController;
 use App\Http\Controllers\MediumController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\PostController;
@@ -31,7 +32,16 @@ Route::controller(AuthController::class)->group(function () {
     Route::post('/login', 'login');
 });
 
+Route::controller(CrewController::class)->group(function () {
+    Route::get('/crew', 'search');
+    Route::get('/crew/{id}', 'show');
+    Route::post('/crew/store', 'store');
+    Route::put('/crew/{crew}/update', 'update');
+    Route::delete('/crew/{crew}/destroy', 'destroy');
+});
+
 Route::controller(MediumController::class)->group(function () {
+    Route::get('/categories', 'allCategories');
     Route::post('/medium/store', 'store');
     Route::put('/medium/{medium}/approve', 'approve');
     Route::delete('/medium/{medium}/reject', 'reject');

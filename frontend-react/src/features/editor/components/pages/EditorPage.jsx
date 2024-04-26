@@ -16,16 +16,17 @@ const EditorPage = () => {
 
     const applyMarkdown = () => {
         let result = []
-
         words.forEach((word, i) => {
-            if(bolds.length > 0){
+            if(bolds && bolds.length > 0){
                 for(let j = 0; j < bolds.length; j++){
-                    let bold = bolds[j]
-                    if(bold.arrayIndex == i){
-                        result[i] = word.substring(0, bold.index) + '**' + bold.text + '**' + word.substring(bold.index + bold.text.length)
+                    if(bolds[j].arrayIndex == i){
+                        if(word.includes(bolds[j].text)){
+                            result[i] = word.substring(0, bolds[j].index) + '**' + bolds[j].text + '**' + word.substring(bolds[j].index + bolds[j].text.length)
+                        } else {
+                            setBolds(bolds.filter(bold => bold.arrayIndex != i))
+                        }
                         break
                     } else {
-                        console.log(1)
                         result[i] =  word
                     }
                 }
@@ -33,7 +34,7 @@ const EditorPage = () => {
                 result[i] =  word
             }
         })
-        console.log(result, 'bolds: ', bolds, markdowns, markdown)
+        console.log('HERE // result: ', result, 'words: ', words, 'bolds: ', bolds, 'markdowns: ', markdowns,'markdown: ', markdown, 'selection: ', selected)
         result = result.join(' ')
         setMarkdown(result)
     }
@@ -43,24 +44,28 @@ const EditorPage = () => {
     }, [bolds, words])
 
     const addBold = () => {
-        if(!selected.toString().length < 1) {
+        if(selected.toString().length > 1) {
+
+            // GET INDEX OF SELECTION SELECTED ARRAY ELEMENT
             let index = selected.anchorOffset < selected.focusOffset ? selected.anchorOffset : selected.focusOffset
             let text = selected.toString()
-
             let sliceBefore = words.join(' ').slice(0, index).split(' ')
             let arrayIndex = sliceBefore.length - 1
             index = sliceBefore[arrayIndex].length
 
-            setBolds([
+            let newBolds = [
                 ...bolds,
                 {
                     index: index,
                     arrayIndex: arrayIndex,
                     text: text
                 }
-            ])
+            ]
+            newBolds.sort(function(a, b) {
+                return a.arrayIndex - b.arrayIndex
+            })
 
-
+            setBolds(newBolds)
         }
     }
 
@@ -79,7 +84,7 @@ const EditorPage = () => {
 
     const editMarkdown = (j) => {
         setMarkdowns(markdowns.filter((item, i) => i != j))
-        let markdown = markdowns[i]
+        let markdown = markdowns[j]
         setBolds([])
         setMarkdown(markdown)
         let newWords = markdown.slice(0, markdown.length - 2).split(' ')
@@ -88,11 +93,11 @@ const EditorPage = () => {
             let index = word.indexOf('**')
             let lastIndex = word.lastIndexOf('**')
             if(index >= 0){
-                newBolds[i] = {
+                newBolds.push({
                     index: index,
                     arrayIndex: i,
                     text: word.slice(index + 2, lastIndex)
-                }
+                })
                 return word.slice(0, index) + word.slice(index + 2, lastIndex) + word.slice(lastIndex + 2, word.length)
             }
             return word
@@ -104,49 +109,69 @@ const EditorPage = () => {
 
     const handleChange = (e) => {
         let text = e.target.innerText
-        let newWords = text.split(' ')
+        let newWords = text.split(' ').map((item) => item = item.trim())
         if(words.length == newWords.length) {
             words.forEach((word, i) => {
-                if(word.length > newWords[i].length){
-                    let slice = text.slice(0, selected.anchorOffset).split(' ')
-                    let index = slice[slice.length - 1].length + 1
-                    bolds.forEach((bold) => {
-                        if(bold.arrayIndex == i){
-                            let newBolds = bolds.filter((bold) => bold.arrayIndex != i)
-                            if(bold.index < index && (bold.index + bold.text.length) >= index){
-                                let newText = newWords[i].slice(bold.index, bold.index + bold.text.length - 1)
-                                if(newText){
-                                    setBolds([
-                                        newBolds,
-                                        {
-                                            index: bold.index,
-                                            arrayIndex: bold.arrayIndex,
-                                            text: newText
-                                        }
-                                    ])
-                                } else {
-                                    setBolds([
-                                        newBolds
-                                    ])
-                                }
-                            } else if (bold.index == index){
+
+                let slice = text.slice(0, selected.anchorOffset).split(' ')
+                // GET INDEX OF DELETED OR NEW CHARACTER IN SELECTED ARRAY ELEMENT
+                let index = slice[slice.length - 1].length + (word.length > newWords[i].length ? 1 : 0)
+                
+                bolds.forEach((bold) => {
+                    if(bold.arrayIndex == i){
+                        let newBolds = bolds.filter((bold) => bold.arrayIndex != i)
+                        if(bold.index < index && (bold.index + bold.text.length) >= index){
+                            let newText = newWords[i].slice(bold.index, bold.index + bold.text.length + (word.length > newWords[i].length ? -1 : 1))
+                            if(newText){
                                 setBolds([
-                                    newBolds,
+                                    ...newBolds,
                                     {
-                                        index: bold.index - 1,
+                                        index: bold.index,
                                         arrayIndex: bold.arrayIndex,
-                                        text: bold.text
+                                        text: newText
                                     }
                                 ])
+                            } else {
+                                setBolds(newBolds)
                             }
+                        } else if (bold.index == index){
+                            setBolds([
+                                ...newBolds,
+                                {
+                                    index: bold.index - 1,
+                                    arrayIndex: bold.arrayIndex,
+                                    text: bold.text
+                                }
+                            ])
                         }
-                    })
-                }
+                    }
+                })
             })
-        } else if (words.length > newWords.length) {
-            setBolds([])
+        } else {
+            // GET INDEX OF SELECTION SELECTED ARRAY ELEMENT
+            let index = selected.anchorOffset < selected.focusOffset ? selected.anchorOffset : selected.focusOffset
+            let sliceBefore = words.join(' ').slice(0, index).split(' ')
+            let arrayIndex = sliceBefore.length - 1
+            index = sliceBefore[arrayIndex].length
+            let newBolds = bolds
+            newBolds = newBolds.map((bold) => {
+                if(bold.arrayIndex >= arrayIndex) {
+                    if(words.length > newWords.length) {
+                        bold.arrayIndex = bold.arrayIndex - 1
+                    } else {
+                        console.log('here', bold)
+                        bold.arrayIndex = bold.arrayIndex + 1
+                    }  
+                }
+                return bold
+            })
+            newBolds = newBolds.sort(function(a, b) {
+                return a.arrayIndex - b.arrayIndex
+            })
+            setBolds(newBolds)
+            console.log('selection index: ', arrayIndex)
         }
-
+        
         setWords(newWords)
     }
 

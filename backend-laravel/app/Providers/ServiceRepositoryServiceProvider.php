@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Repositories\implementations\ChannelRepository;
 use App\Repositories\implementations\CommentRepository;
+use App\Repositories\implementations\CrewRepository;
 use App\Repositories\implementations\MediumRepository;
 use App\Repositories\implementations\MessageRepository;
 use App\Repositories\implementations\PostRepository;
@@ -11,6 +12,7 @@ use App\Repositories\implementations\UserRepository;
 use App\Repositories\implementations\VoteRepository;
 use App\Repositories\Interfaces\ChannelRepositoryInterface;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
+use App\Repositories\Interfaces\CrewRepositoryInterface;
 use App\Repositories\Interfaces\MediumRepositoryInterface;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 use App\Repositories\Interfaces\PostRepositoryInterface;
@@ -18,6 +20,7 @@ use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\Interfaces\VoteRepositoryInterface;
 use App\Services\implementations\ChannelService;
 use App\Services\implementations\CommentService;
+use App\Services\implementations\CrewService;
 use App\Services\implementations\MediumService;
 use App\Services\implementations\MessageService;
 use App\Services\implementations\PostService;
@@ -25,6 +28,7 @@ use App\Services\implementations\UserService;
 use App\Services\implementations\VoteService;
 use App\Services\Interfaces\ChannelServiceInterface;
 use App\Services\Interfaces\CommentServiceInterface;
+use App\Services\Interfaces\CrewServiceInterface;
 use App\Services\Interfaces\MediumServiceInterface;
 use App\Services\Interfaces\MessageServiceInterface;
 use App\Services\Interfaces\PostServiceInterface;
@@ -59,6 +63,9 @@ class ServiceRepositoryServiceProvider extends ServiceProvider
 
         $this->app->bind(ChannelServiceInterface::class, ChannelService::class);
         $this->app->bind(ChannelRepositoryInterface::class, ChannelRepository::class);
+
+        $this->app->bind(CrewServiceInterface::class, CrewService::class);
+        $this->app->bind(CrewRepositoryInterface::class, CrewRepository::class);
     }
 
     /**
