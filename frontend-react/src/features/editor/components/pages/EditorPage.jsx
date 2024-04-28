@@ -7,6 +7,7 @@ const EditorPage = () => {
     const [selected, setSelected] = useState(null)
     const [bolds, setBolds] = useState([])
     const [words, setWords] = useState([])
+    const [markdownIndex, setMarkdownIndex] = useState(null)
     const editor = useRef(null)
 
     const getSel = () => {
@@ -70,19 +71,26 @@ const EditorPage = () => {
     }
 
     const addLineBreak = () => {
+        console.log(markdownIndex)
         let newMarkdown = markdown + '\n\n'
+        if(markdownIndex !== null) {
+            let newMarkdowns = markdowns
+            newMarkdowns.splice(markdownIndex, 0, newMarkdown)
+            setMarkdowns(newMarkdowns)
+        } else {
+            setMarkdowns([
+                ...markdowns,
+                newMarkdown
+            ])
+        }
 
-        setMarkdowns([
-            ...markdowns,
-            newMarkdown
-        ])
-
-        setMarkdown('')
+        setWords([])
         setBolds([])
         editor.current.innerText = ''
     }
 
     const editMarkdown = (j) => {
+        setMarkdownIndex(j)
         setMarkdowns(markdowns.filter((item, i) => i != j))
         let markdown = markdowns[j]
         setBolds([])

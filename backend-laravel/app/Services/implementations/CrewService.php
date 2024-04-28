@@ -31,6 +31,7 @@ class CrewService implements CrewServiceInterface
     {
         $name = strtolower($payload['query']);
         $crew = $this->repository->query($name);
+        $crew = $crew->filter(fn($value) => $value->validated_at)->values();
         if(!$crew->first()){
             throw new Exception('No data found');
         }

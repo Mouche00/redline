@@ -5,15 +5,16 @@ import DefaultPortrait from 'src/assets/portrait.jpg'
 
 const CrewCard = ({ id, onClick }) => {
     const [crew, setCrew] = useState(null)
-
+    
     const getCrew = async (query) =>{
         const response = await fetchCrew(query)
+        console.log('here2', response)
         setCrew(response)
     }
 
     useEffect(() => {
         getCrew(id)
-    }, [])
+    }, [id])
 
     return (
         <>
@@ -31,7 +32,7 @@ const CrewCard = ({ id, onClick }) => {
 const ImageCard = ({ onClick, image }) => {
 
     return (
-        <div onClick={onClick} className="w-16 h-16 bg-cover bg-center" style={{backgroundImage: `url(${URL.createObjectURL(image)})`}}></div>
+        <button onClick={onClick} className="w-16 h-16 bg-cover bg-center" style={{backgroundImage: `url(${URL.createObjectURL(image)})`}}></button>
     )
 }
 
@@ -108,8 +109,7 @@ const MediumForm = () => {
         console.log(formData)
     }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const handleSubmit = async () => {
         const response = await createMedium(formData)
         console.log(response)
     }
@@ -159,6 +159,7 @@ const MediumForm = () => {
     }
 
     const handleCrewDelete = (id) => {
+        console.log(id)
         setFormData({
             ...formData,
             crew: formData.crew.filter((item, i) => i != id)
@@ -185,7 +186,7 @@ const MediumForm = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} encType="multipart/form-data" className="flex flex-col w-[50%] gap-4 mx-auto">
+            <div className="flex flex-col w-[50%] gap-4 mx-auto">
                 <input onChange={handleChange} className="border-2 border-black" type="text" name="title"/>
                 <input onChange={handleChange} className="border-2 border-black" type="text" name="description"/>
                 <input onChange={handleImage} className="border-2 border-black" type="file" name="poster"/>
@@ -233,8 +234,8 @@ const MediumForm = () => {
                     </div>
                     <button onClick={handleCrewSubmit} className="relative w-16 h-16 border-2 border-dashed border-black flex items-center justify-center">+</button>
                 </div>
-                <button className="hidden" type="submit"></button>
-            </form>
+                <button className="font-black" onClick={handleSubmit}>submit</button>
+            </div>
         </div>
     )
 }
