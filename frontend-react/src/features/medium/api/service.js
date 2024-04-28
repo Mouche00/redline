@@ -11,15 +11,36 @@ export const getCategoriesService = async () => {
 }
 
 export const createCrewService = async (payload) => {
+    const headers = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    
     try {
-        const response = await instance.post(`/crew/store`, payload)
+        const response = await instance.post(`/crew/store`, payload, headers)
         return response
     } catch (error) {
         throw error
     }
 }
 
-export const getCrewService = async (query) => {
+export const createMediumService = async (payload) => {
+    const headers = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+    
+    try {
+        const response = await instance.post(`/medium/store`, payload, headers)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+export const searchCrewService = async (query) => {
     try {
         const response = await instance.get(`/crew?query=${query}`)
         return response

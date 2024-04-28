@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class Crew extends Model
 {
     use HasFactory, ImageRelationshipTrait;
-    protected $fillable = ['name', 'function'];
+    protected $fillable = ['name', 'function', 'validated_at'];
     protected $table = 'crew';
     protected $with = ['image'];
 

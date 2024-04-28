@@ -2,13 +2,16 @@
 
 namespace App\Services\implementations;
 
+use App\Helpers\ArrayHelper;
+use App\Models\Crew;
 use App\Repositories\Interfaces\MediumRepositoryInterface;
 use App\Services\Interfaces\MediumServiceInterface;
+use App\Traits\ImageServiceTrait;
 use App\Traits\ResponseTrait;
 
 class MediumService implements MediumServiceInterface
 {
-    use ResponseTrait;
+    use ResponseTrait, ImageServiceTrait;
     private MediumRepositoryInterface $repository;
 
     public function __construct(MediumRepositoryInterface $repository)
@@ -25,15 +28,38 @@ class MediumService implements MediumServiceInterface
 
     public function store($data)
     {
-        $crew = $data['crew'];
-        $data = array_filter($data, fn($data) => !in_array($data, ['crew']), ARRAY_FILTER_USE_KEY);
+        $filteredData = ArrayHelper::filterByKey($data, ['crew', 'poster', 'background', 'visuals'], FALSE);
 
         $user = auth()->user();
-        $medium = $this->repository->create($user, $data);
+        $medium = $this->repository->create($user, $filteredData);
+
+        $path = $this->storeImage($data, 'poster');
+        $this->repository->uploadPoster($medium, $path);
+
+        $path = $this->storeImage($data, 'background');
+        $this->repository->uploadBackground($medium, $path);
+
         $medium->users()->updateExistingPivot($user, [
             'is_moderator_at' => now()
         ]);
-        $this->repository->attach($medium, $crew);
+
+        $visuals = ArrayHelper::filterByKey($data, ['visuals']);
+        if($visuals) {
+            foreach($visuals as $visual){
+                $path = $this->forceStoreImage($visual);
+                $this->repository->uploadImage($medium, $path);
+            }
+        }
+
+        $crew = ArrayHelper::filterByKey($data, ['crew']);
+        if($crew){
+            foreach($crew as $id){
+                Crew::find($id)->update([
+                    'validated_at' => now()
+                ]);
+            }
+            $this->repository->attach($medium, $crew);
+        }
 
         return $medium;
     }

@@ -27,15 +27,19 @@ class MediumRequest extends FormRequest
         $rules = [
             'title' => 'string|max:255|unique:media,title',
             'description' => 'string|min:2|max:255',
+            'poster' => 'image|image|mimes:jpg,png,jpeg,gif,svg,webp',
+            'background' => 'image|image|mimes:jpg,png,jpeg,gif,svg,webp',
             'genre' => 'string|min:2|max:255',
             'date' => 'date',
             'studio' => 'string|max:255',
             'category' => 'string|exists:categories,name',
+            'visuals' => 'array',
+            'visuals.*' => 'image|image|mimes:jpg,png,jpeg,gif,svg,webp',
             'misc' => 'array',
             'crew' => 'array',
         ];
 
-        $exceptions = ['studio', 'misc', 'crew'];
+        $exceptions = ['studio', 'misc', 'crew', 'visuals', 'poster', 'background'];
 
         return $this->addRequired($rules, $exceptions);
     }

@@ -14,4 +14,14 @@ class Image extends Model
     {
         $this->morphTo();
     }
+
+    public function poster()
+    {
+        return $this->hasOne(Medium::class, 'poster_id');
+    }
+
+    public function background()
+    {
+        return $this->hasOne(Medium::class, 'background_id');
+    }
 }
