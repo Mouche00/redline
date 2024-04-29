@@ -2,6 +2,7 @@
 
 namespace App\Repositories\implementations;
 
+use App\Models\Channel;
 use App\Repositories\Interfaces\MessageRepositoryInterface;
 
 class MessageRepository implements MessageRepositoryInterface
@@ -12,5 +13,10 @@ class MessageRepository implements MessageRepositoryInterface
             'message' => $payload,
             'channel_id' => $channel
         ]);
+    }
+
+    public function fetchUsers($channel)
+    {
+        return Channel::find($channel)->users()->get();
     }
 }

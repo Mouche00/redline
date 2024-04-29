@@ -31,7 +31,6 @@ const EditorPage = () => {
         }
 
         let sliceBefore = words.join(' ').slice(0, index).split(' ')
-        // console.log('selection', sliceBefore, index, text, text.length, offset, sel)
         let arrayIndex = sliceBefore.length - 1
         index = sliceBefore[arrayIndex].length
 
@@ -103,14 +102,6 @@ const EditorPage = () => {
 
     const addBold = () => {
         if(selection.length > 0) {
-
-            // GET INDEX OF SELECTION SELECTED ARRAY ELEMENT
-            // let index = selected.anchorOffset < selected.focusOffset ? selected.anchorOffset : selected.focusOffset
-            // let text = selected.toString()
-            // let sliceBefore = words.join(' ').slice(0, index).split(' ')
-            // let arrayIndex = sliceBefore.length - 1
-            // index = sliceBefore[arrayIndex].length
-            // if(styles.length < 1 || !styles[arrayIndex] || (styles[arrayIndex] && !(styles[arrayIndex].index <= index && (styles[arrayIndex].index + styles[arrayIndex].text.length) >= index))){
             let newStyles = []
             selection.forEach((item) => {
                 newStyles.push(
@@ -123,18 +114,11 @@ const EditorPage = () => {
                     }
                 )
 
-                // newStyles.sort(function(a, b) {
-                //     return a.arrayIndex - b.arrayIndex
-                // })
-
-                // console.log(newStyles)
-
             })
             setStyles([
                 ...styles,
                 ...newStyles
             ])
-            // }
         }
     }
 
@@ -187,19 +171,11 @@ const EditorPage = () => {
         let newStyles = styles
         if(words.length == newWords.length) {
             words.forEach((word, i) => {
-
-                // let slice = text.slice(0, selected.anchorOffset).split(' ')
-                // // GET INDEX OF DELETED OR NEW CHARACTER IN SELECTED ARRAY ELEMENT
-                // let index = slice[slice.length - 1].length + (word.length > newWords[i].length ? 1 : 0)
-                // let indexOffset = word.length > newWords[i].length ? 1 : 0
                 let index = selected.index + (word.length > newWords[i].length ? 1 : 0)
                 
                 let style = newStyles.filter((item) => item.arrayIndex == i)
                 style = style[0]
-                // styles.forEach((style) => {
                     if(style){
-                        // console.log('newstyles', newStyles)
-                        // console.log('here', style.index <= index && (style.index + style.text.length) >= index, style.index, index, style.index + style.text.length)
                         if(style.index < index && (style.index + style.text.length) >= index){
                             newStyles = newStyles.filter((item) => item.arrayIndex != i)
                             let newText = newWords[i].slice(style.index, style.index + style.text.length + (word.length > newWords[i].length ? -1 : 1))
@@ -229,13 +205,8 @@ const EditorPage = () => {
                         }
                     }
                 }
-            // }
             )
         } else {
-            // GET INDEX OF SELECTION SELECTED ARRAY ELEMENT
-            // let index = selected.anchorOffset < selected.focusOffset ? selected.anchorOffset : selected.focusOffset
-            // let sliceBefore = words.join(' ').slice(0, index).split(' ')
-            // let arrayIndex = sliceBefore.length - 1
 
             let arrayIndex = selected.arrayIndex
             
@@ -252,84 +223,11 @@ const EditorPage = () => {
             newStyles = newStyles.sort(function(a, b) {
                 return a.arrayIndex - b.arrayIndex
             })
-            // console.log('selection index: ', arrayIndex)
         }
 
         setStyles(newStyles)   
         setWords(newWords)
     }
-
-    // const handleChange = (e) => {
-    //     let text = e.target.innerText
-    //     let newWords = text.split(' ').map((item) => item = item.trim())
-    //     if(words.length == newWords.length) {
-    //         words.forEach((word, i) => {
-
-    //             let slice = text.slice(0, selected.anchorOffset).split(' ')
-    //             // GET INDEX OF DELETED OR NEW CHARACTER IN SELECTED ARRAY ELEMENT
-    //             let index = slice[slice.length - 1].length + (word.length > newWords[i].length ? 1 : 0)
-                
-    //             styles.forEach((style) => {
-    //                 if(style.arrayIndex == i){
-    //                     let newStyles = styles.filter((style) => style.arrayIndex != i)
-    //                     if(style.index < index && (style.index + style.text.length) >= index){
-    //                         let newText = newWords[i].slice(style.index, style.index + style.text.length + (word.length > newWords[i].length ? -1 : 1))
-    //                         if(newText){
-    //                             setStyles([
-    //                                 ...newStyles,
-    //                                 {
-    //                                     index: style.index,
-    //                                     arrayIndex: style.arrayIndex,
-    //                                     text: newText,
-    //                                     symbol: style.symbol,
-    //                                     double: style.double
-    //                                 }
-    //                             ])
-    //                         } else {
-    //                             setStyles(newStyles)
-    //                         }
-    //                     } else if (style.index == index && style.index != 0){
-    //                         setStyles([
-    //                             ...newStyles,
-    //                             {
-    //                                 index: style.index - 1,
-    //                                 arrayIndex: style.arrayIndex,
-    //                                 text: style.text,
-    //                                 symbol: style.symbol,
-    //                                 double: style.double
-    //                             }
-    //                         ])
-    //                     }
-    //                 }
-    //             })
-    //         })
-    //     } else {
-    //         // GET INDEX OF SELECTION SELECTED ARRAY ELEMENT
-    //         let index = selected.anchorOffset < selected.focusOffset ? selected.anchorOffset : selected.focusOffset
-    //         let sliceBefore = words.join(' ').slice(0, index).split(' ')
-    //         let arrayIndex = sliceBefore.length - 1
-    //         index = sliceBefore[arrayIndex].length
-    //         let newStyles = styles
-    //         newStyles = newStyles.map((style) => {
-    //             if(style.arrayIndex >= arrayIndex) {
-    //                 if(words.length > newWords.length && style.arrayIndex > 0) {
-    //                     style.arrayIndex = style.arrayIndex - 1
-    //                 } else {
-    //                     console.log('here', style)
-    //                     style.arrayIndex = style.arrayIndex + 1
-    //                 }  
-    //             }
-    //             return style
-    //         })
-    //         newStyles = newStyles.sort(function(a, b) {
-    //             return a.arrayIndex - b.arrayIndex
-    //         })
-    //         setStyles(newStyles)
-    //         console.log('selection index: ', arrayIndex)
-    //     }
-        
-    //     setWords(newWords)
-    // }
 
 
     return (
@@ -355,7 +253,6 @@ const EditorPage = () => {
 
             <div className="p-4 bg-orange-400">
                 <p>if second word is last = unselectable</p>
-                {/* <p>selecting until last = unboldable/unselectable</p> */}
             </div>
         </div>
     )

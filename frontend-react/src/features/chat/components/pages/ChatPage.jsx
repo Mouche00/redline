@@ -9,7 +9,7 @@ import moment from "moment"
 import Texture from 'src/assets/texture.jpg'
 
 const ChatPage = () => {
-    const {token} = useAuth()
+    const {token, user} = useAuth()
     const [message, setMessage] = useState('')
     const [reciever, setReciver] = useState(null)
     const [channels, setChannels] = useState([])
@@ -50,6 +50,13 @@ const ChatPage = () => {
                 getMessages(channel)
                 console.log(1)
             })
+
+            console.log(user)
+
+            instance.private(`App.Models.User.${user.id}`)
+            .notification(
+                console.log('rayan')
+            )
         } catch (error) {
             console.log('Websocket error', error);
         }
