@@ -124,6 +124,7 @@ const Editor = () => {
             setMarkdowns([
                 ...newMarkdowns
             ])
+            setMarkdownIndex(null)
         } else {
             setMarkdowns([
                 ...markdowns,
