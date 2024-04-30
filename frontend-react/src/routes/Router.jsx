@@ -7,7 +7,7 @@ import MenuPage from 'src/components/pages/menu/MenuPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
 import AuthRoutes from 'src/features/auth/routes/AuthRoutes'
 import ChatRoutes from 'src/features/chat/routes/ChatRoutes'
-import EditorRoutes from 'src/features/editor/routes/EditorRoutes'
+import PostRoutes from 'src/features/post/routes/PostRoutes'
 import MediumRoutes from 'src/features/medium/routes/MediumRoutes'
 
 const publicRoutes = [
@@ -54,7 +54,7 @@ const isAuthRoutes = []
 
 const router = createBrowserRouter([
     ...MediumRoutes,
-    ...EditorRoutes,
+    ...PostRoutes,
     ...ChatRoutes,
     ...AuthRoutes,
     ...publicRoutes,

@@ -53,10 +53,10 @@ const ChatPage = () => {
 
             console.log(user)
 
-            instance.private(`App.Models.User.${user.id}`)
-            .notification(
-                console.log('rayan')
-            )
+            // instance.private(`App.Models.User.${user.id}`)
+            // .notification(
+            //     console.log('rayan')
+            // )
         } catch (error) {
             console.log('Websocket error', error);
         }

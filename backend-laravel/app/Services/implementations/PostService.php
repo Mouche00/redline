@@ -4,11 +4,12 @@ namespace App\Services\implementations;
 
 use App\Repositories\Interfaces\PostRepositoryInterface;
 use App\Services\Interfaces\PostServiceInterface;
+use App\Traits\ImageServiceTrait;
 use App\Traits\ResponseTrait;
 
 class PostService implements PostServiceInterface
 {
-    use ResponseTrait;
+    use ResponseTrait, ImageServiceTrait;
     private PostRepositoryInterface $repository;
 
     public function __construct(PostRepositoryInterface $repository)

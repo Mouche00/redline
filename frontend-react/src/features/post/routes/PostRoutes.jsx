@@ -1,17 +1,17 @@
 import DefaultLayout from "src/components/layouts/DefaultLayout"
-import EditorPage from "../components/pages/EditorPage"
+import Editor from "../components/elements/Editor"
 
-const EditorRoutes = [
+const PostRoutes = [
     {
         path: '/editor',
         element: <DefaultLayout />,
         children: [
             {
                 index: true,
-                element: <EditorPage />
+                element: <Editor />
             }
         ]
     },
 ]
 
-export default EditorRoutes
+export default PostRoutes

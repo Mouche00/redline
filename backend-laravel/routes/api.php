@@ -49,6 +49,7 @@ Route::controller(MediumController::class)->group(function () {
 
 Route::controller(PostController::class)->group(function () {
     Route::post('/medium/{medium}/post/store', 'store');
+    Route::post('/image/store', 'storeImage');
 });
 
 Route::controller(CommentController::class)->group(function () {

@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown";
+import { storeImage } from "../../api/data";
 
-const EditorPage = () => {
+const Editor = () => {
     const [markdown, setMarkdown] = useState(null)
     const [markdowns, setMarkdowns] = useState([])
     const [selected, setSelected] = useState(null)
     const [selection, setSelection] = useState([])
     const [styles, setStyles] = useState([])
+    const [globalStyle, setGlobalStyle] = useState(null)
     const [words, setWords] = useState([])
     const [markdownIndex, setMarkdownIndex] = useState(null)
     const editor = useRef(null)
+    const input = useRef(null)
 
     const getSel = () => {
         const sel = window.getSelection()
@@ -68,8 +71,8 @@ const EditorPage = () => {
             setSelection([])
         }
         setSelection(result)
+        console.log('selection', selection, selected)
     }
-    console.log('selection', selection, selected)
 
     const applyMarkdown = () => {
         let result = []
@@ -91,39 +94,83 @@ const EditorPage = () => {
                 result[i] =  word
             }
         })
-        console.log('HERE // result: ', result, 'words: ', words, 'styles: ', styles, 'markdowns: ', markdowns,'markdown: ', markdown, 'selection: ', selected)
-        result = result.join(' ')
+        console.log('HERE // result: ', result, 'words: ', words, 'styles: ', styles, 'global:', globalStyle, 'markdowns: ', markdowns,'markdown: ', markdown, 'selection: ', selected)
+        result = (globalStyle ? `${globalStyle} ` : '') + result.join(' ')
         setMarkdown(result)
     }
 
     useEffect(() => {
         applyMarkdown()
-    }, [styles, words])
+    }, [styles, words, globalStyle])
 
     const addBold = () => {
-        if(selection.length > 0) {
-            let newStyles = []
-            selection.forEach((item) => {
-                newStyles.push(
-                    {
-                        index: item.index,
-                        arrayIndex: item.arrayIndex,
-                        text: item.text,
-                        symbol: '**',
-                        double: 1,
-                    }
-                )
+        addStyle('**')
+    }
 
-            })
-            setStyles([
-                ...styles,
-                ...newStyles
+    const addItalic = () => {
+        addStyle('*')
+    }
+
+    const addHeading = () => {
+        addStyle('#', 0)
+    }
+
+    const addImage = async (e) => {
+        const response = await storeImage(e.target.files[0])
+        const md = `![Alt text](http://localhost/uploads/${response})`
+        if(markdownIndex !== null) {
+            let newMarkdowns = markdowns
+            newMarkdowns.splice(markdownIndex, 1, md)
+            setMarkdowns([
+                ...newMarkdowns
+            ])
+        } else {
+            setMarkdowns([
+                ...markdowns,
+                md,
             ])
         }
     }
 
+    const addStyle = (symbol = '*', global = 1) => {
+        if(global){
+            let newStyles = styles
+            if(selection.length > 0) {
+                selection.forEach((item) => {
+                    if(newStyles.find((style) => style.arrayIndex == item.arrayIndex)){
+                        newStyles = newStyles.filter((style) => style.arrayIndex != item.arrayIndex)
+                    }
+
+                    newStyles.push(
+                        {
+                            index: item.index,
+                            arrayIndex: item.arrayIndex,
+                            text: item.text,
+                            symbol: symbol,
+                        }
+                    )
+
+                })
+            } else {
+                if(newStyles.find((style) => style.arrayIndex == selected.arrayIndex && style.symbol == symbol)){
+                    newStyles = newStyles.filter((style) => style.arrayIndex != selected.arrayIndex)
+                }
+            }
+
+            setStyles([
+                ...newStyles
+            ])
+        } else {
+            if(globalStyle == symbol){
+                setGlobalStyle(null)
+            } else {
+                setGlobalStyle(symbol)
+            }
+        }
+    }
+
     const addLineBreak = () => {
-        let newMarkdown = markdown + '\n\n'
+        let newMarkdown = markdown
         if(markdownIndex !== null) {
             let newMarkdowns = markdowns
             newMarkdowns.splice(markdownIndex, 0, newMarkdown)
@@ -137,33 +184,54 @@ const EditorPage = () => {
         setMarkdownIndex(null)
         setWords([])
         setStyles([])
-        editor.current.innerText = ''
+        setGlobalStyle(null)
+        editor.current.textContent = ''
     }
 
     const editMarkdown = (j) => {
         setMarkdownIndex(j)
-        setMarkdowns(markdowns.filter((item, i) => i != j))
-        let markdown = markdowns[j]
-        setStyles([])
-        setMarkdown(markdown)
-        let newWords = markdown.slice(0, markdown.length - 2).split(' ')
-        let newStyles = []
-        newWords = newWords.map((word, i) => {
-            let index = word.indexOf('**')
-            let lastIndex = word.lastIndexOf('**')
-            if(index >= 0){
-                newStyles.push({
-                    index: index,
-                    arrayIndex: i,
-                    text: word.slice(index + 2, lastIndex)
-                })
-                return word.slice(0, index) + word.slice(index + 2, lastIndex) + word.slice(lastIndex + 2, word.length)
+        if(markdowns[j].includes('![Alt text]')){
+            const event = new MouseEvent('click', {bubbles: true})
+            // event.simulated = true
+
+            input.current.dispatchEvent(event)
+        } else {
+            setMarkdowns(markdowns.filter((item, i) => i != j))
+            let markdown = markdowns[j]
+            setStyles([])
+            setMarkdown(markdown)
+
+            let newWords = markdown.slice(0, markdown.length).split(' ')
+            
+            if(newWords[0].includes('#')) {
+                setGlobalStyle(newWords[0])
+                newWords.shift()
             }
-            return word
-        })
-        setStyles(newStyles)
-        setWords(newWords)
-        editor.current.innerText = newWords.join(' ')
+            
+            let newStyles = []
+            let symbol = '*'
+            newWords = newWords.map((word, i) => {
+                if(word.includes('**')) {
+                    symbol = '**'
+                }
+
+                let index = word.indexOf(symbol)
+                let lastIndex = word.lastIndexOf(symbol)
+                if(index >= 0){
+                    newStyles.push({
+                        index: index,
+                        arrayIndex: i,
+                        text: word.slice(index + 2, lastIndex),
+                        symbol: symbol,
+                    })
+                    return word.slice(0, index) + word.slice(index + 2, lastIndex) + word.slice(lastIndex + 2, word.length)
+                }
+                return word
+            })
+            setStyles(newStyles)
+            setWords(newWords)
+            editor.current.innerText = newWords.join(' ')
+        }
     }
 
     const handleChange = (e) => {
@@ -186,8 +254,7 @@ const EditorPage = () => {
                                         index: style.index,
                                         arrayIndex: style.arrayIndex,
                                         text: newText,
-                                        symbol: style.symbol,
-                                        double: style.double
+                                        symbol: style.symbol
                                     }
                                 ]
                             }
@@ -198,8 +265,7 @@ const EditorPage = () => {
                                     index: style.index - 1,
                                     arrayIndex: style.arrayIndex,
                                     text: style.text,
-                                    symbol: style.symbol,
-                                    double: style.double
+                                    symbol: style.symbol
                                 }
                             ]
                         }
@@ -214,7 +280,7 @@ const EditorPage = () => {
                 if(style.arrayIndex >= arrayIndex) {
                     if(words.length > newWords.length && style.arrayIndex > 0) {
                         style.arrayIndex = style.arrayIndex - 1
-                    } else {
+                    } else if(words.length - 1 != arrayIndex) {
                         style.arrayIndex = style.arrayIndex + 1
                     }  
                 }
@@ -229,16 +295,26 @@ const EditorPage = () => {
         setWords(newWords)
     }
 
+    const handleKey = (e) => {
+        if (e.keyCode === 13) {
+            e.preventDefault()
+            addLineBreak()
+        }
+    }
+
 
     return (
         <div className="flex flex-col items-center justify-center">
             <div className="flex">
                 <div className="flex flex-col mr-4">
                     <button onClick={addBold}>B</button>
-                    <button onClick={addLineBreak}>L</button>
+                    <button onClick={addItalic}>I</button>
+                    <button onClick={addHeading}>H</button>
+                    <input ref={input} onChange={addImage} type="file" />
+                    {/* <button onClick={addLineBreak}>L</button> */}
                 </div>
                 <div>
-                    <div ref={editor} contentEditable='true' onSelect={getSel} onKeyUp={handleChange} className="w-64 h-64 border-2 border-black"></div>
+                    <div ref={editor} contentEditable='true' onSelect={getSel} onKeyDown={handleKey} onKeyUp={handleChange} className="w-64 h-64 border-2 border-black"></div>
                 </div>
             </div>
 
@@ -258,4 +334,4 @@ const EditorPage = () => {
     )
 }
 
-export default EditorPage
+export default Editor

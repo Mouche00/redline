@@ -27,7 +27,7 @@ trait ImageServiceTrait {
             $image->move(public_path('uploads'), $name);
             return $name;
         }
-        return false;
+        throw new \Exception('Failed to store image');
     }
 
     public function forceStoreImage($image)
