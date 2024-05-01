@@ -3,6 +3,7 @@
 namespace App\Traits;
 use App\Models\Comment;
 use App\Models\Content;
+use App\Models\User;
 use App\Models\Vote;
 
 trait ContentRelationTrait {
@@ -19,5 +20,10 @@ trait ContentRelationTrait {
     public function content()
     {
         return $this->morphOne(Content::class, 'contentable');
+    }
+
+    public function user()
+    {
+        return $this->hasOneThrough(User::class, Content::class);
     }
 }

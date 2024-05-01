@@ -19,7 +19,7 @@ class VoteController extends Controller
 
     public function upvote(string $voteable, int $id)
     {
-        $this->authorize('vote', $voteable);
+        // $this->authorize('vote', $voteable);
         try {
             $this->service->upvote($voteable, $id);
         } catch (Exception $e){

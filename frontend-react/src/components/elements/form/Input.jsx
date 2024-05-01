@@ -11,7 +11,7 @@ const Input = ({ className, name }) => {
     }
 
     return (
-        <input onChange={handleChange} name={name} className={className} />
+        <input placeholder="Type something" onChange={handleChange} name={name} className={className} />
     )
 }
 

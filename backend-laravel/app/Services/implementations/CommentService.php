@@ -31,6 +31,18 @@ class CommentService implements CommentServiceInterface
         return $comments;
     }
 
+    public function fetch($comment)
+    {
+        $comment = $this->repository->fetch($comment);
+
+        if(! $comment)
+        {
+            throw new \Exception('Comment not found');
+        }
+        
+        return $comment;
+    }
+
     public function store($data, $commentable, $id)
     {
         $user = auth()->user();

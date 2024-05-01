@@ -55,3 +55,13 @@ export const fetchPostService = async (post) => {
         throw error
     }
 }
+
+export const fetchCommentService = async (comment) => {
+    
+    try {
+        const response = await instance.get(`/comment/${comment}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}

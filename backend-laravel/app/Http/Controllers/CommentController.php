@@ -28,6 +28,18 @@ class CommentController extends Controller
         return $this->responseSuccess($data, "Comments fetched successfully", 200);
     }
 
+    public function show(int $comment)
+    {
+
+        try {
+            $data = $this->service->fetch($comment);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Comment fetched successfully", 200);
+    }
+
     public function store(CommentStoreRequest $request, $commentable, $id)
     {
         $data = $request->validated();

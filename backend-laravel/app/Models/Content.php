@@ -22,6 +22,6 @@ class Content extends Model
 
     public function user()
     {
-        return $this->hasOneThrough(User::class, Content::class);
+        return $this->belongsTo(User::class);
     }
 }

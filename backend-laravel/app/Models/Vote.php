@@ -10,7 +10,8 @@ class Vote extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'up'
+        'up',
+        'user_id'
     ];
 
     public function voteable()

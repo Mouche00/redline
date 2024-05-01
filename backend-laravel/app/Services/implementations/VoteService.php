@@ -19,9 +19,11 @@ class VoteService implements VoteServiceInterface
 
     public function upvote($voteable, $id)
     {
-        $exists = $this->repository->exists($voteable, $id);
-        if($exists){
-
+        $user = auth()->user();
+        $voteable = $this->morph($voteable, $id);
+        $vote = $this->repository->fetch($user->id, $voteable, $id);
+        if($vote){
+            $vote->delete();
         } else {
             $user = auth()->user();
             $data = [
@@ -29,7 +31,6 @@ class VoteService implements VoteServiceInterface
                 'user_id' => $user->id
             ];
 
-            $voteable = $this->morph($voteable, $id);
 
             $this->repository->create($voteable, $data);
         }
@@ -37,9 +38,11 @@ class VoteService implements VoteServiceInterface
 
     public function downvote($voteable, $id)
     {
-        $exists = $this->repository->exists($voteable, $id);
-        if($exists){
-
+        $user = auth()->user();
+        $voteable = $this->morph($voteable, $id);
+        $vote = $this->repository->fetch($user->id, $voteable, $id);
+        if($vote){
+            $vote->delete();
         } else {
             $user = auth()->user();
             $data = [
@@ -47,14 +50,8 @@ class VoteService implements VoteServiceInterface
                 'user_id' => $user->id
             ];
 
-            $voteable = $this->morph($voteable, $id);
 
             $this->repository->create($voteable, $data);
         }
-    }
-
-    public function vote($voteable, $id)
-    {
-
     }
 }
