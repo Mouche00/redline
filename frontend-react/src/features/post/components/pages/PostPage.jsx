@@ -8,12 +8,13 @@ import Texture from 'src/assets/texture.jpg'
 import Loader from "src/components/elements/loader/Loader"
 import Sidebar from "src/features/medium/components/elements/Sidebar"
 import { useParams } from "react-router-dom"
-import { fetchComment, fetchComments, storeComment } from "../../api/data"
+import { fetchComment, fetchComments, storeComment, storeVote } from "../../api/data"
 import { useEffect, useRef, useState } from "react"
 import Input from "src/components/elements/form/Input"
 import FormProvider from "src/providers/FormProvider"
 
-const CommentCard = ({comment, onClick, disabled = 0}) => {
+const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
+    // console.log('here', handleVote)
     const name = useRef(null)
     const role = useRef(null)
 
@@ -39,8 +40,25 @@ const CommentCard = ({comment, onClick, disabled = 0}) => {
                             <span className="text-xl block rotate-[-90deg]">REPLY</span>
                         </button>
                     )}
-                    <div className='bg-white w-fit p-2 px-3 border-l-8 border-teal'>
-                        <p className='font-black w-full text-center'>{comment.votes.length}</p>
+                    <div className='flex flex-col gap-2'>
+                        <div className='bg-white w-20 p-2 px-3 border-l-8 border-teal'>
+                            <p className='font-black w-full text-center'>{comment.points}</p>
+                        </div>
+                        <div className={`w-full flex justify-between items-center flex justify-between items-center gap-3`}>
+                            <button onClick={() => handleVote('comment', comment.id, 'up')} className='relative z-10'>
+                                <div className="p-2 bg-white">
+                                    <svg className='w-4' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                </div>
+                                <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
+                            </button>
+
+                            <button onClick={() => handleVote('comment', comment.id, 'down')} className='relative z-10'>
+                                <div className="p-2 bg-white">
+                                    <svg className='w-4 rotate-[-180deg]' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                </div>
+                                <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,6 +84,15 @@ const PostPage = () => {
     const handleHover = () => {
         name.current.classList.toggle('translate-y-[-100%]')
         role.current.classList.toggle('translate-y-[100%]')
+    }
+
+    const handleVote = async (voteable = 'comment', id, type = 'up') => {
+        try {
+            const response = await storeVote(voteable, id, type)
+            getComments()
+        } catch(error) {
+            console.log()
+        }
     }
 
     const getComment = async (id) => {
@@ -199,7 +226,7 @@ const PostPage = () => {
                                 <div className="w-full h-full flex flex-col gap-8 items-center justify-start">
                                     <button onClick={resetComments} className="text-7xl w-full text-center p-4 bg-teal text-white font-black">COMMENTS</button>
                                     {comment && (
-                                        <CommentCard comment={comment} onClick={() => handleClick(comment.id)} disabled={1}/>
+                                        <CommentCard handleVote={handleVote} comment={comment} onClick={() => handleClick(comment.id)} disabled={1}/>
                                     )}
 
                                     <div className="flex w-full flex-col gap-2">
@@ -212,7 +239,7 @@ const PostPage = () => {
 
                                         {comments ? (
                                             comments.map((comment, i) => (
-                                                <CommentCard comment={comment} key={i} onClick={() => handleClick(comment.id)} />
+                                                <CommentCard handleVote={handleVote} comment={comment} key={i} onClick={() => handleClick(comment.id)} />
                                             ))
                                         ) : (
                                             <p>No comments yet</p>

@@ -2,6 +2,7 @@
 
 namespace App\Services\implementations;
 
+use App\Helpers\VoteHelper;
 use App\Repositories\Interfaces\CommentRepositoryInterface;
 use App\Services\Interfaces\CommentServiceInterface;
 use App\Traits\MorphTrait;
@@ -20,20 +21,16 @@ class CommentService implements CommentServiceInterface
     public function all($commentable, $id)
     {
         $commentable = $this->morph($commentable, $id);
-
         $comments = $this->repository->all($commentable);
 
-        if(! $comments->first())
-        {
-            throw new \Exception('Comments not found');
-        }
-        
+        // $comments = VoteHelper::concatPoints($comments);
         return $comments;
     }
 
     public function fetch($comment)
     {
         $comment = $this->repository->fetch($comment);
+        // $comment['points'] = VoteHelper::calculate($comment->votes);
 
         if(! $comment)
         {

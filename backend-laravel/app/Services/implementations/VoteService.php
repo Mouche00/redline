@@ -22,7 +22,12 @@ class VoteService implements VoteServiceInterface
         $user = auth()->user();
         $voteable = $this->morph($voteable, $id);
         $vote = $this->repository->fetch($user->id, $voteable, $id);
-        if($vote){
+
+        if($vote && !$vote->up){
+            $this->repository->update($vote, [
+                'up' => true
+            ]);
+        } else if($vote) {
             $vote->delete();
         } else {
             $user = auth()->user();
@@ -41,7 +46,12 @@ class VoteService implements VoteServiceInterface
         $user = auth()->user();
         $voteable = $this->morph($voteable, $id);
         $vote = $this->repository->fetch($user->id, $voteable, $id);
-        if($vote){
+
+        if($vote && $vote->up){
+            $this->repository->update($vote, [
+                'up' => false
+            ]);
+        } else if($vote) {
             $vote->delete();
         } else {
             $user = auth()->user();

@@ -14,4 +14,9 @@ class VoteRepository implements VoteRepositoryInterface
     {
         return $voteable->votes()->create($data);
     }
+
+    public function update($vote, $data)
+    {
+        return $vote->update($data);
+    }
 }

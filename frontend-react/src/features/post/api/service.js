@@ -65,3 +65,23 @@ export const fetchCommentService = async (comment) => {
         throw error
     }
 }
+
+export const storeUpvoteService = async (voteable, id) => {
+    
+    try {
+        const response = await instance.post(`/${voteable}/${id}/upvote`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}
+
+export const storeDownvoteService = async (voteable, id) => {
+    
+    try {
+        const response = await instance.post(`/${voteable}/${id}/downvote`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}

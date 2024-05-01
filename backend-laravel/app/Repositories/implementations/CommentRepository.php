@@ -10,12 +10,12 @@ class CommentRepository implements CommentRepositoryInterface
 {
     public function all($commentable)
     {
-        return $commentable->comments()->with('content.user', 'votes')->latest()->get();
+        return $commentable->comments()->latest()->get();
     }
 
     public function fetch($comment)
     {
-        return Comment::latest()->with('content.user', 'votes')->find($comment);
+        return Comment::latest()->find($comment);
     }
     public function create($data, $commentable)
     {

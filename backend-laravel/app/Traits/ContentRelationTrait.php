@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Traits;
+use App\Helpers\VoteHelper;
 use App\Models\Comment;
 use App\Models\Content;
 use App\Models\User;
@@ -25,5 +26,10 @@ trait ContentRelationTrait {
     public function user()
     {
         return $this->hasOneThrough(User::class, Content::class);
+    }
+
+    public function getPointsAttribute()
+    {
+        return VoteHelper::calculate($this->votes);
     }
 }

@@ -16,7 +16,7 @@ const Sidebar = forwardRef(({ children, hidden = 1, disabled = 0, overflow = 0 }
 
     return (
         <div ref={reference} className={`relative transition-all ${hidden ? 'translate-x-[100%]' : ''} w-full min-h-full top-0 left-0 bg-contain bg-repeat bg-center z-20`} style={{backgroundImage: `url(${Texture})`}}>
-            <Border onClick={hideSidebar} direction='left' overflow={1} className='w-8' customImage={BorderRight} />
+            <Border onClick={hideSidebar} direction='left' overflow={overflow} className='w-8' customImage={BorderRight} />
             <div className="h-full flex items-center flex-col">
                 {children}
             </div>
