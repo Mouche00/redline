@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import DefaultLayout from 'src/components/layouts/DefaultLayout'
 import HomePage from 'src/components/pages/home/HomePage'
 import IslandPage from 'src/components/pages/home/IslandPage'
-import MediumPage from 'src/components/pages/MediumPage'
 import MenuPage from 'src/components/pages/menu/MenuPage'
 import NotFoundPage from 'src/components/pages/NotFoundPage'
 import AuthRoutes from 'src/features/auth/routes/AuthRoutes'
@@ -36,10 +35,6 @@ const publicRoutes = [
                 path: 'releasing',
                 element: <IslandPage label='releasing' />
             },
-            {
-                path: 'medium',
-                element: <MediumPage />
-            }
         ]
     },
     {

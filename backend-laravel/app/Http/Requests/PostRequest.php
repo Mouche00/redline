@@ -6,7 +6,7 @@ use App\Traits\ResponseTrait;
 use App\Traits\ValidationTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PostStoreRequest extends FormRequest
+class PostRequest extends FormRequest
 {
     use ResponseTrait, ValidationTrait;
     /**
@@ -26,7 +26,7 @@ class PostStoreRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255',
-            'body' => 'required|string|min:5',
+            'body' => 'required|string|min:1',
         ];
     }
 }

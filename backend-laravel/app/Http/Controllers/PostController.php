@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostRequest;
 use App\Models\Medium;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Traits\ResponseTrait;
@@ -23,7 +23,7 @@ class PostController extends Controller
 
     }
 
-    public function store(PostStoreRequest $request, Medium $medium)
+    public function store(PostRequest $request, Medium $medium)
     {
         $data = $request->validated();
 

@@ -1,12 +1,13 @@
 /* eslint-disable react/display-name */
-import Loader from "../elements/loader/Loader"
+import Loader from "src/components/elements/loader/Loader"
 import DefaultWallpaper from 'src/assets/default-wallpaper.jpg'
 import DefaultPoster from 'src/assets/default-poster.jpg'
 import BorderRight from 'src/assets/border-5-v.png'
 import Texture from 'src/assets/texture.jpg'
-import Border from "../elements/border/Border"
+import Border from "src/components/elements/border/Border"
 import { forwardRef, useEffect, useRef, useState } from "react"
 import PostCard from "../elements/PostCard"
+import Sidebar from "../elements/Sidebar"
 
 const Section = forwardRef(({ children, onWheel, id, section }, ref) => {
     let pos = ''
@@ -136,22 +137,6 @@ const Diamond = ({ label, className, onClick }) => {
         </button>
     )
 }
-
-const Sidebar = forwardRef(({ children }, ref) => {
-    const hideSidebar = (e) => {
-        e.stopPropagation()
-        ref.current.classList.toggle('translate-x-[100%]')
-    }
-
-    return (
-        <div ref={ref} className="relative transition-all translate-x-[100%] w-full h-full top-0 left-0 bg-contain bg-repeat bg-center z-20" style={{backgroundImage: `url(${Texture})`}}>
-            <Border onClick={hideSidebar} direction='left' className='w-8' customImage={BorderRight} />
-            <div className="h-full flex items-center flex-col">
-                {children}
-            </div>
-        </div>
-    )
-})
 
 const LegendItem = ({ label, className, seperator = false, onClick}) => {
     return (

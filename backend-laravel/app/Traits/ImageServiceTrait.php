@@ -23,16 +23,14 @@ trait ImageServiceTrait {
     {
         if(array_key_exists($key, $payload)){
             $image = $payload[$key];
-            $name = time() . '-' . $image->getClientOriginalName();
-            $image->move(public_path('uploads'), $name);
-            return $name;
+            return $this->forceStoreImage($image);
         }
         throw new \Exception('Failed to store image');
     }
 
     public function forceStoreImage($image)
     {
-        $name = time() . '-' . $image->getClientOriginalName();
+        $name = time() . '-' . trim($image->getClientOriginalName());
         $image->move(public_path('uploads'), $name);
         return $name;
     }

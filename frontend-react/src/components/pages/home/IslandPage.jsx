@@ -1,10 +1,10 @@
 import { useRef } from "react"
 import Bar from "src/components/elements/Bar"
 import Card from "src/components/elements/Card"
-import PostCard from "src/components/elements/PostCard"
 import Island from "src/components/elements/island/Island"
 import Loader from "src/components/elements/loader/Loader"
 import SeaBackground from "src/components/elements/sea_background/SeaBackground"
+import PostCard from "src/features/medium/components/elements/PostCard"
 
 const IslandPage = ({ label }) => {
     const movies = useRef(null)

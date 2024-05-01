@@ -16,9 +16,16 @@ class CommentController extends Controller
     {
         $this->service = $service;
     }
-    public function index()
+    public function index($commentable, $id)
     {
 
+        try {
+            $data = $this->service->store($data, $commentable, $id);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Comment created successfully", 201);
     }
 
     public function store(CommentStoreRequest $request, $commentable, $id)

@@ -1,8 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown";
-import { storeImage } from "../../api/data";
+import { storeImage, storePost } from "../../api/data";
 
-const Editor = () => {
+const Editor = ({ medium = '1' }) => {
+    const [formData, setFormData] = useState({
+        title: '',
+        body: []
+    })
     const [markdown, setMarkdown] = useState(null)
     const [markdowns, setMarkdowns] = useState([])
     const [selected, setSelected] = useState(null)
@@ -13,6 +17,20 @@ const Editor = () => {
     const [markdownIndex, setMarkdownIndex] = useState(null)
     const editor = useRef(null)
     const input = useRef(null)
+
+    console.log('nnnnn', formData)
+
+    const handleTitle = (e) => {
+        setFormData({
+            ...formData,
+            title: e.target.value
+        })
+    }
+
+    const handleSubmit = async () => {
+        const response = await storePost(medium, formData)
+        console.log(response)
+    }
 
     const getSel = () => {
         const sel = window.getSelection()
@@ -176,11 +194,22 @@ const Editor = () => {
             let newMarkdowns = markdowns
             newMarkdowns.splice(markdownIndex, 0, newMarkdown)
             setMarkdowns(newMarkdowns)
+            setFormData({
+                ...formData,
+                body: newMarkdowns.join('\n')
+            })
         } else {
             setMarkdowns([
                 ...markdowns,
                 newMarkdown
             ])
+
+            setFormData({
+                body: [
+                    ...markdowns,
+                    newMarkdown
+                ].join('\n')
+            })
         }
         setMarkdownIndex(null)
         setWords([])
@@ -306,6 +335,7 @@ const Editor = () => {
 
     return (
         <div className="flex flex-col items-center justify-center">
+            <input onChange={handleTitle} type="text" name="title" />
             <div className="flex">
                 <div className="flex flex-col mr-4">
                     <button onClick={addBold}>B</button>
@@ -317,6 +347,7 @@ const Editor = () => {
                 <div>
                     <div ref={editor} contentEditable='true' onSelect={getSel} onKeyDown={handleKey} onKeyUp={handleChange} className="w-64 h-64 border-2 border-black"></div>
                 </div>
+                <button onClick={handleSubmit}>SUBMIT</button>
             </div>
 
             <div className="text-xl">

@@ -1,13 +1,18 @@
 import DefaultLayout from "src/components/layouts/DefaultLayout"
 import Editor from "../components/elements/Editor"
+import PostPage from "../components/pages/PostPage"
 
 const PostRoutes = [
     {
-        path: '/editor',
+        path: '/post',
         element: <DefaultLayout />,
         children: [
             {
-                index: true,
+                path: ':id',
+                element: <PostPage />
+            },
+            {
+                path: 'editor',
                 element: <Editor />
             }
         ]
