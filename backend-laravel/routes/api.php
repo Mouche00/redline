@@ -53,7 +53,7 @@ Route::controller(PostController::class)->group(function () {
 });
 
 Route::controller(CommentController::class)->group(function () {
-    Route::get('/{commentable}/{id}/comments', 'index');
+    Route::get('/{commentable}/{id}/comments', 'all');
     Route::post('/{commentable}/{id}/comments/store', 'store');
 });
 

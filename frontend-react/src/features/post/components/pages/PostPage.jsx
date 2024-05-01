@@ -7,20 +7,45 @@ import Texture from 'src/assets/texture.jpg'
 import Loader from "src/components/elements/loader/Loader"
 import Sidebar from "src/features/medium/components/elements/Sidebar"
 import { useParams } from "react-router-dom"
-import { fetchPostComments } from "../../api/data"
-import { useEffect } from "react"
+import { fetchComments, storeComment } from "../../api/data"
+import { useEffect, useState } from "react"
+import Form from "src/components/elements/form/Form"
+import Input from "src/components/elements/form/Input"
+import FormProvider from "src/providers/FormProvider"
 
 const PostPage = () => {
-    const { id } = useParams()
+    const { post } = useParams()
+    const [commentable, setCommentable] = useState({
+        name: 'post',
+        id: post
+    })
+    const [comments, setComments] = useState()
+    const [formData, setFormData] = useState({
+        body: ''
+    })
 
-    const getPostComments = async () => {
-        const response = await fetchPostComments(id)
-        console.log(response)
+    const getComments = async () => {
+        const response = await fetchComments(commentable)
+        setComments(response)
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const response = await storeComment(commentable, formData)
+        getComments()
+    }
+
+    const handleClick = (id) => {
+        console.log(id)
+        setCommentable({
+            name: 'comment',
+            id: id
+        })
     }
 
     useEffect(() => {
-        getPostComments()
-    }, [])
+        getComments()
+    }, [commentable])
 
     return (
         <Loader className="h-[100vh] overflow-hidden">
@@ -106,6 +131,20 @@ const PostPage = () => {
                         <Sidebar hidden={0} disabled={1}>
                             <div className="w-full h-full flex flex-col items-center justify-start">
                                 <h1 className="text-7xl w-full text-center p-4 bg-teal text-white font-black">COMMENTS</h1>
+                                
+                                <FormProvider onSubmit={handleSubmit} setFormData={setFormData}>
+                                    <Input name='body' />
+                                </FormProvider>
+
+                                <div className="flex flex-col">
+                                    {comments ? (
+                                        comments.map((comment, i) => (
+                                            <button onClick={() => handleClick(comment.id)} className="text-white bg-bronze p-4 text-center my-4" key={i}>{comment.content.body}</button>
+                                        ))
+                                    ) : (
+                                        <p></p>
+                                    )}
+                                </div>
                             </div>
                         </Sidebar>
                         </div>

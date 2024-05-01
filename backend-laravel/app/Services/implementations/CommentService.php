@@ -17,6 +17,20 @@ class CommentService implements CommentServiceInterface
         $this->repository = $repository;
     }
 
+    public function all($commentable, $id)
+    {
+        $commentable = $this->morph($commentable, $id);
+
+        $comments = $this->repository->all($commentable);
+
+        if(! $comments->first())
+        {
+            throw new \Exception('Comments not found');
+        }
+        
+        return $comments;
+    }
+
     public function store($data, $commentable, $id)
     {
         $user = auth()->user();

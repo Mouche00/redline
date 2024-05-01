@@ -16,6 +16,8 @@ trait MorphTrait
         case 'comment':
             $morphable =  Comment::findOrFail($id);
             break;
+        default:
+            throw new \Exception('Commentable not found');
         }
 
         return $morphable;

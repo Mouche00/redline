@@ -7,9 +7,9 @@ use App\Repositories\Interfaces\CommentRepositoryInterface;
 
 class CommentRepository implements CommentRepositoryInterface
 {
-    public function all()
+    public function all($commentable)
     {
-        return Post::all();
+        return $commentable->comments()->with('content')->get();
     }
     public function create($data, $commentable)
     {

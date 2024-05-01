@@ -36,7 +36,7 @@ export const fetchCommentsService = async (commentable, id) => {
     }
 }
 
-export const storeCommentsService = async (commentable, id, payload) => {
+export const storeCommentService = async (commentable, id, payload) => {
     
     try {
         const response = await instance.post(`/${commentable}/${id}/comments/store`, payload)
