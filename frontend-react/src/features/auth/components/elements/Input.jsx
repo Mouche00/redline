@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 const Input = ({ black = true, type = 'text', errors = [], label, onChange, shadow = false, textarea = false }) => {
     return (
-        <div className={`relative z-10`}>
-            <div className={`relative z-10 flex w-full ${black ? 'text-black bg-black flex-row-reverse' : 'text-white bg-white'} py-8 px-4 items-start justify-center gap-2`}>
+        <div className={`relative z-10 w-full`}>
+            <div className={`relative z-10 flex ${ !shadow ? 'px-16' : ''} w-full ${black ? 'text-black bg-black flex-row-reverse' : 'text-white bg-white'} py-8 px-4 items-start justify-center gap-2`}>
                 <label className={`${black ? 'bg-white' : 'bg-black'} font-black p-4`} htmlFor={label}>{label.toUpperCase()}</label>
                 <div className="space-y-2 w-full">
                     {textarea ? (

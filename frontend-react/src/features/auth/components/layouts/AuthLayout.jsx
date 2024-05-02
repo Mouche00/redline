@@ -54,7 +54,7 @@ const AuthLayout = ({ children, type = 'register' }) => {
                     >
                         <Portrait name={type} disabled={true} className='w-[20%]'/>
                         <div 
-                            className='relative h-full bg-gradient-to-b from-bronze to-transparent w-[50%]'   
+                            className='relative h-full bg-gradient-to-b from-bronze to-transparent w-[40%]'   
                         >
                             <div className='w-full h-full absolute gap-4'>
                                 <div className="w-full h-full flex flex-col items-center justify-center">
@@ -76,7 +76,7 @@ const AuthLayout = ({ children, type = 'register' }) => {
 
                         <div className="h-full flex flex-col items-center justify-center">
                             <Portrait name="home" className='w-full'/>
-                            <Portrait name={type == 'register' ? 'register' : 'login'} className='w-full'/>
+                            <Portrait name={type == 'register' ? 'login' : 'register'} className='w-full'/>
                         </div>
                         
                         <Border animated={true}  direction='right' className='w-16' customImage={BorderRight} />

@@ -19,7 +19,7 @@ export const storeImageService = async (payload) => {
 export const storePostService = async (medium, payload) => {
     
     try {
-        const response = await instance.post(`/medium/${medium}/post/store`, payload)
+        const response = await instance.post(`/medium/${medium}/post`, payload)
         return response
     } catch (error) {
         throw error

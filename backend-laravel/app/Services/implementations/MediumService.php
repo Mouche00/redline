@@ -19,6 +19,13 @@ class MediumService implements MediumServiceInterface
         $this->repository = $repository;
     }
 
+    public function all()
+    {
+        $mediums = $this->repository->all();
+
+        return $mediums;
+    }
+
     public function allCategories()
     {
         $categories = $this->repository->allCategories();

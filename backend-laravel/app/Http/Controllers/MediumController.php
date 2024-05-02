@@ -17,9 +17,15 @@ class MediumController extends Controller
     {
         $this->service = $service;
     }
-    public function index()
+    public function all()
     {
+        try {
+            $data = $this->service->all();
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
 
+        return $this->responseSuccess($data, "Mediums fetched successfully");
     }
 
     public function allCategories()

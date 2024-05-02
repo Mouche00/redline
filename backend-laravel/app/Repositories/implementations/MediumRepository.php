@@ -11,13 +11,14 @@ use App\Traits\ImageRepositoryTrait;
 class MediumRepository implements MediumRepositoryInterface
 {
     use ImageRepositoryTrait;
+    public function all()
+    {
+        return Medium::latest()->with('poster', 'background', 'visuals', 'crew')->get();
+    }
+
     public function allCategories()
     {
         return Category::all();
-    }
-    public function all()
-    {
-        return Medium::all();
     }
 
     public function fetch($id)

@@ -2,8 +2,11 @@ import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown";
 import { storeImage, storePost } from "../../api/data";
 import './Editor.css'
+import Input from "src/features/auth/components/elements/Input";
+import Card from "src/components/elements/Card";
+import { fetchMediums } from "src/api/data";
 
-const Editor = ({ medium = '1' }) => {
+const Editor = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: []
@@ -16,16 +19,27 @@ const Editor = ({ medium = '1' }) => {
     const [globalStyle, setGlobalStyle] = useState(null)
     const [words, setWords] = useState([])
     const [markdownIndex, setMarkdownIndex] = useState(null)
+    const [position, setPosition] = useState('0')
+    const [mediums, setMediums] = useState([])
+    const [medium, setMedium] = useState()
     const editor = useRef(null)
     const input = useRef(null)
+    const preview = useRef(null)
 
-    console.log('nnnnn', formData)
+    console.log('form:', formData)
+    console.log('position:', position)
 
     const handleTitle = (e) => {
         setFormData({
             ...formData,
             title: e.target.value
         })
+    }
+
+    const getMediums = async () => {
+        const response = await fetchMediums()
+        setMediums(response)
+        console.log('here:', response)
     }
 
     const handleSubmit = async () => {
@@ -116,7 +130,12 @@ const Editor = ({ medium = '1' }) => {
         console.log('HERE // result: ', result, 'words: ', words, 'styles: ', styles, 'global:', globalStyle, 'markdowns: ', markdowns,'markdown: ', markdown, 'selection: ', selected)
         result = (globalStyle ? `${globalStyle} ` : '') + result.join(' ')
         setMarkdown(result)
+        setPosition(preview.current.offsetHeight)
     }
+
+    useEffect(() => {
+        getMediums()
+    }, [])
 
     useEffect(() => {
         applyMarkdown()
@@ -150,6 +169,8 @@ const Editor = ({ medium = '1' }) => {
                 md,
             ])
         }
+        // setPosition(preview.current.offsetHeight)
+
     }
 
     const addStyle = (symbol = '*', global = 1) => {
@@ -217,6 +238,7 @@ const Editor = ({ medium = '1' }) => {
         setStyles([])
         setGlobalStyle(null)
         editor.current.textContent = ''
+        // console.log('here', preview.current.lastElementChild)
     }
 
     const editMarkdown = (j) => {
@@ -333,36 +355,104 @@ const Editor = ({ medium = '1' }) => {
         }
     }
 
+    const handleMedium = (id) => {
+        // e.target.classList.add('bg-bronze', 'bg-opacity-60')
+        setMedium(id)
+    }
+
 
     return (
-        <div className="flex flex-col items-center justify-center">
-            <input onChange={handleTitle} type="text" name="title" />
-            <div className="flex">
-                <div className="flex flex-col mr-4">
-                    <button onClick={addBold}>B</button>
-                    <button onClick={addItalic}>I</button>
-                    <button onClick={addHeading}>H</button>
-                    <input ref={input} onChange={addImage} type="file" />
-                    {/* <button onClick={addLineBreak}>L</button> */}
-                </div>
-                <div>
-                    <div ref={editor} contentEditable='true' onSelect={getSel} onKeyDown={handleKey} onKeyUp={handleChange} className="w-64 h-64 border-2 border-black"></div>
-                </div>
-                <button onClick={handleSubmit}>SUBMIT</button>
-            </div>
+        <div className="">
+            <button className="w-full flex justify-end" onClick={handleSubmit}>
+                <p className="font-black bg-white text-6xl p-2 pl-28 text-end w-fit">SUBMIT</p>
+            </button>
+            <div className="grid grid-cols-5 gap-12 items-start justify-center">
+                <div className="flex col-span-2 flex-col gap-8">
+                    <div className="relative z-10 flex flex-col gap-3">
+                        <div className="relative z-10 col-span-3 font-black w-fit">
 
-            <div className="text-xl">
-                    {markdowns.map((item, i) => (
-                        <div key={i} onClick={() => editMarkdown(i)}>
-                            <ReactMarkdown>{item}</ReactMarkdown>
+                            <h1 className="p-4 bg-white">MEDIUM</h1>
+                            <div className="absolute h-full w-full z-[-1] bg-teal top-0 left-0 translate-x-2 translate-y-2"></div>
                         </div>
-                    ))}
-                    <ReactMarkdown>{markdown}</ReactMarkdown>
-            </div>
+                        <div className="relative z-10">
 
-            {/* <div className="p-4 bg-orange-400">
-                <p>if second word is last = unselectable</p>
-            </div> */}
+                            <div className="grid grid-cols-2 max-h-[55vh] overflow-y-scroll bg-white p-4 px-8">
+
+                                {mediums ? (
+                                    mediums.map((item, i) => (
+                                        <button onClick={() => handleMedium(item.id)} key={i}>
+                                            <Card className={`${item.id == medium ? 'bg-bronze bg-opacity-60' : ''}`} medium={item} />
+                                        </button>
+                                    ))
+                                ) : (
+                                    <p>No data</p>
+                                )}
+                            </div>
+                        <div className="absolute h-full w-full z-[-1] bg-teal top-0 left-0 translate-x-4 translate-y-4"></div>
+                        </div>
+                    </div>
+                    <Input onChange={handleTitle} type="text" label="title" className="w-fit" shadow={true}/>
+                </div>
+                <div className="grid grid-cols-2 col-span-3 gap-4 items-start">
+                    <div className="relative z-10 col-span-3 font-black w-fit">
+
+                        <h1 className="p-4 bg-white">BODY</h1>
+                        <div className="absolute h-full w-full z-[-1] bg-teal top-0 left-0 translate-x-2 translate-y-2"></div>
+                    </div>
+
+                    <div className="relative z-10 col-span-2 w-full">
+
+                        <div className="w-full">
+                            <div id='preview' ref={preview} className={`w-full bg-white ${markdowns.length > 0 ? 'p-4' : ''}`}>
+                                {markdowns.map((item, i) => (
+                                    <div className="w-full" key={i} onClick={() => editMarkdown(i)}>
+                                        <ReactMarkdown>{item}</ReactMarkdown>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="bg-white w-full px-4 min-h-8 w-[25rem]">
+
+                                <ReactMarkdown>{markdown}</ReactMarkdown>
+                            </div>
+                        </div>
+                        <div className="absolute h-full w-full z-[-1] bg-teal top-0 left-0 translate-x-2 translate-y-2"></div>
+                    </div>
+
+                    <div className="flex flex-col gap-2 justify-center"  style={{transform: `translateY(${position}px)`}}>
+                        <div className={`flex flex-row-reverse gap-4 h-full w-fit`}>
+
+                            <div className="relative z-10 col-span-2 font-black w-fit">
+                                <div className="flex h-full w-fit flex-col bg-black text-white p-2">
+                                    <button onClick={addBold} className="font-bold">B</button>
+                                    <button onClick={addItalic} className="italic">I</button>
+                                    <button onClick={addHeading} className="text-2xl">H</button>
+                                    <button className="relative flex items-center justify-center">
+                                        <svg className="w-5 ml-[5px]" fill="#fff" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>image</title> <path d="M0 25.156v-18.313h22.406v18.313h-22.406zM20.125 19.094v-9.969h-17.844v8.469l4.875-2.906 6.375 3.469 2.594-1.531zM15.938 14.469c-1 0-1.781-0.813-1.781-1.813s0.781-1.813 1.781-1.813 1.781 0.813 1.781 1.813-0.781 1.813-1.781 1.813z"></path> </g></svg>
+                                        <input ref={input} onChange={addImage} type="file" className="absolute w-full h-full top-0 left-0 opacity-0"/>
+                                    </button>
+                                    {/* <button onClick={addLineBreak}>L</button> */}
+                                </div>
+                            
+                                <div className="absolute h-full w-full z-[-1] bg-bronze top-0 left-0 translate-x-2 translate-y-2"></div>
+                            </div>
+
+                            <div className="relative z-10 col-span-2 font-black w-fit h-fit">
+                                <div className="w-full">
+                                    <div ref={editor} contentEditable='true' onSelect={getSel} onKeyDown={handleKey} onKeyUp={handleChange} className="w-64 min-h-8 bg-black text-white"></div>
+                                </div>
+                            
+                                <div className="absolute h-full w-full z-[-1] bg-bronze top-0 left-0 translate-x-2 translate-y-2"></div>
+                            </div>
+                        </div>
+
+                        
+
+                        {/* <div className="p-4 bg-orange-400">
+                            <p>if second word is last = unselectable</p>
+                        </div> */}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }

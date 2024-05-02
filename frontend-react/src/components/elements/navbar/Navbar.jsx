@@ -80,7 +80,9 @@ const Navbar = () => {
                     {form == 'form' ? (
                         <MediumForm />
                     ) : (
-                        <Editor />
+                        <>
+                            <Editor />
+                        </>
                     )}
                 </div>
 
