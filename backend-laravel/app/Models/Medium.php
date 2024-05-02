@@ -13,10 +13,11 @@ class Medium extends Model
     use HasFactory, SoftDeletes, ImageRelationshipTrait;
 
     protected $guarded = [];
+    protected $with = ['poster', 'background', 'posts', 'crew', 'visuals', 'users'];
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('is_banned_at', 'is_moderator_at');
     }
 
     public function crew()

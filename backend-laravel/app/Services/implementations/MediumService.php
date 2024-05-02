@@ -19,9 +19,19 @@ class MediumService implements MediumServiceInterface
         $this->repository = $repository;
     }
 
-    public function all()
+    public function all($type)
     {
-        $mediums = $this->repository->all();
+        switch($type){
+            case 'new':
+                $mediums = $this->repository->new();
+                break;
+            case 'popular':
+                $mediums = $this->repository->popular();
+                break;
+            case 'upcoming':
+                $mediums = $this->repository->upcoming();
+                break;
+        }
 
         return $mediums;
     }
@@ -31,6 +41,21 @@ class MediumService implements MediumServiceInterface
         $categories = $this->repository->allCategories();
 
         return $categories;
+    }
+
+    public function ban($medium, $payload)
+    {
+        $userID = $payload['user_id'];
+        $ban = $this->repository->ban($medium, $userID);
+
+        return $ban;
+    }
+
+    public function fetch($id)
+    {
+        $medium = $this->repository->fetch($id);
+
+        return $medium;
     }
 
     public function store($data)

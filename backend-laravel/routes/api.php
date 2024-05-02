@@ -41,14 +41,18 @@ Route::controller(CrewController::class)->group(function () {
 });
 
 Route::controller(MediumController::class)->group(function () {
-    Route::get('/mediums', 'all');
+    Route::get('/mediums/{type}', 'all');
+    Route::post('/medium/{medium}/ban', 'ban');
     Route::get('/categories', 'allCategories');
+    Route::get('/medium/{medium}', 'show');
     Route::post('/medium/store', 'store');
     Route::put('/medium/{medium}/approve', 'approve');
     Route::delete('/medium/{medium}/reject', 'reject');
 });
 
 Route::controller(PostController::class)->group(function () {
+    Route::get('/post/{post}', 'show');
+    Route::post('/post/{post}/delete', 'delete');
     Route::post('/medium/{medium}/post', 'store');
     Route::post('/image/store', 'storeImage');
 });

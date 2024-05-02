@@ -1,4 +1,4 @@
-import { createCrewService, createMediumService, fetchCrewService, getCategoriesService, searchCrewService } from "./service"
+import { banUserService, createCrewService, createMediumService, deletePostService, fetchCrewService, fetchMediumService, getCategoriesService, searchCrewService } from "./service"
 
 export const getCategories = async () => {
     try {
@@ -43,6 +43,42 @@ export const searchCrew = async (query) => {
 export const fetchCrew = async (id) => {
     try {
         const response = await fetchCrewService(id)
+        return response.data.data
+    } catch (error) {
+        console.log('Error', error)
+        throw error
+    }
+}
+
+export const fetchMedium = async (id) => {
+
+    try {
+        const response = await fetchMediumService(id)
+        return response.data.data
+    } catch (error) {
+        console.log('Error', error)
+        throw error
+    }
+}
+
+export const deletePost = async (post) => {
+
+    try {
+        const response = await deletePostService(post)
+        return response.data.data
+    } catch (error) {
+        console.log('Error', error)
+        throw error
+    }
+}
+
+export const banUser = async (medium, payload) => {
+    payload = {
+        'user_id': payload
+    }
+
+    try {
+        const response = await banUserService(medium.id, payload)
         return response.data.data
     } catch (error) {
         console.log('Error', error)

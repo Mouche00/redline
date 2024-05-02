@@ -5,12 +5,16 @@ import './Editor.css'
 import Input from "src/features/auth/components/elements/Input";
 import Card from "src/components/elements/Card";
 import { fetchMediums } from "src/api/data";
+import { useAuth } from "src/hooks/useAuth";
+import { Navigate, redirect } from "react-router-dom";
 
 const Editor = () => {
     const [formData, setFormData] = useState({
         title: '',
         body: []
     })
+
+    const {user} = useAuth()
     const [markdown, setMarkdown] = useState(null)
     const [markdowns, setMarkdowns] = useState([])
     const [selected, setSelected] = useState(null)
@@ -380,9 +384,11 @@ const Editor = () => {
 
                                 {mediums ? (
                                     mediums.map((item, i) => (
-                                        <button onClick={() => handleMedium(item.id)} key={i}>
-                                            <Card className={`${item.id == medium ? 'bg-bronze bg-opacity-60' : ''}`} medium={item} />
-                                        </button>
+                                        ! (item.users.find((u) => u.id == JSON.parse(user).id && u.pivot.is_banned_at)) && (
+                                            <button onClick={() => handleMedium(item.id)} key={i}>
+                                                <Card className={`${item.id == medium ? 'bg-bronze bg-opacity-60' : ''}`} medium={item} />
+                                            </button>
+                                        )
                                     ))
                                 ) : (
                                     <p>No data</p>
@@ -403,7 +409,7 @@ const Editor = () => {
                     <div className="relative z-10 col-span-2 w-full">
 
                         <div className="w-full">
-                            <div id='preview' ref={preview} className={`w-full bg-white ${markdowns.length > 0 ? 'p-4' : ''}`}>
+                            <div ref={preview} className={`preview w-full bg-white ${markdowns.length > 0 ? 'p-4' : ''}`}>
                                 {markdowns.map((item, i) => (
                                     <div className="w-full" key={i} onClick={() => editMarkdown(i)}>
                                         <ReactMarkdown>{item}</ReactMarkdown>

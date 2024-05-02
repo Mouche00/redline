@@ -6,6 +6,8 @@ import BorderLeft from 'src/features/auth/assets/border-l-3.png'
 import BorderRight from 'src/features/auth/assets/border-r-3.png'
 import { useRef } from "react"
 import Portrait from "../elements/Portrait"
+import { useAuth } from "src/hooks/useAuth"
+import { Navigate } from "react-router-dom"
 
 const Filler = () => {
     const button = useRef(null)
@@ -43,7 +45,10 @@ const Filler = () => {
 }
 
 const AuthLayout = ({ children, type = 'register' }) => {
-
+    const {token} = useAuth()
+    if(token) {
+        return <Navigate to="/home" />
+    }
     return (
         <Loader className="relative w-full h-[100vh] flex justify-center overflow-hidden">
             <img className='max-w-fit' src={MenuImg} alt="" />

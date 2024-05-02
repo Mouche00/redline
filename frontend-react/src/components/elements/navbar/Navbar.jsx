@@ -17,7 +17,11 @@ const Navbar = () => {
     const [form, setForm] = useState('medium')
     const handleMediumClick = (type) => {
         setForm(type)
-        slider.current.classList.toggle('translate-y-[100%]')
+        slider.current.classList.toggle('hidden')
+        setTimeout(() => {
+
+            slider.current.classList.toggle('translate-y-[100%]')
+        }, 50)
     }
     return (
         <LazyLoad>
@@ -70,7 +74,7 @@ const Navbar = () => {
                     
                 </div>
             </nav>
-            <div ref={slider} className='absolute transition-all top-0 left-0 h-[100vh] w-[100vw] backdrop-blur-lg bg-black/30 translate-y-[100%] z-30'>
+            <div ref={slider} className='absolute hidden transition-all top-0 left-0 h-[100vh] w-[100vw] backdrop-blur-lg bg-black/30 translate-y-[100%] z-30'>
                 <div className={`absolute z-40 h-10 w-full top-0 left-0`}>
                     <div
                         className={`h-full w-full bg-repeat bg-contain rotate-[180deg]`} style={{ backgroundImage: `url(${BorderTop})` }}>

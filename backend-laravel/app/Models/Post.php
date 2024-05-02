@@ -10,6 +10,8 @@ class Post extends Model
 {
     use HasFactory, ContentRelationTrait;
     protected $guarded = [];
+    protected $with = ['content.user'];
+    protected $appends = ['points'];
 
     public function user()
     {
@@ -18,6 +20,6 @@ class Post extends Model
 
     public function medium()
     {
-        return $this->hasOneThrough(Medium::class, Content::class);
+        return $this->belongsTo(Medium::class);
     }
 }

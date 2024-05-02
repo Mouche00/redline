@@ -7,6 +7,7 @@ use App\Models\Medium;
 use App\Services\Interfaces\MediumServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
+use Illuminate\Http\Request;
 
 class MediumController extends Controller
 {
@@ -17,10 +18,10 @@ class MediumController extends Controller
     {
         $this->service = $service;
     }
-    public function all()
+    public function all(string $type = 'new')
     {
         try {
-            $data = $this->service->all();
+            $data = $this->service->all($type);
         } catch (Exception $e){
             return $this->responseError($e->getMessage());
         }
@@ -37,6 +38,29 @@ class MediumController extends Controller
         }
 
         return $this->responseSuccess($data, "Categories fetched successfully");
+    }
+
+    public function ban(int $medium, Request $request)
+    {
+        $payload = $request->all();
+        try {
+            $data = $this->service->ban($medium, $payload);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($payload, "User banned successfully");
+    }
+
+    public function show(int $medium)
+    {
+        try {
+            $data = $this->service->fetch($medium);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Medium fetched successfully");
     }
 
     public function store(MediumRequest $request)

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 const Form = ({ children, onSubmit }) => {
     return (
-        <form onSubmit={onSubmit} className="relative w-full font-semibold text-black flex flex-col justify-center items-center">
+        <form onSubmit={onSubmit} className="relative w-full font-semibold text-black flex flex-col justify-center items-center" encType="multipart/form-data">
             {children}
             <button type="submit" className="hidden"></button>
         </form>

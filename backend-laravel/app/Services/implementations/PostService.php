@@ -17,6 +17,20 @@ class PostService implements PostServiceInterface
         $this->repository = $repository;
     }
 
+    public function delete($post)
+    {
+        $post = $this->repository->delete($post);
+
+        return $post;
+    }
+
+    public function fetch($post)
+    {
+        $post = $this->repository->fetch($post);
+
+        return $post;
+    }
+
     public function store($data, $medium)
     {
         $user = auth()->user();

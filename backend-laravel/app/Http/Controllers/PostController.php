@@ -23,6 +23,28 @@ class PostController extends Controller
 
     }
 
+    public function delete(int $post)
+    {
+        try {
+            $data = $this->service->delete($post);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Post deleted successfully");
+    }
+
+    public function show(int $post)
+    {
+        try {
+            $data = $this->service->fetch($post);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Post fetched successfully");
+    }
+
     public function store(PostRequest $request, Medium $medium)
     {
         $data = $request->validated();

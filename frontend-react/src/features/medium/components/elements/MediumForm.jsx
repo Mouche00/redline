@@ -48,7 +48,7 @@ const CrewCard = ({ id, onClick }) => {
     )
 }
 
-const ImageCard = ({ onClick, image }) => {
+export const ImageCard = ({ onClick, image }) => {
 
     return (
         <button onClick={onClick} className="w-16 h-16 border-2 border-white bg-white bg-cover bg-center" style={{backgroundImage: `url(${URL.createObjectURL(image)})`}}></button>

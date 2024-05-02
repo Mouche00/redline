@@ -1,4 +1,4 @@
-import { fetchCommentService, fetchCommentsService, storeCommentService, storeDownvoteService, storeImageService, storePostService, storeUpvoteService } from "./service"
+import { fetchCommentService, fetchCommentsService, fetchPostService, storeCommentService, storeDownvoteService, storeImageService, storePostService, storeUpvoteService } from "./service"
 
 export const storeImage = async (payload) => {
     try {
@@ -47,6 +47,17 @@ export const fetchComment = async (comment) => {
 
     try {
         const response = await fetchCommentService(comment)
+        return response.data.data
+    } catch (error) {
+        console.log('Error', error)
+        throw error
+    }
+}
+
+export const fetchPost = async (post) => {
+
+    try {
+        const response = await fetchPostService(post)
         return response.data.data
     } catch (error) {
         console.log('Error', error)
