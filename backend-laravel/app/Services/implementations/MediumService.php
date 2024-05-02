@@ -42,23 +42,26 @@ class MediumService implements MediumServiceInterface
         $medium->users()->updateExistingPivot($user, [
             'is_moderator_at' => now()
         ]);
-
-        $visuals = ArrayHelper::filterByKey($data, ['visuals']);
-        if($visuals) {
-            foreach($visuals as $visual){
-                $path = $this->forceStoreImage($visual);
-                $this->repository->uploadImage($medium, $path);
+        if(array_key_exists('visuals', $data)){
+            $visuals = ArrayHelper::filterByKey($data, ['visuals']);
+            if($visuals) {
+                foreach($visuals as $visual){
+                    $path = $this->forceStoreImage($visual);
+                    $this->repository->uploadImage($medium, $path);
+                }
             }
         }
 
-        $crew = ArrayHelper::filterByKey($data, ['crew']);
-        if($crew){
-            foreach($crew as $id){
-                Crew::find($id)->update([
-                    'validated_at' => now()
-                ]);
+        if(array_key_exists('crew', $data)){
+            $crew = ArrayHelper::filterByKey($data, ['crew']);
+            if($crew){
+                foreach($crew as $id){
+                    Crew::find($id)->update([
+                        'validated_at' => now()
+                    ]);
+                }
+                $this->repository->attach($medium, $crew);
             }
-            $this->repository->attach($medium, $crew);
         }
 
         return $medium;

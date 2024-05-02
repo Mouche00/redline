@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown";
 import { storeImage, storePost } from "../../api/data";
+import './Editor.css'
 
 const Editor = ({ medium = '1' }) => {
     const [formData, setFormData] = useState({
@@ -359,9 +360,9 @@ const Editor = ({ medium = '1' }) => {
                     <ReactMarkdown>{markdown}</ReactMarkdown>
             </div>
 
-            <div className="p-4 bg-orange-400">
+            {/* <div className="p-4 bg-orange-400">
                 <p>if second word is last = unselectable</p>
-            </div>
+            </div> */}
         </div>
     )
 }

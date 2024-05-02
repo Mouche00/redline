@@ -12,9 +12,10 @@ import { fetchComment, fetchComments, storeComment, storeVote } from "../../api/
 import { useEffect, useRef, useState } from "react"
 import Input from "src/components/elements/form/Input"
 import FormProvider from "src/providers/FormProvider"
+import { useAuth } from "src/hooks/useAuth"
 
 const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
-    // console.log('here', handleVote)
+    const {user} = useAuth()
     const name = useRef(null)
     const role = useRef(null)
 
@@ -23,12 +24,14 @@ const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
         role.current.classList.toggle('translate-y-[100%]')
     }
 
+    const vote = comment.votes.find((vote) => vote.user_id == JSON.parse(user).id)
+
     return (
         <div className={`flex w-full justify-center items-start gap-2 ${ disabled ? 'border-l-[4rem] border-bronze p-4' : ''}`}>
             <div className={`h-40 w-[30%] bg-cover bg-center bg-no-repeat flex flex-col border-2 border-white`} style={{backgroundImage: `url(${DefaultPortrait})`}}>
                 <div onMouseEnter={handleHover} onMouseLeave={handleHover} className='h-full w-full flex flex-col items-center overflow-hidden'>
-                    <p ref={name} className='transition-all h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>Tequila</p>
-                    <p ref={role} className='transition-all h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>Visitor</p>
+                    <p ref={name} className='transition-all h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>{comment.content.user.name ?? 'N/A'}</p>
+                    <p ref={role} className='transition-all h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>User</p>
                 </div>
             </div>
             <div className="w-[60%] h-40 flex flex-col gap-2">
@@ -46,15 +49,15 @@ const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
                         </div>
                         <div className={`w-full flex justify-between items-center flex justify-between items-center gap-3`}>
                             <button onClick={() => handleVote('comment', comment.id, 'up')} className='relative z-10'>
-                                <div className="p-2 bg-white">
-                                    <svg className='w-4' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                <div className={`p-2 ${vote && vote.up ? 'bg-bronze' : 'bg-white'}`}>
+                                    <svg className='w-4' fill={`${vote && vote.up ? '#fff' : '#000'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
                                 </div>
                                 <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
                             </button>
 
                             <button onClick={() => handleVote('comment', comment.id, 'down')} className='relative z-10'>
-                                <div className="p-2 bg-white">
-                                    <svg className='w-4 rotate-[-180deg]' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                <div className={`p-2 ${vote && !vote.up ? 'bg-bronze' : 'bg-white'}`}>
+                                    <svg className='w-4 rotate-[-180deg]' fill={`${vote && !vote.up ? '#fff' : '#000'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
                                 </div>
                                 <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
                             </button>
