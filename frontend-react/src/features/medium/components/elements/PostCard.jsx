@@ -2,8 +2,12 @@ import Background from 'src/assets/background.png'
 import Texture from 'src/assets/texture.jpg'
 import DefaultPortrait from 'src/assets/portrait.jpg'
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
+import moment from 'moment'
+import ReactMarkdown from "react-markdown";
 
-const PostCard = ( {minified = false, standalone = true} ) => {
+
+const PostCard = ( {post, minified = false, standalone = true} ) => {
     const name = useRef(null)
     const role = useRef(null)
 
@@ -15,18 +19,18 @@ const PostCard = ( {minified = false, standalone = true} ) => {
     return (
         <div className="w-full my-4 flex">
             <div className={`flex ${minified ? 'w-24' : 'w-32'} h-full flex-col items-center gap-2`}>
-                <div onMouseEnter={handleHover} onMouseLeave={handleHover} className={`z-10 ${minified ? 'h-32 rotate-[-2deg]' : 'h-40'} w-full bg-cover bg-center bg-no-repeat flex flex-col z-20`} style={{backgroundImage: `url(${DefaultPortrait})`}}>
+                <div onMouseEnter={handleHover} onMouseLeave={handleHover} className={`z-10 ${minified ? 'h-32 rotate-[-2deg]' : 'h-40'} w-full bg-cover bg-center bg-no-repeat flex flex-col z-20`} style={{backgroundImage: `url(${post ? 'http://localhost/uploads/' + post.content.user.image?.path : DefaultPortrait })`}}>
                     <div className='h-full w-full flex flex-col items-center overflow-hidden'>
-                        <p ref={name} className='transition-all h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>Tequila</p>
-                        <p ref={role} className='transition-all h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>Visitor</p>
+                        <p ref={name} className='transition-all h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>{post?.content.user.name}</p>
+                        <p ref={role} className='transition-all h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>User</p>
                     </div>
                 </div>
             </div>
             <div className='py-2 flex flex-col gap-2 items-end ml-[-1rem]'>
-                <div className='relative rotate-[-2deg] bg-contain bg-repeat z-10 h-fit w-fit' style={{backgroundImage: `url(${Texture})`}}>
-                    <div className={`h-full w-full overflow-hidden flex items-center justify-center ${!minified ? 'text-xl' : 'p-2'}`}>
-                        <p className='max-w-64 p-[1px] text-white text-end font-semibold'>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
-                    </div>
+                <div className='relative rotate-[-2deg] bg-contain bg-repeat z-10 h-fit w-full' style={{backgroundImage: `url(${Texture})`}}>
+                    <Link to={'/post/' + post.id} className={`h-full w-full overflow-hidden flex items-center justify-end ${!minified ? 'text-xl' : 'p-4'}`}>
+                        <p className='max-w-64 p-[1px] text-white text-end font-semibold'>{post?.content.title}</p>
+                    </Link>
                     <div className={`absolute flex justify-between items-center right-0 flex ${minified ? 'flex-row-reverse px-5 translate-y-[120%] bottom-0 ' : 'flex-col top-0 translate-x-[100%] pl-2'} justify-between items-center gap-3`}>
                         <button className='p-2 bg-white rotate-[-4deg]'>
                             <svg className='w-3' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
@@ -48,18 +52,18 @@ const PostCard = ( {minified = false, standalone = true} ) => {
 
                     <div className={`absolute flex justify-between items-center right-0 flex flex-row-reverse px-5 translate-y-[-100%] py-2 top-0 justify-between items-center gap-3`}>
                         <div className='bg-white p-2 rotate-[-2deg]'>
-                            <p className='font-black'>145</p>
+                            <p className='font-black'>{post?.points}</p>
                         </div>
 
                         <div className='bg-white p-2 rotate-[1deg]'>
-                            <p className='font-black'>2021/03/50</p>
+                            <p className='font-black'>{moment(post?.created_at).fromNow()}</p>
                         </div>
                         
                     </div>
                 </div>
                 {!minified &&
-                    <div className='w-full rotate-[2deg] bg-white text-black text-xs p-[2px]'>
-                        <p className='max-w-64 text-end p-[1px] pl-2 font-semibold'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et inventore debitis dolor quas in ratione aperiam eum dolorum quam suscipit omnis voluptas, doloribus odio cum laudantium, rerum, dolores deleniti.</p>
+                    <div id='preview' className='w-full rotate-[2deg] bg-white text-black max-w-64 text-end p-[3px] pl-2'>
+                        <ReactMarkdown>{post?.content.body}</ReactMarkdown>
                     </div>
                 }
             </div>

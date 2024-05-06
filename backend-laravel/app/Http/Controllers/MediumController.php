@@ -28,6 +28,38 @@ class MediumController extends Controller
         return $this->responseSuccess($data, "Mediums fetched successfully");
     }
 
+    public function new()
+    {
+        $data = Medium::latest()->get();
+
+        return $this->responseSuccess($data, "Mediums fetched successfully");
+    }
+
+    public function upcoming()
+    {
+        $data = Medium::latest()->where('date', '>', now())->get();
+
+        return $this->responseSuccess($data, "Mediums fetched successfully");
+    }
+
+    public function popular()
+    {
+        $data = Medium::latest()->withCount('posts')->orderByDesc('posts_count')->get();
+
+        return $this->responseSuccess($data, "Mediums fetched successfully");
+    }
+
+    public function show(int $medium)
+    {
+        try {
+            $data = $this->service->show($medium);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Mediums fetched successfully");
+    }
+
     public function allCategories()
     {
         try {

@@ -22,6 +22,7 @@ const Editor = () => {
     const [position, setPosition] = useState('0')
     const [mediums, setMediums] = useState([])
     const [medium, setMedium] = useState()
+    const [redirect, setRedirect] = useState(null)
     const editor = useRef(null)
     const input = useRef(null)
     const preview = useRef(null)
@@ -42,8 +43,20 @@ const Editor = () => {
         console.log('here:', response)
     }
 
+    const redirectToPage = () => {
+        if(redirect){
+            console.log('herrrr');
+            window.location.href = "http://localhost:3000/post/" + redirect;
+        }
+    }
+
+    useEffect(() => {
+        redirectToPage()
+    }, [redirect])
+
     const handleSubmit = async () => {
         const response = await storePost(medium, formData)
+        setRedirect(response.contentable_id)
         console.log(response)
     }
 
@@ -403,7 +416,7 @@ const Editor = () => {
                     <div className="relative z-10 col-span-2 w-full">
 
                         <div className="w-full">
-                            <div id='preview' ref={preview} className={`w-full bg-white ${markdowns.length > 0 ? 'p-4' : ''}`}>
+                            <div id='preview' ref={preview} className={`w-full flex flex-col items-start justify-center gap-[1rem] bg-white ${markdowns.length > 0 ? 'p-4' : ''}`}>
                                 {markdowns.map((item, i) => (
                                     <div className="w-full" key={i} onClick={() => editMarkdown(i)}>
                                         <ReactMarkdown>{item}</ReactMarkdown>

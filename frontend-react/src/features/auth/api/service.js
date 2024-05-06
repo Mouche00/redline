@@ -11,8 +11,14 @@ export const loginService = async (payload) => {
 }
 
 export const registerService = async (payload) => {
+    const headers = {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    }
+
     try {
-        const response = await instance.post('/register', payload)
+        const response = await instance.post('/register', payload, headers)
         return response
     } catch (error) {
         throw error

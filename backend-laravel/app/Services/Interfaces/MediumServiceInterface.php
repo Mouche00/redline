@@ -7,6 +7,7 @@ use App\Models\Medium;
 interface MediumServiceInterface
 {
     public function all();
+    public function show(int $medium);
     public function allCategories();
     public function store(array $data);
     public function approve(Medium $medium);

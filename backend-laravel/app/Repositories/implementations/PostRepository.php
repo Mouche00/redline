@@ -9,7 +9,12 @@ class PostRepository implements PostRepositoryInterface
 {
     public function all()
     {
-        return Post::all();
+        return Post::latest()->get();
+    }
+
+    public function fetch($post)
+    {
+        return Post::find($post)->load('medium');
     }
     public function create($data, $medium)
     {

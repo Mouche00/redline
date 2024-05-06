@@ -1,4 +1,5 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { fetchMediums } from "src/api/data"
 import Bar from "src/components/elements/Bar"
 import Card from "src/components/elements/Card"
 import Island from "src/components/elements/island/Island"
@@ -10,10 +11,11 @@ import PostCard from "src/features/medium/components/elements/PostCard"
 const HomePage = () => {
     const movies = useRef(null)
     const posts = useRef(null)
+    const [filter, setFilter] = useState('new')
+    const [mediums, setMediums] = useState(null)
 
-
-    const handleHover = (e) => {
-
+    const handleHover = (e, type) => {
+        setFilter(type)
         const moviesClasses = movies.current.classList
         moviesClasses.toggle('translate-x-[100%]')
 
@@ -25,20 +27,32 @@ const HomePage = () => {
         console.log('here', movies.current)
     }
 
+    const getMediums = async () => {
+        const response = await fetchMediums(filter)
+        setMediums(response)
+        console.log(response)
+    }
+
+    useEffect(() => {
+        getMediums()
+    }, [filter])
+
     return (
         <Loader className="overflow-hidden">
             <SeaBackground className="h-[100vh] flex flex-col items-center justify-center w-full">
                 <Bar ref={posts} label='posts' className='left-0 translate-x-[-100%] grid-cols-1'>
-                    <PostCard minified={true} />
-                    <PostCard minified={true} />
+                    {/* <PostCard minified={true} />
+                    <PostCard minified={true} /> */}
                 </Bar>   
-                <Island label='upcoming' onHover={handleHover} />
+                <Island label='upcoming' onHover={(e) => handleHover(e, 'upcoming')} />
                 <div className="flex items-center justify-center">
-                    <Island label='new' onHover={handleHover} />
-                    <Island label='popular' onHover={handleHover} />
+                    <Island label='new' onHover={(e) => handleHover(e, 'new')} />
+                    <Island label='popular' onHover={(e) => handleHover(e, 'popular')} />
                 </div>
                 <Bar ref={movies} label='media' className='right-0 translate-x-[100%]'>
-                    <Card />
+                    {mediums && mediums.map((medium) => (
+                        <Card medium={medium} />
+                    ))}
                 </Bar>
             </SeaBackground>
         </Loader>

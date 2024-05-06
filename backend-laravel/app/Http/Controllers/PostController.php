@@ -23,6 +23,17 @@ class PostController extends Controller
 
     }
 
+    public function show(int $post)
+    {
+        try {
+            $data = $this->service->show($post);
+        } catch (Exception $e){
+            return $this->responseError($e->getMessage());
+        }
+
+        return $this->responseSuccess($data, "Post fetched successfully");
+    }
+
     public function store(PostRequest $request, Medium $medium)
     {
         $data = $request->validated();

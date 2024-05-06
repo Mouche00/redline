@@ -3,8 +3,9 @@ import { useEffect, useState } from "react"
 import { createCrew, createMedium, fetchCrew, getCategories, searchCrew } from "../../api/data"
 import DefaultPortrait from 'src/assets/portrait.jpg'
 import Input from "src/features/auth/components/elements/Input"
+import { Navigate } from "react-router-dom"
 
-const CrewCard = ({ id, onClick }) => {
+export const CrewCard = ({ id, onClick }) => {
     const [crew, setCrew] = useState(null)
     
     const getCrew = async (query) =>{
@@ -48,7 +49,7 @@ const CrewCard = ({ id, onClick }) => {
     )
 }
 
-const ImageCard = ({ onClick, image }) => {
+export const ImageCard = ({ onClick, image }) => {
 
     return (
         <button onClick={onClick} className="w-16 h-16 border-2 border-white bg-white bg-cover bg-center" style={{backgroundImage: `url(${URL.createObjectURL(image)})`}}></button>
@@ -69,6 +70,7 @@ const MediumForm = () => {
         misc: [],
         crew: []
     })
+    const [redirect, setRedirect] = useState(false)
     const [categories, setCategories] = useState(null)
     const [crew, setCrew] = useState([])
     const [searchResult, setSearchResult] = useState(null)
@@ -103,6 +105,17 @@ const MediumForm = () => {
         fetchCategories()
     }, [])
 
+    const redirectToPage = () => {
+        if(redirect){
+            console.log('herrrr');
+            window.location.href = "http://localhost:3000/medium/" + redirect;
+        }
+    }
+
+    useEffect(() => {
+        redirectToPage()
+    }, [redirect])
+
     const addVisual = (e) => {
         setFormData({
             ...formData,
@@ -131,6 +144,7 @@ const MediumForm = () => {
     const handleSubmit = async () => {
         const response = await createMedium(formData)
         console.log(response)
+        setRedirect(response.id)
     }
 
     const handleCrewImage = (e) => {

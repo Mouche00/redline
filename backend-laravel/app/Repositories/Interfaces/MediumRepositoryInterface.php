@@ -8,7 +8,7 @@ use App\Models\User;
 interface MediumRepositoryInterface
 {
     public function all();
-    public function fetch(int $id);
+    public function fetch(int $medium);
     public function allCategories();
     public function create(User $user, array $data);
     public function uploadPoster(Medium $medium, string $path);

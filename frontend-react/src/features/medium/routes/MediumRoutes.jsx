@@ -8,7 +8,7 @@ const MediumRoutes = [
         element: <DefaultLayout />,
         children: [
             {
-                index: true,
+                path: ':mediumID',
                 element: <MediumPage />
             },
             {

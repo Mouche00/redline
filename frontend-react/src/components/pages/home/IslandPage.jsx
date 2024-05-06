@@ -1,4 +1,5 @@
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
+import { fetchMediums } from "src/api/data"
 import Bar from "src/components/elements/Bar"
 import Card from "src/components/elements/Card"
 import Island from "src/components/elements/island/Island"
@@ -9,6 +10,7 @@ import PostCard from "src/features/medium/components/elements/PostCard"
 const IslandPage = ({ label }) => {
     const movies = useRef(null)
     const posts = useRef(null)
+    const [selectedMediums, setSelectedMediums] = useState([])
 
     const handleHover = (e) => {
 
@@ -23,16 +25,29 @@ const IslandPage = ({ label }) => {
         console.log('here', movies.current)
     }
 
+    const getMediums = async () => {
+        const response = await fetchMediums(label)
+        setSelectedMediums(response)
+    }
+
+
+    useEffect(() => {
+        getMediums()
+    }, [])
+    
+
     return (
         <Loader className="overflow-hidden">
             <SeaBackground className="h-[100vh] flex flex-col items-center justify-center">
                 <Bar ref={posts} label='posts' sticked={true} className='left-0'>
+                    {/* <PostCard minified={true} />
                     <PostCard minified={true} />
-                    <PostCard minified={true} />
-                    <PostCard minified={true} />
+                    <PostCard minified={true} /> */}
                 </Bar>
                 <Island label={label} className='h-full' page={true} onHover={handleHover}/>
                 <Bar ref={movies} label='media' sticked={true} className='right-0'>
+                    {selectedMediums.map((medium) => {
+                    })}
                     <Card />
                     <Card />
                     <Card />

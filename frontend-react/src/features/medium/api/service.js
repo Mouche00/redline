@@ -57,3 +57,12 @@ export const fetchCrewService = async (id) => {
         throw error
     }
 }
+
+export const fetchMediumService = async (id) => {
+    try {
+        const response = await instance.get(`/medium/${id}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}

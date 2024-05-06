@@ -42,6 +42,10 @@ Route::controller(CrewController::class)->group(function () {
 
 Route::controller(MediumController::class)->group(function () {
     Route::get('/mediums', 'all');
+    Route::get('/mediums/new', 'new');
+    Route::get('/mediums/upcoming', 'upcoming');
+    Route::get('/mediums/popular', 'popular');
+    Route::get('/medium/{id}', 'show');
     Route::get('/categories', 'allCategories');
     Route::post('/medium/store', 'store');
     Route::put('/medium/{medium}/approve', 'approve');
@@ -49,6 +53,7 @@ Route::controller(MediumController::class)->group(function () {
 });
 
 Route::controller(PostController::class)->group(function () {
+    Route::get('/post/{post}', 'show');
     Route::post('/medium/{medium}/post', 'store');
     Route::post('/image/store', 'storeImage');
 });

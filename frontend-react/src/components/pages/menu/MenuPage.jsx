@@ -25,7 +25,7 @@ const MenuPage = () => {
                         <div className='w-full h-full z-5 p-12 absolute flex flex-col items-center justify-center gap-4 text-5xl'>
                             <MenuItem label='HOME'/>
                             <MenuItem label='FEED'/>
-                            <MenuItem label='PROFILE'/>
+                            <MenuItem label='LOGIN'/>
                         </div>
 
                         

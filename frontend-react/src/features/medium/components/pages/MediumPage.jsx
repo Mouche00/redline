@@ -8,6 +8,9 @@ import Border from "src/components/elements/border/Border"
 import { forwardRef, useEffect, useRef, useState } from "react"
 import PostCard from "../elements/PostCard"
 import Sidebar from "../elements/Sidebar"
+import { useParams } from "react-router-dom"
+import { fetchMedium } from "../../api/data"
+import { ImageCard } from "../elements/MediumForm"
 
 const Section = forwardRef(({ children, onWheel, id, section }, ref) => {
     let pos = ''
@@ -29,7 +32,7 @@ const Section = forwardRef(({ children, onWheel, id, section }, ref) => {
     )
 })
 
-const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
+const InfoSection = forwardRef(({ medium, onWheel, id, section }, ref) => {
 
     const [activeLabel, setActiveLabel] = useState('')
     const sidebar = useRef(null)
@@ -42,7 +45,7 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
         'date',
         'studio',
         'category',
-        'people',
+        'crew',
         'misc'
     ]
 
@@ -59,7 +62,7 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
     
     return (
         <Section ref={ref} onWheel={onWheel} id={id} section={section}>
-            <div className="gap-32 my-12 mx-auto h-fit w-fit col-span-2 grid grid-cols-3 p-16">
+            <div className="gap-32 my-12 mx-auto h-fit w-fit col-span-2 grid grid-cols-3 p-8">
                 {labels.map((label, i) => (
                     <Diamond onClick={handleClick} key={i} label={label} className={(i - 1) % 3 == 0 ? 'translate-y-[100%]' : ''} />
                 ))}
@@ -68,9 +71,28 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
             <Sidebar ref={sidebar}>
                 {activeLabel ? (
                     <>
-                        <div className="w-full h-[50%] bg-cover bg-no-repeat bg-center opacity-70" style={{backgroundImage: `url(src/assets/diamond-${activeLabel}.webp)`}}></div>
+                        <div className="w-full h-[50%] bg-cover bg-no-repeat bg-center opacity-70" style={{backgroundImage: `url(/src/assets/diamond-${activeLabel}.webp)`}}></div>
                         <h1 className="font-black text-black text-5xl bg-white w-full text-center p-2">{activeLabel.toUpperCase()}</h1>
-                        <p className="text-white p-4">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi impedit consectetur ut reiciendis nihil perferendis sunt sapiente possimus nulla obcaecati, veniam aut quo magnam sint illo repudiandae. Nulla, sed quasi!</p>    
+                        <div className="grid grid-cols-3 h-[30%] w-full items-center justify-center gap-8 p-8">
+                            {medium && (
+                                activeLabel == 'visuals' ? (
+                                    medium?.visuals.map((visual, i) => (
+                                        <div key={i} className="w-full h-full border-2 border-white bg-white bg-cover bg-center" style={{backgroundImage: `url(${'http://localhost/uploads/' + visual.path})`}}></div>
+                                    ))
+                                ) : activeLabel == 'crew' ? (
+                                    medium?.crew?.map((crew, i) => (
+                                        <div className="bg-white p-2 flex flex-col items-center gap-4">
+                                            <div className="w-12 h-12 bg-cover bg-center rounded-full" style={{backgroundImage: `url(${crew.image ? 'http://localhost/uploads/' + crew.image.path : DefaultPortrait})`}}></div>
+                                            <p className="text-white bg-black w-full px-1">{crew.name}</p>
+                                            <p className="text-white bg-black w-full px-1">{crew.function}</p>
+                                        </div>                            ))
+                                ) : (
+                                    <div className="w-full h-full col-span-3">
+                                        <h1 className="text-white p-4 text-center text-2xl font-bold w-full">{medium[activeLabel]}</h1>    
+                                    </div>
+                                )
+                            )}
+                        </div>
                     </>
                 ) : (
                     <div className="w-full h-full flex items-center justify-center">
@@ -82,7 +104,7 @@ const InfoSection = forwardRef(({ onWheel, id, section }, ref) => {
     )
 })
 
-const PostSection = ({ onWheel, id, section }) => {
+const PostSection = ({ posts, onWheel, id, section }) => {
     const sidebar = useRef(null)
 
     const handleClick = (label) => {
@@ -92,9 +114,9 @@ const PostSection = ({ onWheel, id, section }) => {
     return (
         <Section onWheel={onWheel} id={id} section={section}>
             <div className="gap-12 my-12 mx-auto ml-12 h-fit w-full col-span-2 grid grid-cols-2 p-16">
-                <PostCard />
-                <PostCard />
-                <PostCard />
+                {posts && posts.map((post) => (
+                    <PostCard post={post} />
+                ))}
             </div>
 
             <Sidebar ref={sidebar}>
@@ -129,7 +151,7 @@ const Diamond = ({ label, className, onClick }) => {
     return (
         <button onClick={() => onClick(label)} className={`relative w-32 h-32 mx-auto border-4 border-white rounded rotate-[-45deg] ${className}`}>
             <div className="relative w-full h-full flex items-center justify-center overflow-hidden">
-                <div className="absolute w-48 h-48 bg-cover bg-center bg-no-repeat rotate-[45deg]" style={{backgroundImage: `url(src/assets/diamond-${label}.webp)`}}></div>
+                <div className="absolute w-48 h-48 bg-cover bg-center bg-no-repeat rotate-[45deg]" style={{backgroundImage: `url(/src/assets/diamond-${label}.webp)`}}></div>
             </div>
             <div className="absolute top-0 left-0 h-full w-full flex items-end justify-center rotate-[45deg]">
                 <p className="absolute bg-white font-bold w-[10rem] px-4 text-center text-xl">{label.toUpperCase()}</p>
@@ -170,8 +192,20 @@ const Legend = ({ section, changeSection }) => {
 }
 
 const MediumPage = () =>{
+    const {mediumID} = useParams()
+    const [medium, setMedium] = useState(null)
     const [activeSection, setActiveSection] = useState(0)
     const sections = useRef(null)
+
+    const getMedium = async () => {
+        const response = await fetchMedium(mediumID)
+        setMedium(response)
+        console.log(response)
+    }
+
+    useEffect(() => {
+        getMedium()
+    }, [])
 
     const handleScroll = (e) => {
         const currentSec = sections.current.children[activeSection]
@@ -207,19 +241,19 @@ const MediumPage = () =>{
         <Loader className="h-[100vh] overflow-hidden">
             <div className="h-full flex">
                 <div className="relative flex w-[30%] h-full">
-                    <div className="relative h-full w-full bg-cover bg-no-repeat bg-center" style={{backgroundImage: `url(${DefaultPoster})`}}>
+                    <div className="relative h-full w-full bg-cover bg-no-repeat bg-center" style={{backgroundImage: `url(${medium ? 'http://localhost/uploads/' + medium.poster?.path : DefaultPoster})`}}>
                         <div className="absolute w-full h-full top-0 left-0 bg-contain bg-repeat bg-center opacity-40" style={{backgroundImage: `url(${Texture})`}}></div>
                     </div>
-                    <p className="absolute z-20 top-0 left-0 translate-x-8 translate-y-8 text-7xl font-black bg-white p-[2px] pr-48">DISCO ELYSIUM</p>
+                    <p className="absolute z-20 top-0 left-0 translate-x-8 translate-y-8 text-7xl font-black bg-white p-[2px] pr-48">{medium?.title.toUpperCase()}</p>
                     <Border direction='right' className='w-8' customImage={BorderRight} />
                 </div>
 
-                <div className="bg-cover bg-no-repeat bg-center w-full h-full" style={{backgroundImage: `url(${DefaultWallpaper})`}}>
+                <div className="bg-cover bg-no-repeat bg-center w-full h-full" style={{backgroundImage: `url(${medium ? 'http://localhost/uploads/' + medium.background?.path : DefaultWallpaper})`}}>
                     <div className="relative bg-bronze bg-opacity-60 h-full w-full grid grid-cols-3">
                         <div ref={sections} className="col-span-2 h-full w-full">
-                            <InfoSection id={0} section={activeSection} onWheel={handleScroll} />
-                            <PostSection id={1} section={activeSection} onWheel={handleScroll} />
-                            <InfoSection id={2} section={activeSection} onWheel={handleScroll} />
+                            <InfoSection id={0} medium={medium} section={activeSection} onWheel={handleScroll} />
+                            <PostSection id={1} posts={medium?.posts} section={activeSection} onWheel={handleScroll} />
+                            {/* <InfoSection id={2} section={activeSection} onWheel={handleScroll} /> */}
                         </div>
                         <Legend section={activeSection} changeSection={setActiveSection}/>
                     </div>

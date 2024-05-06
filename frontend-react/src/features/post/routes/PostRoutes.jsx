@@ -8,7 +8,7 @@ const PostRoutes = [
         element: <DefaultLayout />,
         children: [
             {
-                path: ':post',
+                path: ':postID',
                 element: <PostPage />
             },
             {

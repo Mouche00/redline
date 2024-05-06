@@ -7,12 +7,13 @@ import BorderRight from 'src/assets/border-5-v.png'
 import Texture from 'src/assets/texture.jpg'
 import Loader from "src/components/elements/loader/Loader"
 import Sidebar from "src/features/medium/components/elements/Sidebar"
-import { useParams } from "react-router-dom"
-import { fetchComment, fetchComments, storeComment, storeVote } from "../../api/data"
+import { Link, useParams } from "react-router-dom"
+import { fetchComment, fetchComments, fetchPost, storeComment, storeVote } from "../../api/data"
 import { useEffect, useRef, useState } from "react"
 import Input from "src/components/elements/form/Input"
 import FormProvider from "src/providers/FormProvider"
 import { useAuth } from "src/hooks/useAuth"
+import ReactMarkdown from "react-markdown";
 
 const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
     const {user} = useAuth()
@@ -70,16 +71,31 @@ const CommentCard = ({comment, onClick, disabled = 0, handleVote}) => {
 }
 
 const PostPage = () => {
-    const { post } = useParams()
+    const {user} = useAuth()
+    const { postID } = useParams()
     const [commentable, setCommentable] = useState({
         name: 'post',
-        id: post
+        id: postID
     })
     const [comments, setComments] = useState([])
+    const [post, setPost] = useState(null)
     const [comment, setComment] = useState()
     const [formData, setFormData] = useState({
         body: ''
     })
+
+    const getPost = async () => {
+        const response = await fetchPost(postID)
+        setPost(response)
+        console.log(response)
+    }
+
+    useEffect(() => {
+        getPost()
+    }, [])
+
+    const vote = post?.votes.find((vote) => vote.user_id == JSON.parse(user).id)
+
 
     const name = useRef(null)
     const role = useRef(null)
@@ -92,6 +108,7 @@ const PostPage = () => {
     const handleVote = async (voteable = 'comment', id, type = 'up') => {
         try {
             const response = await storeVote(voteable, id, type)
+            getPost()
             getComments()
         } catch(error) {
             console.log()
@@ -119,7 +136,7 @@ const PostPage = () => {
     const resetComments = () => {
         setCommentable({
             name: 'post',
-            id: post
+            id: postID
         })
         setComment(null)
     }
@@ -148,29 +165,29 @@ const PostPage = () => {
         <Loader className="h-[100vh] overflow-hidden">
             <div className="h-full flex">
                 <div className="relative flex w-[30%] h-full">
-                    <div className="relative h-full w-full bg-cover bg-no-repeat bg-center" style={{backgroundImage: `url(${DefaultPoster})`}}>
+                    <Link to={'/medium/' + post?.medium.id} className="relative h-full w-full bg-cover bg-no-repeat bg-center" style={{backgroundImage: `url(${post ? 'http://localhost/uploads/' + post.medium.poster?.path : DefaultPoster})`}}>
                         <div className="absolute w-full h-full top-0 left-0 bg-contain bg-repeat bg-center opacity-40" style={{backgroundImage: `url(${Texture})`}}></div>
-                    </div>
-                    <p className="absolute z-20 top-0 left-0 translate-x-8 translate-y-8 text-7xl font-black bg-white p-[2px] pr-48">DISCO ELYSIUM</p>
+                    </Link>
+                    <p className="absolute z-20 top-0 left-0 translate-x-8 translate-y-8 text-7xl font-black bg-white p-[2px] pr-48">{post?.medium.title.toUpperCase()}</p>
                     <Border direction='right' className='w-8' customImage={BorderRight} />
                 </div>
 
-                <div className="bg-cover bg-no-repeat bg-center w-full h-full" style={{backgroundImage: `url(${DefaultWallpaper})`}}>
+                <div className="bg-cover bg-no-repeat bg-center w-full h-full" style={{backgroundImage: `url(${post ? 'http://localhost/uploads/' + post.medium.background?.path : DefaultWallpaper})`}}>
                     <div className="relative bg-bronze bg-opacity-60 h-full w-full grid grid-cols-3">
                         <div className="col-span-2 h-full w-full py-32">
                             
                         <div className="w-full my-4 flex justify-center gap-4">
                             <div className={`flex w-[20%] h-full flex-col items-center gap-2`}>
-                                <div onMouseEnter={handleHover} onMouseLeave={handleHover} className={`h-64 w-full bg-cover bg-center bg-no-repeat flex flex-col z-20 border-l-8 border-white`} style={{backgroundImage: `url(${DefaultPortrait})`}}>
+                                <div onMouseEnter={handleHover} onMouseLeave={handleHover} className={`h-64 w-full bg-cover bg-center bg-no-repeat flex flex-col z-20 border-l-8 border-white`} style={{backgroundImage: `url(${post ? 'http://localhost/uploads/' + post.content.user.image?.path : DefaultPortrait})`}}>
                                     <div className='h-full w-full flex flex-col items-center overflow-hidden'>
-                                        <p ref={name} className='transition-all text-2xl h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>Tequila</p>
-                                        <p ref={role} className='transition-all text-2xl h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>Visitor</p>
+                                        <p ref={name} className='transition-all text-2xl h-full w-full text-black flex items-center justify-center font-black bg-white translate-y-[-100%]'>{post?.content.user.name}</p>
+                                        <p ref={role} className='transition-all text-2xl h-full w-full text-white flex items-center justify-center font-black bg-black translate-y-[100%]'>{'User'}</p>
                                     </div>
                                 </div>
 
                                 <div className={`w-full grid grid-cols-4 py-2 items-center gap-3 text-lg`}>
                                     <div className='bg-white w-full col-span-2 p-2 border-l-8 border-black'>
-                                        <p className='font-black w-full text-center'>145</p>
+                                        <p className='font-black w-full text-center'>{post?.points}</p>
                                     </div>
                                     {/* <div className='bg-white p-2 border-l-8 border-black'>
                                         <p className='font-black w-full text-center'>145</p>
@@ -181,16 +198,16 @@ const PostPage = () => {
                                 </div>
 
                                 <div className={`w-full flex justify-between items-center flex justify-between items-center gap-3`}>
-                                    <button className='relative z-10'>
-                                        <div className="p-2 bg-white">
-                                            <svg className='w-4' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                    <button onClick={() => handleVote('post', post.id, 'up')} className='relative z-10'>
+                                        <div className={`p-2 ${vote && vote.up ? 'bg-bronze' : 'bg-white'}`}>
+                                            <svg className='w-4' fill={`${vote && vote.up ? '#fff' : '#000'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
                                         </div>
                                         <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
                                     </button>
 
-                                    <button className='relative z-10'>
-                                        <div className="p-2 bg-white">
-                                            <svg className='w-4 rotate-[-180deg]' fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
+                                    <button onClick={() => handleVote('post', post.id, 'down')} className='relative z-10'>
+                                        <div className={`p-2 ${vote && !vote.up ? 'bg-bronze' : 'bg-white'}`}>
+                                            <svg className='w-4 rotate-[-180deg]' fill={`${vote && !vote.up ? '#fff' : '#000'}`} viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" strokeWidth="0"></g><g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M4 14h4v7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7h4a1.001 1.001 0 0 0 .781-1.625l-8-10c-.381-.475-1.181-.475-1.562 0l-8 10A1.001 1.001 0 0 0 4 14z"></path></g></svg>
                                         </div>
                                         <div className="absolute z-[-1] top-0 left-0 translate-x-2 translate-y-2 bg-teal w-full h-full"></div>
                                     </button>
@@ -213,12 +230,12 @@ const PostPage = () => {
                             <div className='flex flex-col gap-3 items-end'>
                                 <div className='bg-contain bg-repeat z-10 h-fit w-full border-l-8 border-teal' style={{backgroundImage: `url(${Texture})`}}>
                                     <div className={`h-full w-full overflow-hidden flex items-center justify-center text-5xl`}>
-                                        <p className='max-w-[32rem] p-[2px] text-white text-end font-semibold'>Lorem ipsum dolor sit amet, consectetur adipisicing elit</p>
+                                        <p className='max-w-[32rem] p-[2px] text-white text-end font-semibold'>{post?.content.title}</p>
                                     </div>
                                 </div>
 
-                                <div className='w-full bg-white text-black text-md p-[2px] border-l-8 border-black'>
-                                    <p className='max-w-[32rem] text-end p-[1px] pl-2 font-semibold'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem et inventore debitis dolor quas in ratione aperiam eum dolorum quam suscipit omnis voluptas, doloribus odio cum laudantium, rerum, dolores deleniti.</p>
+                                <div id='preview' className='w-full bg-white text-black text-md border-l-8 border-black max-w-[32rem] text-end space-y-4 p-[3px] pl-2'>
+                                    <ReactMarkdown>{post?.content.body}</ReactMarkdown>
                                 </div>
                             </div>
                         </div>

@@ -23,10 +23,11 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
 //        $credentials = new UserDTO(...$request->all());
-        $credentials = UserDTO::fromRegister($request->all());
+        // $credentials = UserDTO::fromRegister($request->all());
+        $payload = $request->validated();
 
         try {
-            $data = $this->service->store($credentials);
+            $data = $this->service->store($payload);
         } catch (Exception $e){
             return $this->responseError($e->getMessage());
         }

@@ -1,4 +1,4 @@
-import { createCrewService, createMediumService, fetchCrewService, getCategoriesService, searchCrewService } from "./service"
+import { createCrewService, createMediumService, fetchCrewService, fetchMediumService, getCategoriesService, searchCrewService } from "./service"
 
 export const getCategories = async () => {
     try {
@@ -43,6 +43,16 @@ export const searchCrew = async (query) => {
 export const fetchCrew = async (id) => {
     try {
         const response = await fetchCrewService(id)
+        return response.data.data
+    } catch (error) {
+        console.log('Error', error)
+        throw error
+    }
+}
+
+export const fetchMedium = async (id) => {
+    try {
+        const response = await fetchMediumService(id)
         return response.data.data
     } catch (error) {
         console.log('Error', error)

@@ -26,6 +26,13 @@ class MediumService implements MediumServiceInterface
         return $mediums;
     }
 
+    public function show($medium)
+    {
+        $medium = $this->repository->fetch($medium);
+
+        return $medium;
+    }
+
     public function allCategories()
     {
         $categories = $this->repository->allCategories();

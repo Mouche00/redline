@@ -7,6 +7,7 @@ import Border from 'src/assets/border-5-h.png'
 import BorderV from 'src/assets/border-5-v.png'
 import moment from "moment"
 import Texture from 'src/assets/texture.jpg'
+import Loader from "src/components/elements/loader/Loader"
 
 const ChatPage = () => {
     const {token, user} = useAuth()
@@ -87,7 +88,7 @@ const ChatPage = () => {
     }
 
     return (
-        <section className="relative w-full h-screen bg-grey flex items-center justify-center">
+        <Loader className="relative w-full h-screen bg-grey flex items-center justify-center">
             <div className="absolute top-0 left-0 w-[25%] translate-x-8 z-10 h-full flex">
                 <div className="w-4 h-full bg-contain bg-center bg-repeat rotate-[-180deg]" style={{backgroundImage: `url(${BorderV})`}}></div>
                 <div className="bg-contain bg-center bg-repeat w-full h-full space-y-8" style={{backgroundImage: `url(${Texture})`}}>
@@ -167,7 +168,7 @@ const ChatPage = () => {
                 </div>
                 <div className="h-6 w-full bg-contain bg-center bg-repeat rotate-[-180deg]" style={{backgroundImage: `url(${Border})`}}></div>
             </div>
-        </section>
+        </Loader>
     )
 }
 

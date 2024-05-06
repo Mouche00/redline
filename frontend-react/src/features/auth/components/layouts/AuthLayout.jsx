@@ -6,8 +6,10 @@ import BorderLeft from 'src/features/auth/assets/border-l-3.png'
 import BorderRight from 'src/features/auth/assets/border-r-3.png'
 import { useRef } from "react"
 import Portrait from "../elements/Portrait"
+import { useAuth } from "src/hooks/useAuth"
+import { Navigate } from "react-router-dom"
 
-const Filler = () => {
+const Filler = ({ login = false }) => {
     const button = useRef(null)
     const filler = useRef(null)
 
@@ -29,13 +31,15 @@ const Filler = () => {
                     <p className="bg-white text-white p-4">N/A</p>
                     <div className="bg-white w-64 h-8 p-[2px]"></div>
                 </div>
-                <div className="flex flex-row-reverse items-start gap-2">
-                    <p className="bg-white text-white p-4">N/A</p>
-                    <div className="bg-white w-64 h-8 p-[2px]"></div>
-                </div>
+                {login && (
+                    <div className="flex flex-row-reverse items-start gap-2">
+                        <p className="bg-white text-white p-4">N/A</p>
+                        <div className="bg-white w-64 h-8 p-[2px]"></div>
+                    </div>
+                )}
             </div>
 
-            <button ref={button} type="button" className="transition-all absolute top-0 left-0 translate-x-[-100%] opacity-0 h-full w-full text-white text-9xl font-black w-full">
+            <button ref={button} type="button" className="transition-all absolute top-0 left-0 translate-x-[-100%] opacity-0 h-full w-full text-white text-8xl font-black w-full">
                 SUBMIT
             </button>
         </div>
@@ -43,6 +47,11 @@ const Filler = () => {
 }
 
 const AuthLayout = ({ children, type = 'register' }) => {
+    const {token} = useAuth()
+
+    if(token){
+        return <Navigate to={'/home'} />
+    }
 
     return (
         <Loader className="relative w-full h-[100vh] flex justify-center overflow-hidden">
@@ -58,9 +67,9 @@ const AuthLayout = ({ children, type = 'register' }) => {
                         >
                             <div className='w-full h-full absolute gap-4'>
                                 <div className="w-full h-full flex flex-col items-center justify-center">
-                                    <Filler />
+                                    <Filler login={type == 'login' ? true : false} />
                                         {children}
-                                    <Filler />
+                                    <Filler login={type == 'login' ? true : false} />
                                 </div>
                             </div>
 

@@ -13,6 +13,7 @@ class Medium extends Model
     use HasFactory, SoftDeletes, ImageRelationshipTrait;
 
     protected $guarded = [];
+    protected $with = ['poster', 'background', 'visuals', 'crew', 'posts.content.user'];
 
     public function users()
     {

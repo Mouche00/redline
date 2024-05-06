@@ -24,16 +24,16 @@ const publicRoutes = [
                 element: <HomePage />
             },
             {
-                path: 'trending',
-                element: <IslandPage label='trending' />
+                path: 'popular',
+                element: <IslandPage label='popular' />
             },
             {
                 path: 'new',
                 element: <IslandPage label='new' />
             },
             {
-                path: 'releasing',
-                element: <IslandPage label='releasing' />
+                path: 'upcoming',
+                element: <IslandPage label='upcoming' />
             },
         ]
     },

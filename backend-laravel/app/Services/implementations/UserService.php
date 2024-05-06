@@ -5,11 +5,12 @@ namespace App\Services\implementations;
 use App\DTOs\UserDTO;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\Interfaces\UserServiceInterface;
+use App\Traits\ImageServiceTrait;
 use App\Traits\ResponseTrait;
 
 class UserService implements UserServiceInterface
 {
-    use ResponseTrait;
+    use ResponseTrait, ImageServiceTrait;
     private UserRepositoryInterface $repository;
 
     public function __construct(UserRepositoryInterface $repository)
@@ -19,8 +20,9 @@ class UserService implements UserServiceInterface
 
     public function store($data)
     {
-        $data = $this->getData($data);
+        // $data = $this->getData($data);
         $user = $this->repository->create($data);
+        $this->uploadImage($user, $data);
         $token = auth()->login($user);
         $authorization = $this->createToken($token);
 
