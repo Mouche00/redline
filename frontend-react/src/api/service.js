@@ -9,3 +9,12 @@ export const fetchMediumsService = async (type) => {
         throw error
     }
 }
+
+export const fetchPostsService = async (type) => {
+    try {
+        const response = await instance.get(`/posts/${type}`)
+        return response
+    } catch (error) {
+        throw error
+    }
+}

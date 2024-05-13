@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { fetchMediums } from "src/api/data"
+import { fetchMediums, fetchPosts } from "src/api/data"
 import Bar from "src/components/elements/Bar"
 import Card from "src/components/elements/Card"
 import Island from "src/components/elements/island/Island"
@@ -12,6 +12,7 @@ const HomePage = () => {
     const movies = useRef(null)
     const posts = useRef(null)
     const [mediums, setMediums] = useState()
+    const [post, setPost] = useState()
 
     const getMediums = async (type = 'new') => {
         const response = await fetchMediums(type)
@@ -19,13 +20,20 @@ const HomePage = () => {
         console.log(response)
     }
 
+    const getPosts = async (type = 'new') => {
+        const response = await fetchPosts(type)
+        setPost(response)
+        console.log(response)
+    }
+
     useEffect(() => {
         getMediums()
+        getPosts()
     }, [])
 
     const handleHover = (e, type) => {
         getMediums(type)
-        // getPosts(type)
+        getPosts(type)
         const moviesClasses = movies.current.classList
         moviesClasses.toggle('translate-x-[100%]')
 
@@ -41,8 +49,9 @@ const HomePage = () => {
         <Loader className="overflow-hidden">
             <SeaBackground className="h-[100vh] flex flex-col items-center justify-center w-full">
                 <Bar ref={posts} label='posts' className='left-0 translate-x-[-100%] grid-cols-1'>
-                    {/* <PostCard minified={true} />
-                    <PostCard minified={true} /> */}
+                    {/* {post && post.map((item, i) => (
+                        <PostCard post={item} key={i} />
+                    ))} */}
                 </Bar>   
                 <Island label='upcoming' onHover={(e) => handleHover(e, 'upcoming')} />
                 <div className="flex items-center justify-center">

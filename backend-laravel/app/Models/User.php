@@ -29,6 +29,10 @@ class User extends Authenticatable implements JWTSubject
         'role'
     ];
 
+    protected $with = [
+        'image',
+    ];
+
     /**
      * The attributes that should be hidden for serialization.
      *

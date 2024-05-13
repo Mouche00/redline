@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PostRequest;
 use App\Models\Medium;
+use App\Models\Post;
 use App\Services\Interfaces\PostServiceInterface;
 use App\Traits\ResponseTrait;
 use Exception;
@@ -18,9 +19,17 @@ class PostController extends Controller
     {
         $this->service = $service;
     }
-    public function index()
-    {
 
+    public function new()
+    {
+        $data = Post::latest()->get();
+        return $this->responseSuccess($data, "Posts fetched successfully");
+    }
+
+    public function popular()
+    {
+        $data = Post::latest()->orderByDesc('points')->get();
+        return $this->responseSuccess($data, "Posts fetched successfully");
     }
 
     public function delete(int $post)

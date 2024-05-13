@@ -51,6 +51,8 @@ Route::controller(MediumController::class)->group(function () {
 });
 
 Route::controller(PostController::class)->group(function () {
+    Route::get('/posts/new', 'new');
+    Route::get('/posts/popular', 'popular');
     Route::get('/post/{post}', 'show');
     Route::post('/post/{post}/delete', 'delete');
     Route::post('/medium/{medium}/post', 'store');

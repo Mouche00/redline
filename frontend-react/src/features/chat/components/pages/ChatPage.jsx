@@ -91,13 +91,13 @@ const ChatPage = () => {
             <div className="absolute top-0 left-0 w-[25%] translate-x-8 z-10 h-full flex">
                 <div className="w-4 h-full bg-contain bg-center bg-repeat rotate-[-180deg]" style={{backgroundImage: `url(${BorderV})`}}></div>
                 <div className="bg-contain bg-center bg-repeat w-full h-full space-y-8" style={{backgroundImage: `url(${Texture})`}}>
-                    <div className="p-4 space-y-4">
+                    {/* <div className="p-4 space-y-4">
                         <div className="flex">
                             <label className="bg-bronze h-10 p-2 text-white font-black text-xl flex items-center" htmlFor="query">SEARCH</label>
                             <input className="h-10 w-full p-2" name="query" />
                         </div>
                         <button className="bg-bronze w-full p-4 text-white font-black text-white text-3xl">+ NEW CHAT</button>
-                    </div>
+                    </div> */}
                     
                     <div className="space-y-4">
                         {channels && channels.map((item, i) => (

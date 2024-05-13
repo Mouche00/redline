@@ -8,7 +8,7 @@ import Border from "src/components/elements/border/Border"
 import { forwardRef, useEffect, useRef, useState } from "react"
 import PostCard from "../elements/PostCard"
 import Sidebar from "../elements/Sidebar"
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import { banUser, deletePost, fetchMedium } from "../../api/data"
 import { ImageCard } from "../elements/MediumForm"
 import { useAuth } from "src/hooks/useAuth"
@@ -194,6 +194,12 @@ const MediumPage = () =>{
     const [activeSection, setActiveSection] = useState(0)
     const [medium, setMedium] = useState(null)
     const sections = useRef(null)
+    const {user} = useAuth()
+    
+    if(medium && medium.users.find((u) => u.id == JSON.parse(user).id && u.pivot.is_banned_at))
+    {
+        return <Navigate to={'/home'} />
+    }
 
     const handleScroll = (e) => {
         const currentSec = sections.current.children[activeSection]

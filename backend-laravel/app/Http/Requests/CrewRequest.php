@@ -26,7 +26,7 @@ class CrewRequest extends FormRequest
     {
         $rules = [
             'name' => 'string|min:1|max:255',
-            'image' => 'image|image|mimes:jpg,png,jpeg,gif,svg',
+            'image' => 'image|mimes:jpg,png,jpeg,gif,svg,webp',
             'function' => 'string|min:2|max:255',
         ];
 

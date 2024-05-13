@@ -10,7 +10,7 @@ const AuthRoutes = [
     {
         path: '/register',
         element: <RegisterPage />
-    },
+    }
 ]
 
 export default AuthRoutes
